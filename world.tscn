@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b41o8w7mxnikc"]
+
+[ext_resource type="Script" path="res://world.gd" id="1_mii0d"]
+[ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://player.tscn" id="2_gpsuf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_pgh0d"]
+
+[node name="world" type="Node3D"]
+script = ExtResource("1_mii0d")
+
+[node name="player" parent="." instance=ExtResource("2_gpsuf")]
+
+[node name="Objects" type="Node" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Objects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6526, 0, -3.75511)
+mesh = SubResource("BoxMesh_pgh0d")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Objects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.02677, 1.05201, -3.09463)
+mesh = SubResource("BoxMesh_pgh0d")
