@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://cyg852sar6vap"]
+
+[sub_resource type="Sky" id="Sky_b6air"]
+
+[sub_resource type="Environment" id="Environment_j13s4"]
+background_mode = 2
+sky = SubResource("Sky_b6air")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m2gwj"]
+albedo_color = Color(0.481615, 0.877621, 0.43323, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_raga8"]
+material = SubResource("StandardMaterial3D_m2gwj")
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_cye1y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1x23"]
+albedo_color = Color(0.960784, 0.160784, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_738dx"]
+material = SubResource("StandardMaterial3D_h1x23")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xh73m"]
+
+[node name="World" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j13s4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.734062, 0.413362, -0.538781, 0, 0.793396, 0.608706, 0.679083, -0.446828, 0.582402, -4.82052, 5.79445, 0)
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
+mesh = SubResource("PlaneMesh_raga8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape3D_cye1y")
+
+[node name="Block" type="StaticBody3D" parent="."]
+transform = Transform3D(0.739149, 0, 0.673542, 0, 1, 0, -0.673542, 0, 0.739149, -1.8277, 1.18093, -2.25884)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Block"]
+mesh = SubResource("BoxMesh_738dx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block"]
+shape = SubResource("BoxShape3D_xh73m")
+
+[node name="Block2" type="StaticBody3D" parent="."]
+transform = Transform3D(0.634299, 0, 0.773088, 0, 1, 0, -0.773088, 0, 0.634299, 2.29932, 1.45939, -2.00497)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Block2"]
+mesh = SubResource("BoxMesh_738dx")
+skeleton = NodePath("../../Block2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Block2"]
+shape = SubResource("BoxShape3D_xh73m")
