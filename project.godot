@@ -10,12 +10,25 @@ config_version=5
 
 [application]
 
-config/name="UniGame"
-run/main_scene="res://world.tscn"
+config/name="Rhythm Hell"
+run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[filesystem]
+
+import/blender/enabled=false
+import/fbx/enabled=false
+
+[input]
+
+ui-select={
+"deadzone": 0.48,
+"events": []
+}
 
 [xr]
 
 openxr/enabled=true
+openxr/extensions/eye_gaze_interaction=true
 shaders/enabled=true
