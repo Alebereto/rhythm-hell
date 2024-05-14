@@ -1,9 +1,8 @@
 extends Node3D
 
-var interface : XRInterface
+var interface: XRInterface
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+func _init_vr():
 	interface = XRServer.find_interface("OpenXR")
 	if interface and interface.is_initialized():
 		print("OpenXR instantiated successfully.")
@@ -20,8 +19,11 @@ func _ready():
 		print("OpenXR not instantiated!")
 		get_tree().quit()
 
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	_init_vr()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var x = randi()
-	var arr: Array = [x,delta]
+	pass
