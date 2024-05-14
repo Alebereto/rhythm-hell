@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bx6h8vl01p1fn"]
 
 [ext_resource type="PackedScene" uid="uid://spm28o0uami8" path="res://Objects/note.tscn" id="1_edx75"]
-[ext_resource type="Script" path="res://scripts/levelEditor.gd" id="1_t0ath"]
+[ext_resource type="Script" path="res://scripts/level_editor.gd" id="1_t0ath"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1fltp"]
 

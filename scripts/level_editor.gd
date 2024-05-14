@@ -17,7 +17,7 @@ extends Node3D
 
 # value of current place in song (seconds)
 var track_time: float = 0
-var paused: bool = truea
+var paused: bool = true
 # Song length in seconds
 var song_length: float = 60
 
