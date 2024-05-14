@@ -1,6 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cyg852sar6vap"]
+[gd_scene load_steps=10 format=3 uid="uid://cyg852sar6vap"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mxbxf"]
 
 [sub_resource type="Sky" id="Sky_b6air"]
+sky_material = SubResource("ProceduralSkyMaterial_mxbxf")
 
 [sub_resource type="Environment" id="Environment_j13s4"]
 background_mode = 2

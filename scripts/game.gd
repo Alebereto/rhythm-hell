@@ -1,5 +1,13 @@
 extends Node3D
 
+# Path to song that game is playing
+@export_dir var song_path: String
+
+@onready var player = $Player
+@onready var cannon = $Cannon
+@onready var audio_player = $AudioStreamPlayer
+
+var song: Song
 var interface: XRInterface
 
 func _init_vr():
@@ -21,6 +29,8 @@ func _init_vr():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	song = Song.new(song_path)
+	audio_player.stream = load(song.audio_path)
 	_init_vr()
 
 

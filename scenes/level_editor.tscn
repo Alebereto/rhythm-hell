@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://bx6h8vl01p1fn"]
+
+[ext_resource type="PackedScene" uid="uid://spm28o0uami8" path="res://Objects/note.tscn" id="1_edx75"]
+[ext_resource type="Script" path="res://scripts/level_editor.gd" id="1_t0ath"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1fltp"]
+
+[sub_resource type="Sky" id="Sky_b6air"]
+sky_material = SubResource("ProceduralSkyMaterial_1fltp")
+
+[sub_resource type="Environment" id="Environment_6y2re"]
+background_mode = 2
+sky = SubResource("Sky_b6air")
+
+[sub_resource type="MeshTexture" id="MeshTexture_x4073"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gcia"]
+albedo_texture = SubResource("MeshTexture_x4073")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gqnft"]
+material = SubResource("StandardMaterial3D_5gcia")
+
+[node name="LevelEditor" type="Node3D"]
+script = ExtResource("1_t0ath")
+song_name = "groovy"
+audio_path = "C:/Users/albert/Documents/Godot games/rhythm-hell/audio/music/groovy-ambient-funk-201745.ogg"
+initial_bpm = 120
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6y2re")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.465954, 0.538588, -0.702004, 2.06837e-08, 0.793396, 0.608706, 0.884809, 0.283629, -0.369686, -4.82052, 5.79445, -3)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.2222e-08, 0.258819, -0.965926, 1.13133e-08, 0.965926, 0.258819, 1, 2.22045e-14, -4.37114e-08, -5, 2, 0)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="TimeLine" type="Node3D" parent="."]
+
+[node name="Trail" type="MeshInstance3D" parent="TimeLine"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 10)
+mesh = SubResource("PlaneMesh_gqnft")
+
+[node name="Notes" type="Node3D" parent="TimeLine"]
+
+[node name="Note" parent="TimeLine/Notes" instance=ExtResource("1_edx75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Note2" parent="TimeLine/Notes" instance=ExtResource("1_edx75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="Note3" parent="TimeLine/Notes" instance=ExtResource("1_edx75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+
+[node name="Note4" parent="TimeLine/Notes" instance=ExtResource("1_edx75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+
+[node name="Note5" parent="TimeLine/Notes" instance=ExtResource("1_edx75")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1152.0
+offset_bottom = -648.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SaveButton" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 527.0
+offset_right = 241.0
+offset_bottom = 587.0
+text = "Save Level"
+
+[node name="TimeSlider" type="HSlider" parent="Control"]
+layout_mode = 0
+offset_left = 419.0
+offset_top = 580.0
+offset_right = 755.0
+offset_bottom = 636.0
+
+[connection signal="pressed" from="Control/SaveButton" to="." method="_on_save_button_pressed"]
