@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://csxxng205uewp"]
+
+[ext_resource type="Script" path="res://scenes/karate/karate_game.gd" id="2_43cjk"]
+[ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player.tscn" id="2_c11h3"]
+[ext_resource type="PackedScene" uid="uid://b8g4v8hxldlql" path="res://scenes/karate/assets/game_world.tscn" id="3_el2kq"]
+[ext_resource type="PackedScene" uid="uid://bodnphfa0q5ds" path="res://scenes/karate/assets/cannon/cannon.tscn" id="4_hox2b"]
+[ext_resource type="PackedScene" uid="uid://leyiqx6051hu" path="res://scenes/karate/assets/hit_indicator.tscn" id="5_6x71t"]
+
+[node name="Main" type="Node3D" node_paths=PackedStringArray("cannon", "player")]
+script = ExtResource("2_43cjk")
+cannon = NodePath("Objects/Cannon")
+player = NodePath("Objects/Player")
+song_path = "res://songs/test2"
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.828236, -0.119177, 0.547559, 0, 0.977124, 0.212672, -0.560379, -0.176143, 0.809289, 3.99281, 2.8841, 2.70362)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="Objects" type="Node3D" parent="."]
+
+[node name="Player" parent="Objects" instance=ExtResource("2_c11h3")]
+
+[node name="GameWorld" parent="Objects" instance=ExtResource("3_el2kq")]
+
+[node name="Cannon" parent="Objects" node_paths=PackedStringArray("target") instance=ExtResource("4_hox2b")]
+transform = Transform3D(0.406306, 0, -0.913737, 0, 1, 0, 0.913737, 0, 0.406306, 3.94822, 0, -4.08391)
+target = NodePath("../HitIndicator")
+
+[node name="HitIndicator" parent="Objects" instance=ExtResource("5_6x71t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37798, -1.52026)

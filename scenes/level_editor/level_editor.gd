@@ -1,11 +1,15 @@
-extends Node3D 
+extends Node3D
 
+enum GT {KARATE, BADMIN}
+
+# Game type
+@export var game_type: GT = GT.KARATE
 # Song name
 @export var song_name: String = "test2"
 # Song audio file
-@export_global_file("*.ogg") var audio_path: String
+@export_global_file("*.ogg") var audio_source: String
 # Initial BPM of song
-@export var initial_bpm: int = 60
+@export_range(0,200) var initial_bpm: int = 60
 # Location to save song into
 @export_dir var songs_dir: String = "res://songs"
 
@@ -22,7 +26,7 @@ var paused: bool = true
 var song_length: float = 60
 
 const SAVE_NAME = "save.dat"
-const TRACK_NAME = "track.ogg"
+const AUDIO_NAME = "song.ogg"
 
 ## Gets level information dictionary
 func get_level_data() -> Dictionary:
@@ -53,22 +57,29 @@ func save_song() -> void:
 	var save_data_str = JSON.stringify(save_data)
 	
 	# make directory for song
-	var save_dir = songs_dir + "/" + song_name
+	var save_dir = "%s/%s" %[songs_dir, song_name]
 	# check if save directory exists
 	if not DirAccess.dir_exists_absolute(save_dir):
 		DirAccess.make_dir_absolute(save_dir)
 	
-	# save file
+	# File paths
 	var data_path = "%s/%s" %[save_dir, SAVE_NAME]
+	var audio_path = "%s/%s" %[save_dir, AUDIO_NAME]
+	
+	# make data file
 	var file = FileAccess.open(data_path, FileAccess.WRITE)
 	file.store_string(save_data_str)
 	file.close()
+	# copy audio file to song directory if not exists
+	if not FileAccess.file_exists(audio_source):
+		DirAccess.copy_absolute(audio_source, audio_path)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# load music file
-	audio_player.stream = load(audio_path)
+	audio_player.stream = load(audio_source)
 	song_length = audio_player.stream.get_length()
+	#if audio_player.stream._get_bpm > 0: initial_bpm = audio_player.stream._get_bpm # maybe change
 	
 	# set max slider value to music length
 	time_slider.max_value = song_length

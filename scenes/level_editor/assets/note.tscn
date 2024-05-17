@@ -1,23 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://spm28o0uami8"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_r8hg6"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uqx00"]
 albedo_color = Color(1, 0, 0.00784314, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_r447w"]
 material = SubResource("StandardMaterial3D_uqx00")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_r8hg6"]
+
 [node name="Note" type="Node3D"]
 
-[node name="Anchor" type="Node3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.7, 0, 0, 0, 1, 0, 0, 0, 0.25, 0, 0.5, 0.125)
-
-[node name="Area3D" type="Area3D" parent="Anchor"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Anchor/Area3D"]
-shape = SubResource("BoxShape3D_r8hg6")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Anchor"]
 mesh = SubResource("BoxMesh_r447w")
-skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/Area3D"]
+shape = SubResource("BoxShape3D_r8hg6")

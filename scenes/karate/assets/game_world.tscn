@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://b8g4v8hxldlql"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rumbh"]
+
+[sub_resource type="Sky" id="Sky_dqwl6"]
+sky_material = SubResource("ProceduralSkyMaterial_rumbh")
+
+[sub_resource type="Environment" id="Environment_j13s4"]
+background_mode = 2
+sky = SubResource("Sky_dqwl6")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tybqo"]
+albedo_color = Color(0.695503, 0.695503, 0.695503, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_swfbm"]
+material = SubResource("StandardMaterial3D_tybqo")
+cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_omv6a"]
+albedo_color = Color(0.537011, 0.537011, 0.537011, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sf1e4"]
+material = SubResource("StandardMaterial3D_omv6a")
+cap_bottom = false
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_vj1tl"]
+
+[node name="GameWorld" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j13s4")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.734062, 0.413362, -0.538781, 0, 0.793396, 0.608706, 0.679083, -0.446828, 0.582402, -4.82052, 5.79445, 0)
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(15, 0, 0, 0, 0.5, 0, 0, 0, 15, 0, -0.5, 0)
+
+[node name="Floor" type="StaticBody3D" parent="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Floor"]
+mesh = SubResource("CylinderMesh_swfbm")
+
+[node name="SmallCircle" type="MeshInstance3D" parent="Node3D/Floor"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1, 0)
+mesh = SubResource("CylinderMesh_sf1e4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Floor"]
+shape = SubResource("CylinderShape3D_vj1tl")
