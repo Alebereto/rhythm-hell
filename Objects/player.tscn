@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://deckjfxueeioc"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_wdlaw"]
+[ext_resource type="Script" path="res://objects/player.gd" id="1_wdlaw"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vnj8g"]
 
@@ -44,18 +44,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
 tracker = &"right_hand"
 
-[node name="StaticBody3D" type="StaticBody3D" parent="RightController"]
+[node name="RightHand" type="Area3D" parent="RightController"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightController/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightController/RightHand"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 shape = SubResource("SphereShape3D_vnj8g")
 
-[node name="RightHand" type="MeshInstance3D" parent="RightController/StaticBody3D"]
+[node name="Cube" type="MeshInstance3D" parent="RightController/RightHand"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 mesh = SubResource("BoxMesh_v26kk")
 skeleton = NodePath("../..")
 
-[node name="RightHandArm" type="MeshInstance3D" parent="RightController/StaticBody3D"]
+[node name="Rod" type="MeshInstance3D" parent="RightController/RightHand"]
 transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.1, 0, 0, 0.1)
 mesh = SubResource("BoxMesh_tfsx7")
 skeleton = NodePath("../..")
@@ -64,18 +64,18 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
 tracker = &"left_hand"
 
-[node name="StaticBody3D" type="StaticBody3D" parent="LeftController"]
+[node name="LeftHand" type="Area3D" parent="LeftController"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftController/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftController/LeftHand"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 shape = SubResource("SphereShape3D_0wq0i")
 
-[node name="LeftHand" type="MeshInstance3D" parent="LeftController/StaticBody3D"]
+[node name="Cube" type="MeshInstance3D" parent="LeftController/LeftHand"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 mesh = SubResource("BoxMesh_x1414")
 skeleton = NodePath("../..")
 
-[node name="LeftHandArm" type="MeshInstance3D" parent="LeftController/StaticBody3D"]
+[node name="Rod" type="MeshInstance3D" parent="LeftController/LeftHand"]
 transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.1, 0, 0, 0.1)
 mesh = SubResource("BoxMesh_vew3d")
 skeleton = NodePath("../..")
@@ -85,3 +85,5 @@ skeleton = NodePath("../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_w3nc8")
+
+[connection signal="body_entered" from="LeftController/LeftHand" to="." method="_on_left_hand_body_entered"]
