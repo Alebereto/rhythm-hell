@@ -8,12 +8,32 @@ Base class for micro-games
 @export_dir var song_path: String
 
 # Get audio player
-@onready var audio_player = $AudioStreamPlayer
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
+# get Player refrence
+@export var player: Player
 
 # Controls song playing and contains song information
 var song: Song
 # OpenXR interface
 var interface: XRInterface
+
+# true if game is paused
+var game_paused: bool = false
+# when timer ends, play next note
+var next_note_timer: Timer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	# _init_vr()
+	song = Song.new(song_path, audio_player)
+	
+	_start_song()
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
 
 func _init_vr():
 	interface = XRServer.find_interface("OpenXR")
@@ -34,21 +54,26 @@ func _init_vr():
 
 ## Starts song from given time
 func _start_song(time: float = 0) -> void:
-	# make timers
-	pass
+	
+
+	var note_list = song.note_list
+	# make timer
+
+	song.seek(time)
+	_play()
 
 func _pause() -> void:
-	pass
+	game_paused = true
 
-func _resume() -> void:
-	pass
+	song.pause()
+	# pause timer
+	# pause physics
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	song = Song.new(song_path, audio_player)
-	_init_vr()
+func _play() -> void:
+	game_paused = false
+
+	song.play()
+	# unpause timer
+	# unpause physics
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
