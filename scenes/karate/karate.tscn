@@ -9,11 +9,11 @@
 [node name="Main" type="Node3D" node_paths=PackedStringArray("cannon", "player")]
 script = ExtResource("2_43cjk")
 cannon = NodePath("Objects/Cannon")
-player = NodePath("Objects/Player")
 song_path = "res://songs/test2"
+player = NodePath("Objects/Player")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.828236, -0.119177, 0.547559, 0, 0.977124, 0.212672, -0.560379, -0.176143, 0.809289, 3.99281, 2.8841, 2.70362)
+transform = Transform3D(0.590613, -0.359682, 0.722361, -0.0184239, 0.888925, 0.457682, -0.806745, -0.283622, 0.518384, 5.83937, 4.79853, 0.744372)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
@@ -23,9 +23,13 @@ transform = Transform3D(0.828236, -0.119177, 0.547559, 0, 0.977124, 0.212672, -0
 
 [node name="GameWorld" parent="Objects" instance=ExtResource("3_el2kq")]
 
-[node name="Cannon" parent="Objects" node_paths=PackedStringArray("target") instance=ExtResource("4_hox2b")]
-transform = Transform3D(0.406306, 0, -0.913737, 0, 1, 0, 0.913737, 0, 0.406306, 3.94822, 0, -4.08391)
-target = NodePath("../HitIndicator")
+[node name="Cannon" parent="Objects" node_paths=PackedStringArray("target", "shooter", "projectiles_root") instance=ExtResource("4_hox2b")]
+transform = Transform3D(0.476867, 0, -0.878975, 0, 1, 0, 0.878975, 0, 0.476867, 4, 0, -4)
+target = NodePath("Target")
+shooter = NodePath("../..")
+projectiles_root = NodePath("../Projectiles")
 
-[node name="HitIndicator" parent="Objects" instance=ExtResource("5_6x71t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37798, -1.52026)
+[node name="Target" parent="Objects/Cannon" instance=ExtResource("5_6x71t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9722, 4.63175)
+
+[node name="Projectiles" type="Node3D" parent="Objects"]
