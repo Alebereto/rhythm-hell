@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://css301rnh0cd7"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/time_line/time_line.gd" id="1_d446y"]
+[ext_resource type="PackedScene" uid="uid://b3r8huwskjklu" path="res://scenes/level_editor/assets/notes/note_2d.tscn" id="2_iiyym"]
+
+[node name="TimeLine" type="Node2D"]
+script = ExtResource("1_d446y")
+bar_color = Color(0.752941, 0.752941, 0.776471, 1)
+beat_color = Color(0.454902, 0.458824, 0.482353, 1)
+
+[node name="Anchor" type="Node2D" parent="."]
+
+[node name="Grid" type="Node2D" parent="Anchor"]
+
+[node name="GridLines" type="Node2D" parent="Anchor/Grid"]
+
+[node name="GridLayers" type="Node2D" parent="Anchor/Grid"]
+
+[node name="Notes" type="Node2D" parent="Anchor"]
+
+[node name="Events" type="Node2D" parent="Anchor"]
+
+[node name="Markers" type="Node2D" parent="Anchor"]
+
+[node name="IndicatorRoot" type="Node2D" parent="Anchor"]
+visible = false
+
+[node name="Note2d" parent="Anchor/IndicatorRoot" instance=ExtResource("2_iiyym")]
