@@ -15,6 +15,10 @@ run/main_scene="res://levels/test/test_scene.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*res://scripts/globals.gd"
+
 [filesystem]
 
 import/blender/enabled=false
@@ -37,6 +41,10 @@ test-shoot={
 3d/default_gravity=4.9
 3d/default_linear_damp=0.0
 3d/default_angular_damp=0.0
+
+[rendering]
+
+textures/canvas_textures/default_texture_repeat=1
 
 [xr]
 
