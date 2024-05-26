@@ -31,21 +31,27 @@ const AUDIO_NAME = "song.ogg"
 ## Gets level information dictionary
 func get_level_data() -> Dictionary:
 	# Ordered list of notes (by beat)
-	var beat_list: Array = []
+	var note_list: Array = []
 	
 	var notes = notes_root.get_children()
 	
 	for note: Node3D in notes:
 		# make map of note info
-		var beat = {
-			"b": note.position.z # starting beat
+		var note_info = {
+			"b": note.position.z, # note arrival note
+			"s": note.position.z -1 # note start note
 		}
 		# add to list
-		beat_list.append(beat)
+		note_list.append(note_info)
+
+	# TODO: sort notes by "s" value
+
+	var bpm_events: Array[Dictionary] = []
 	
 	var save_data = {
 		"initial_bpm": initial_bpm,
-		"beat_list": beat_list
+		"note_list": note_list,
+		"bpm_events": bpm_events
 	}
 	
 	return save_data
@@ -90,8 +96,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	track_time = time_slider.value
-	time_line.position.z = -track_time / 60 * initial_bpm
+	#track_time = time_slider.value
+	#time_line.position.z = -track_time / 60 * initial_bpm
+	pass
 
 
 func _on_save_button_pressed():
