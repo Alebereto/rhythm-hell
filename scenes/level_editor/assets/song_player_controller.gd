@@ -53,8 +53,8 @@ func _on_play_button_toggled(toggled_on: bool):
 	else: _on_pause()
 
 ## Called when song scroller gets moved
-func _on_song_scroller_drag_ended(seconds: float):
-	_song_player.seek(seconds)
+func _on_song_scroller_drag_ended(value_changed: bool):
+	_song_player.seek(song_scroller.value)
 
 
 func _on_song_scroller_drag_started():
