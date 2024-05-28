@@ -2,14 +2,8 @@ extends Node2D
 
 const BAR_GAP: float = 64.0
 
-@export_category("Settings")
-@export var note_name: String = "Note"
-@export_range(0,10,0.1) var delay: float = 1
-@export_range(0,10,1) var id: int = 0
-@export var custom_data: Dictionary
+var _note_info: Globals.NoteInfo
 
-@export_category("Customize")
-@export var note_color: Color
 
 # Get refrences to note rects
 @onready var note_rect: ColorRect = $NoteRect
@@ -19,11 +13,18 @@ const BAR_GAP: float = 64.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_colors(note_color)
-	set_sizes(BAR_GAP)
+	_note_info = Globals.NoteInfo.new()
+	update_visuals()
 
+func copy_other(note: Node2D) -> void:
+	set_data(note.get_data())
+	update_visuals()
 
-func set_colors(c: Color) -> void:
+func update_visuals() -> void:
+	_set_colors(_note_info.color)
+	_set_sizes(BAR_GAP)
+
+func _set_colors(c: Color) -> void:
 	# set note rect color
 	note_rect.color = c
 	# set start rect color
@@ -34,9 +35,19 @@ func set_colors(c: Color) -> void:
 	connector_color.a = 0.5
 	connector.color = connector_color
 
-func set_sizes(bar_gap: float) -> void:
-	var start_pos = -delay * bar_gap
+func _set_sizes(bar_gap: float) -> void:
+	if _note_info.rotated: note_rect.rotation = deg_to_rad(45.0)
+	else:				   note_rect.rotation = 0.0
+
+	var start_pos = -(_note_info.delay) * bar_gap
 
 	start_rect.position.x = start_pos
 	connector.position.x = start_pos
 	connector.size.x = -start_pos
+
+
+func get_data() -> Globals.NoteInfo:
+	return _note_info.clone()
+
+func set_data(data: Globals.NoteInfo) -> void:
+	_note_info = data

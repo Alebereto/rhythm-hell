@@ -1,17 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://b3r8huwskjklu"]
+[gd_scene load_steps=3 format=3 uid="uid://b3r8huwskjklu"]
 
 [ext_resource type="Script" path="res://scenes/level_editor/assets/items/note_2d.gd" id="1_iyfym"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wqdow"]
+size = Vector2(14, 14)
+
 [node name="Note2d" type="Node2D"]
 script = ExtResource("1_iyfym")
-note_color = Color(1, 1, 1, 1)
 
 [node name="NoteRect" type="ColorRect" parent="."]
 z_index = 2
-offset_top = -7.0
-offset_right = 10.0
-offset_bottom = 3.0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
 rotation = 0.785398
+pivot_offset = Vector2(5, 5)
 mouse_filter = 2
 
 [node name="StartRect" type="ColorRect" parent="."]
@@ -26,3 +30,8 @@ mouse_filter = 2
 offset_top = -2.0
 offset_bottom = 2.0
 mouse_filter = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_wqdow")
