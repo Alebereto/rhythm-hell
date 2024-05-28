@@ -1,32 +1,41 @@
 extends Node2D
 
 
+signal copied_item(item: Globals.ItemInfo)
+
+
+var _song: Song
+
+
 @export_category("Refrences")
-@export var time_scroller: HScrollBar
-@export var snap_beats_slider: VBoxContainer
-@export var item_lists: TabContainer
+@export var _time_scroller: HScrollBar
 
 @export_category("Customize")
 @export var bar_color: Color
 @export var beat_color: Color
 @export var layer_color: Color
 
+
 # Get TimeLine part refrences
 @onready var anchor: Node2D = $Anchor
 @onready var grid_lines: Node2D = $Anchor/Grid/GridLines
 @onready var grid_layers: Node2D = $Anchor/Grid/GridLayers
-@onready var notes_root: Node2D = $Anchor/Notes
+@onready var notes_root: Node2D = $Anchor/Items/Notes
 @onready var indicator_root: Node2D = $Anchor/IndicatorRoot
+@onready var time_marker: Node2D = $Anchor/TimeMarker
+
 
 # Array of notes in timeline
 var _notes: Array: get = _get_notes
-# Total beats in song
+# Total beats in _song
 var total_beats: float: get = _get_total_beats
 # Indicator note that is shown in timeline
-var indicator_note: get = _get_indicator_note
+var indicator_item: get = _get_indicator_item
+
 
 # Timeline settings
-var snap_beats: float
+var _snap_beats: float = 1.0
+var _current_tool: Globals.TOOL
 
 # Size values for timeline
 const BAR_GAP: float = 64.0
@@ -39,42 +48,29 @@ var layer_gap: float: get = _get_layer_gap
 const LAYERS: int = 5
 
 # Getters
-func _get_total_beats() -> float: return 120.0
+func _get_total_beats() -> float: return _song.beat_count
 func _get_layer_gap() -> float: return (BAR_HEIGHT / (LAYERS+1))
 
 func _get_notes() -> Array: return notes_root.get_children()
-func _get_indicator_note():
+func _get_indicator_item():
 	if indicator_root.get_child_count() == 0: return null
 	return indicator_root.get_child(0)
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_set_initial_values()
-	_connect_signals()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
 	pass
+
 
 
 func _set_initial_values() -> void:
-	snap_beats = snap_beats_slider.value
+	_init_time_marker()
 	_on_total_beats_change()
-	_init_item_lists()
+	indicator_root.position = _snap_pos(indicator_root.position, _snap_beats)
 
 
-func _connect_signals() -> void:
-	snap_beats_slider.changed_snap_beats.connect(_on_snap_beats_changed)
 
-
-func _init_item_lists() -> void:
-	# =============================================================================
-	pass
-
-func _on_snap_beats_changed(value: float) -> void:
-	snap_beats = value
 
 func _on_total_beats_change() -> void:
 	_init_time_scroller()
@@ -83,8 +79,10 @@ func _on_total_beats_change() -> void:
 
 func _init_time_scroller() -> void:
 	var end_x = (total_beats * BAR_GAP) + BARS_OFFSET
-	time_scroller.max_value = end_x
-	time_scroller.page = 0.1 * end_x
+	_time_scroller.max_value = end_x
+	_time_scroller.page = 0.1 * end_x
+
+
 
 # Draw grid functions
 
@@ -116,9 +114,10 @@ func _make_layer(num: int) -> Line2D:
 
 func _make_label(idx: int) -> Label:
 	var label = Label.new()
+
 	var x = (BAR_GAP * idx) + BARS_OFFSET
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.position = Vector2(x-6, -25)
+	label.position = Vector2(x-6, -26)
 	label.text = str(idx+1)
 	return label
 
@@ -135,11 +134,22 @@ func _draw_grid() -> void:
 		var line := _make_layer(i)
 		grid_layers.add_child(line)
 
+func _init_time_marker() -> void:
+	var line := Line2D.new()
+	line.add_point(Vector2(0,0))
+	line.add_point(Vector2(0,BAR_HEIGHT))
+	line.default_color = Color.RED
+	line.width = 3.0
 
-## Gets position on timeline, snaps to beat
-func _snap_pos(pos: Vector2) -> Vector2:
+	time_marker.add_child(line)
+	time_marker.position.x = BARS_OFFSET
+
+
+
+## Gets position on timeline, returns position on timeline snapped to beat
+func _snap_pos(pos: Vector2, snap_ratio: float) -> Vector2:
 	var x = _pixel_to_beat(pos.x)
-	x = round(x / snap_beats) * snap_beats # round beat to nearest snap beat
+	x = round(x / snap_ratio) * snap_ratio # round beat to nearest snap
 	x = _beat_to_pixel(x)
 
 	var y: float = _pixel_to_layer(pos.y) * layer_gap
@@ -147,11 +157,12 @@ func _snap_pos(pos: Vector2) -> Vector2:
 	return Vector2(x,y)
 
 
-## Gets pixel on timeline, returns beat
+## Gets x pixel on timeline, returns beat
 func _pixel_to_beat(pixel: float) -> float:
 	var beat: float = (pixel - BARS_OFFSET) / BAR_GAP
 	return clamp(beat, 0, total_beats)
 
+## Gets y pixel on timeline, returns layer
 func _pixel_to_layer(pixel: float) -> int:
 	return clamp(round(pixel / layer_gap), 1, LAYERS)
 
@@ -160,13 +171,19 @@ func _beat_to_pixel(beat: float) -> float:
 	var pixel: float = (beat * BAR_GAP) + BARS_OFFSET
 	return pixel
 
-## Places note in indicator_note position, assumes tile is empty
+
+
+## Places note in indicator_item position, assumes tile is empty
 func _place_note(pos: Vector2) -> void:
-	# check if legal indicator_note
-	# add beat and layer to dictionary
-	var created_note: Node2D	# instantiate new note
-	# created_note.copy_from(indicator_note) # (including position)
-	# notes_root.add_child(created_note)
+	# check if legal indicator_item ===============
+
+	var copied_note: Node2D = indicator_item.duplicate()
+	notes_root.add_child(copied_note)
+
+	copied_note.copy_other(indicator_item)
+	copied_note.position = indicator_root.position
+
+	
 
 
 ## Used for custom sorting of note_list
@@ -180,10 +197,11 @@ func generate_note_list() -> Array[Dictionary]:
 	for note: Node2D in _notes:
 		var beat = _pixel_to_beat(note.position.x)
 		# make map of note info
-		var note_info = {
-			"b": beat, 	# note arrival beat
-			"s": beat - note.delay # note start beat
-		}
+		var note_info = note.get_data().get_info_dict()
+
+		note_info["s"] = beat - note_info["delay"] # note start beat
+		note_info["b"] = beat 	# note arrival beat
+
 		# add to list
 		note_list.append(note_info)
 
@@ -194,7 +212,30 @@ func generate_note_list() -> Array[Dictionary]:
 
 
 
-# Input functions ===================================================
+func _switch_to_tool(t: Globals.TOOL):
+	_current_tool = t
+
+
+# Recieved Signals =======================================
+
+func _on_load_level_editor(song: Song):
+	_song = song
+	_set_initial_values()
+
+func _on_song_controller_value_change(value):
+	time_marker.position.x = _beat_to_pixel(_song.seconds_to_beats(value))
+
+## Called when changing snap_beats value
+func _on_change_snap_beats(value):
+	_snap_beats = value
+
+
+func _on_items_menu_switch_to_item(item: Globals.ItemInfo) -> void:
+
+	indicator_item.set_data(item)
+	indicator_item.update_visuals()
+
+# Input functions ========================================
 
 ## Called when mouse moves or clicks in timeline panel
 func _on_panel_gui_input(event):
@@ -207,7 +248,7 @@ func _on_panel_gui_input(event):
 			2: _on_right_click_timeline(time_pos)
 
 	if event is InputEventMouseMotion:
-		indicator_root.position = _snap_pos(time_pos)
+		indicator_root.position = _snap_pos(time_pos, _snap_beats)
 
 ## Called when mouse enters timeline panel
 func _on_panel_mouse_entered():
@@ -219,14 +260,14 @@ func _on_panel_mouse_exited():
 
 ## Called when user left clicks timeline panel
 func _on_left_click_timeline(pos: Vector2) -> void:
-	if indicator_note == null: return
-	_place_note(indicator_note.position)
+	if indicator_item == null: return
+	_place_note(indicator_item.position)
 
 ## Called when user right clicks timeline panel
 func _on_right_click_timeline(pos: Vector2) -> void:
 	pass
 
-## called when scrolling timeline time_scroller
+## called when scrolling timeline _time_scroller
 func _on_h_scroll_bar_scrolling():
-	var pos = time_scroller.value
+	var pos = _time_scroller.value
 	anchor.position.x = -pos
