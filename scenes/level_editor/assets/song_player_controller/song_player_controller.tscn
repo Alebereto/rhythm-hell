@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=3 uid="uid://c02ssgk60bqfe"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/song_player_controller/song_player_controller.gd" id="1_7ntlb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_di6fo"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.286275, 0.294118, 0.352941, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.0745098, 0.0745098, 0.0745098, 0.372549)
+shadow_size = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ctrsf"]
+
+[node name="SongPlayerController" type="PanelContainer"]
+custom_minimum_size = Vector2(200, 0)
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.62
+theme_override_styles/panel = SubResource("StyleBoxFlat_di6fo")
+script = ExtResource("1_7ntlb")
+_play_icon = "res://images/play.png"
+_pause_icon = "res://images/pause.png"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SongName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Song Name"
+
+[node name="TimeShower" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Current" type="Label" parent="VBoxContainer/TimeShower"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0:00"
+
+[node name="PlayButton" type="Button" parent="VBoxContainer/TimeShower"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+theme_override_constants/icon_max_width = 25
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ctrsf")
+icon_alignment = 1
+
+[node name="End" type="Label" parent="VBoxContainer/TimeShower"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0:00"
+horizontal_alignment = 2
+
+[node name="SongScroller" type="HSlider" parent="VBoxContainer"]
+layout_mode = 2
+step = 0.01
+
+[connection signal="pressed" from="VBoxContainer/TimeShower/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="drag_ended" from="VBoxContainer/SongScroller" to="." method="_on_song_scroller_drag_ended"]
+[connection signal="drag_started" from="VBoxContainer/SongScroller" to="." method="_on_song_scroller_drag_started"]
+[connection signal="value_changed" from="VBoxContainer/SongScroller" to="." method="_on_song_scroller_value_changed"]
