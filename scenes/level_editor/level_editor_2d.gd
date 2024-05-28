@@ -1,51 +1,48 @@
 extends Node2D
 
-const SAVE_NAME = "save.dat"
-const AUDIO_NAME = "song.ogg"
-
-enum GT {KARATE, BADMIN}
-enum MENU {MAIN_MENU, LEVEL_EDITOR}
+enum MENU {NONE, MAIN_MENU, LEVEL_EDITOR}
 
 
-@export_category("Game Settings")
-# Game type
-@export var game_type: GT = GT.KARATE
+@export_category("Game Data")
 # Song name
 @export var song_name: String = "My Song"
 # Song audio file
 @export_global_file("*.ogg") var audio_source: String
 # Initial BPM of song
-@export_range(0,200) var initial_bpm: int = 60
+@export_range(0,200) var initial_bpm: int = 100
+
+var song_length: float
+
+
+@export_category("Prefrences")
 # Location to save song into
 @export_dir var songs_dir: String = "res://songs"
 
+
 @export_category("Refrences")
+
+@export_group("Nodes")
 @export var time_line: Node2D
-@export var muisc_player: PanelContainer
 @export var header_tabs: HBoxContainer
-@export var item_lists: TabContainer
 
-
-@export_category("Menus")
+@export_group("Menus")
 @export var main_menu: MarginContainer
 @export var level_editor: VBoxContainer
 
-@onready var audio_player = $AudioStreamPlayer
-
-@export_category("Popups")
+@export_group("Popups")
 @export var _load_dialog: FileDialog
 @export var _bad_path_popup: AcceptDialog
 
 
-# value of current place in song (seconds)
-var track_time: float = 0
-var paused: bool = true
-# Song length in seconds
-var song_length: float = 60
 
-var _current_menu: MENU
+@onready var song_player = $SongPlayer
 
 
+var _current_menu: MENU = MENU.NONE
+var _song: Song
+
+
+signal loaded_level_editor(song: Song)
 signal load_dialog_complete(path)
 
 
@@ -56,12 +53,8 @@ func _ready():
 	_connect_signals()
 
 	# load main menu on startup
-	_show_menu(MENU.MAIN_MENU)
+	_load_main_menu()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 
 func _connect_signals() -> void:
@@ -81,6 +74,16 @@ func _show_menu(id: MENU) -> void:
 		MENU.LEVEL_EDITOR: level_editor.visible = true
 
 
+func _load_main_menu() -> void:
+	_show_menu(MENU.MAIN_MENU)
+
+
+func _load_level_editor() -> void:
+
+	loaded_level_editor.emit(_song)
+	_show_menu(MENU.LEVEL_EDITOR)
+
+
 ## Gets song path from user, returns true if succeeded
 func _get_song_path():
 	# show load file popup and get directory path
@@ -90,24 +93,40 @@ func _get_song_path():
 
 	if song_path == null: return null # user cancelled load
 
-	if not _legal_song_path(song_path):
+	if not Globals.legal_song_path(song_path):
 		_bad_path_popup.visible = true
 		return null
 	return song_path
 
-func _legal_song_path(song_path: String) -> bool:
-	# check if dat and ogg files exist in directory ================
-	return true
 
 
-## Called when loading a song, can fail
+## Called when loading a song, can fail if song_path input is bad
 func _load_song() -> void:
 	var song_path = await _get_song_path()
 	if song_path == null: return
-	# load music file
-	audio_player.stream = load(audio_source)
-	song_length = audio_player.stream.get_length()
+	# load song info
+	_song = Song.new(song_path)
+	song_player.load_audio_file(_song.audio_path)
 
+	_load_level_editor()
+
+
+## Called when creating new song
+func _new_song() -> void:
+	_song = Song.new()
+
+	song_player.load_audio_file(audio_source)
+	song_length = song_player.song_length
+
+	_set_song_data()
+	_load_level_editor()
+
+
+## Sets song data according to currently selected variables
+func _set_song_data() -> void:
+	_song.data["name"] = song_name
+	_song.data["initial_bpm"] = initial_bpm
+	_song.data["length"] = song_length
 
 ## Gets level information dictionary
 func get_level_data() -> Dictionary:
@@ -117,6 +136,8 @@ func get_level_data() -> Dictionary:
 	var bpm_events: Array[Dictionary] = []
 	
 	var save_data = {
+		"name": song_name,
+		"length": song_length,
 		"initial_bpm": initial_bpm,
 		"note_list": note_list,
 		"bpm_events": bpm_events
@@ -137,8 +158,8 @@ func _save_song() -> void:
 		DirAccess.make_dir_absolute(save_dir)
 	
 	# File paths
-	var data_path = "%s/%s" %[save_dir, SAVE_NAME]
-	var audio_path = "%s/%s" %[save_dir, AUDIO_NAME]
+	var data_path = "%s/%s" %[save_dir, Globals.SAVE_FILE_NAME]
+	var audio_path = "%s/%s" %[save_dir, Globals.AUDIO_FILE_NAME]
 	
 	# make data file
 	var file = FileAccess.open(data_path, FileAccess.WRITE)
@@ -169,8 +190,4 @@ func _on_main_menu_load_pressed():
 
 
 func _on_main_menu_new_pressed():
-	pass # Replace with function body.
-
-
-func seek(value):
-	pass # Replace with function body.
+	_new_song()

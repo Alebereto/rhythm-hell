@@ -1,11 +1,12 @@
-[gd_scene load_steps=21 format=3 uid="uid://b1ok7lmbjs72v"]
+[gd_scene load_steps=14 format=3 uid="uid://b1ok7lmbjs72v"]
 
 [ext_resource type="Script" path="res://scenes/level_editor/level_editor_2d.gd" id="1_ybeed"]
-[ext_resource type="Script" path="res://scenes/level_editor/assets/song_player_controller.gd" id="2_ikqu2"]
 [ext_resource type="Script" path="res://scenes/level_editor/assets/tabs.gd" id="2_jdv8w"]
 [ext_resource type="PackedScene" uid="uid://css301rnh0cd7" path="res://scenes/level_editor/assets/time_line/time_line.tscn" id="2_v0t1y"]
 [ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="2_xrl5u"]
-[ext_resource type="Script" path="res://scenes/level_editor/assets/snap_beats.gd" id="4_avmc6"]
+[ext_resource type="PackedScene" uid="uid://bqes8l8rei7do" path="res://scenes/level_editor/assets/items/menu/items.tscn" id="4_ybfuo"]
+[ext_resource type="PackedScene" uid="uid://c02ssgk60bqfe" path="res://scenes/level_editor/assets/song_player_controller/song_player_controller.tscn" id="7_0pucn"]
+[ext_resource type="PackedScene" uid="uid://dgco5km7x87pi" path="res://scenes/level_editor/assets/time_line_settings/time_line_settings.tscn" id="7_cl56t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iir6p"]
 content_margin_left = 5.0
@@ -13,66 +14,14 @@ bg_color = Color(0.286275, 0.294118, 0.352941, 1)
 shadow_color = Color(0, 0, 0, 0.439216)
 shadow_size = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wer4m"]
-content_margin_left = 6.0
-content_margin_right = 6.0
-bg_color = Color(0.286275, 0.294118, 0.352941, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nxdj3"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0s412"]
-bg_color = Color(0.286275, 0.294118, 0.352941, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_color = Color(0, 0, 0, 0.345098)
-shadow_size = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xnv02"]
-bg_color = Color(0.105882, 0.109804, 0.129412, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-shadow_color = Color(0, 0, 0, 0.447059)
-shadow_size = 2
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s30gt"]
-content_margin_left = 7.0
-content_margin_top = 7.0
-content_margin_right = 7.0
-content_margin_bottom = 7.0
-bg_color = Color(0.286275, 0.294118, 0.352941, 1)
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4i7tw"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_di6fo"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
-bg_color = Color(0.286275, 0.294118, 0.352941, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_color = Color(0.0745098, 0.0745098, 0.0745098, 0.372549)
-shadow_size = 3
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ye63j"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2p2ct"]
 bg_color = Color(0.188235, 0.196078, 0.239216, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rtyhx"]
-content_margin_top = 30.0
+content_margin_top = 29.0
 bg_color = Color(0.105882, 0.109804, 0.129412, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
+corner_radius_top_left = 9
+corner_radius_top_right = 9
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
@@ -98,15 +47,13 @@ corner_radius_bottom_left = 7
 shadow_color = Color(0, 0, 0, 0.447059)
 shadow_size = 4
 
-[node name="LevelEditor2d" type="Node2D" node_paths=PackedStringArray("time_line", "muisc_player", "header_tabs", "item_lists", "main_menu", "level_editor", "_load_dialog", "_bad_path_popup")]
+[node name="LevelEditor2d" type="Node2D" node_paths=PackedStringArray("time_line", "header_tabs", "main_menu", "level_editor", "_load_dialog", "_bad_path_popup")]
 script = ExtResource("1_ybeed")
 song_name = "groove"
 audio_source = "C:/Users/albert/Documents/Godot games/rhythm-hell/audio/music/groovy-ambient-funk-201745.ogg"
-initial_bpm = 140
+initial_bpm = 120
 time_line = NodePath("Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine")
-muisc_player = NodePath("Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController")
 header_tabs = NodePath("Camera2D/GUI/Main/HeaderTabs/Tabs")
-item_lists = NodePath("Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/TabContainer")
 main_menu = NodePath("Camera2D/GUI/Main/MainMenu")
 level_editor = NodePath("Camera2D/GUI/Main/LevelEditor")
 _load_dialog = NodePath("Popups/LoadDialog")
@@ -160,6 +107,7 @@ popup/item_0/id = 0
 [node name="LevelEditor" type="VBoxContainer" parent="Camera2D/GUI/Main"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 2
 
 [node name="OptionsMenusContainer" type="MarginContainer" parent="Camera2D/GUI/Main/LevelEditor"]
 layout_mode = 2
@@ -173,158 +121,30 @@ theme_override_constants/margin_bottom = 15
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Menu1" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus"]
+[node name="ItemsMenu" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus" instance=ExtResource("4_ybfuo")]
+custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.5
-theme_override_constants/separation = 10
+size_flags_vertical = 10
+size_flags_stretch_ratio = 2.0
 
-[node name="TabContainer" type="TabContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1"]
+[node name="SongMenu" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus"]
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/side_margin = 0
-theme_override_styles/tab_selected = SubResource("StyleBoxFlat_wer4m")
-theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_nxdj3")
-theme_override_styles/panel = SubResource("StyleBoxFlat_0s412")
-theme_override_styles/tabbar_background = SubResource("StyleBoxFlat_xnv02")
-
-[node name="Notes" type="ItemList" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/TabContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_s30gt")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_4i7tw")
-allow_reselect = true
-item_count = 4
-max_columns = 6
-same_column_width = true
-fixed_column_width = 115
-item_0/text = "Note1"
-item_1/text = "Note2"
-item_2/text = "Note3"
-item_3/text = "Note4"
-
-[node name="Events" type="ItemList" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/TabContainer"]
-visible = false
-layout_mode = 2
-
-[node name="Markers" type="ItemList" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/TabContainer"]
-visible = false
-layout_mode = 2
-
-[node name="ItemSettings" type="PanelContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.81
-theme_override_styles/panel = SubResource("StyleBoxFlat_di6fo")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/ItemSettings"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/ItemSettings/VBoxContainer"]
-layout_mode = 2
-
-[node name="NoteDelay" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/ItemSettings/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 14
-
-[node name="Label" type="Label" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/ItemSettings/VBoxContainer/HBoxContainer/NoteDelay"]
-layout_mode = 2
-text = "Note Delay:"
-
-[node name="SpinBox" type="SpinBox" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/ItemSettings/VBoxContainer/HBoxContainer/NoteDelay"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.75
-max_value = 10.0
-step = 0.125
-alignment = 1
-
-[node name="Setting2" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu1/ItemSettings/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.19
-
-[node name="Menu2" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus"]
-layout_mode = 2
+size_flags_vertical = 6
 theme_override_constants/separation = 9
 
-[node name="SongPlayerController" type="PanelContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2" node_paths=PackedStringArray("_song_player", "_level_editor")]
+[node name="SongPlayerController" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/SongMenu" node_paths=PackedStringArray("_song_player") instance=ExtResource("7_0pucn")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.62
-theme_override_styles/panel = SubResource("StyleBoxFlat_di6fo")
-script = ExtResource("2_ikqu2")
 _song_player = NodePath("../../../../../../../../SongPlayer")
-_level_editor = NodePath("../../../../../../../..")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController"]
+[node name="TimeLineSettings" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/SongMenu" instance=ExtResource("7_cl56t")]
 layout_mode = 2
-
-[node name="SongName" type="Label" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController/VBoxContainer"]
-layout_mode = 2
-text = "Song Name"
-
-[node name="TimeShower" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController/VBoxContainer"]
-layout_mode = 2
-
-[node name="Current" type="Label" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController/VBoxContainer/TimeShower"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "0:00"
-
-[node name="PlayButton" type="Button" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController/VBoxContainer/TimeShower"]
-custom_minimum_size = Vector2(23.745, 0)
-layout_mode = 2
-toggle_mode = true
-icon = SubResource("CompressedTexture2D_ye63j")
-icon_alignment = 1
-
-[node name="End" type="Label" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController/VBoxContainer/TimeShower"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "0:00"
-horizontal_alignment = 2
-
-[node name="SongScroller" type="HSlider" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController/VBoxContainer"]
-layout_mode = 2
-
-[node name="Settings" type="PanelContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_di6fo")
-
-[node name="SnapBeats" type="VBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/Settings"]
-layout_mode = 2
-script = ExtResource("4_avmc6")
-
-[node name="Label" type="Label" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/Settings/SnapBeats"]
-layout_mode = 2
-text = "Snap Beats: "
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/Settings/SnapBeats"]
-layout_mode = 2
-
-[node name="HSlider" type="HSlider" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/Settings/SnapBeats/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-focus_mode = 0
-max_value = 3.0
-value = 3.0
-rounded = true
-tick_count = 4
-
-[node name="Button" type="Button" parent="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/Settings/SnapBeats/HBoxContainer"]
-custom_minimum_size = Vector2(17.645, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-focus_mode = 0
 
 [node name="TimeLineBox" type="HBoxContainer" parent="Camera2D/GUI/Main/LevelEditor"]
 layout_mode = 2
 theme_override_constants/separation = -1
 
 [node name="Panel" type="Panel" parent="Camera2D/GUI/Main/LevelEditor/TimeLineBox"]
-z_index = 4
+z_index = 40
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 mouse_filter = 2
@@ -333,7 +153,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_2p2ct")
 [node name="TimeLine" type="VBoxContainer" parent="Camera2D/GUI/Main/LevelEditor/TimeLineBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
+theme_override_constants/separation = 10
 
 [node name="PanelContainer" type="PanelContainer" parent="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine"]
 layout_mode = 2
@@ -344,11 +164,9 @@ custom_minimum_size = Vector2(0, 290)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_mm6yf")
 
-[node name="TimeLine" parent="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel" node_paths=PackedStringArray("time_scroller", "snap_beats_slider", "item_lists") instance=ExtResource("2_v0t1y")]
+[node name="TimeLine" parent="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel" node_paths=PackedStringArray("_time_scroller") instance=ExtResource("2_v0t1y")]
 z_index = 1
-time_scroller = NodePath("../../../TimeLineScroller")
-snap_beats_slider = NodePath("../../../../../OptionsMenusContainer/OptionsMenus/Menu2/Settings/SnapBeats")
-item_lists = NodePath("../../../../../OptionsMenusContainer/OptionsMenus/Menu1/TabContainer")
+_time_scroller = NodePath("../../../TimeLineScroller")
 bar_color = Color(0.775063, 0.775063, 0.775063, 1)
 beat_color = Color(0.545098, 0.545098, 0.545098, 0.94902)
 layer_color = Color(0.47788, 0.47788, 0.47788, 0.901961)
@@ -358,11 +176,15 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="Panel2" type="Panel" parent="Camera2D/GUI/Main/LevelEditor/TimeLineBox"]
-z_index = 4
+z_index = 40
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b0o7g")
+
+[node name="Footer" type="Control" parent="Camera2D/GUI/Main/LevelEditor"]
+custom_minimum_size = Vector2(0, 9.355)
+layout_mode = 2
 
 [node name="MainMenu" type="MarginContainer" parent="Camera2D/GUI/Main"]
 visible = false
@@ -428,14 +250,16 @@ root_subfolder = "res://songs"
 
 [node name="AcceptDialog" type="AcceptDialog" parent="Popups"]
 
-[connection signal="pause" from="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController" to="SongPlayer" method="pause"]
-[connection signal="play" from="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController" to="SongPlayer" method="play"]
-[connection signal="seek" from="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController" to="SongPlayer" method="seek"]
-[connection signal="toggled" from="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController/VBoxContainer/TimeShower/PlayButton" to="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController" method="_on_play_button_toggled"]
-[connection signal="drag_ended" from="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController/VBoxContainer/SongScroller" to="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/Menu2/SongPlayerController" method="_on_song_scroller_drag_ended"]
+[connection signal="loaded_level_editor" from="." to="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/ItemsMenu" method="_on_loaded_level_editor"]
+[connection signal="loaded_level_editor" from="." to="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/SongMenu/SongPlayerController" method="_on_loaded_level_editor"]
+[connection signal="loaded_level_editor" from="." to="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" method="_on_load_level_editor"]
+[connection signal="switch_to_item" from="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/ItemsMenu" to="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" method="_on_items_menu_switch_to_item"]
+[connection signal="song_controller_value_change" from="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/SongMenu/SongPlayerController" to="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" method="_on_song_controller_value_change"]
+[connection signal="change_snap_beats" from="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/SongMenu/TimeLineSettings" to="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" method="_on_change_snap_beats"]
 [connection signal="gui_input" from="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel" to="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" method="_on_panel_gui_input"]
 [connection signal="mouse_entered" from="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel" to="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" method="_on_panel_mouse_entered"]
 [connection signal="mouse_exited" from="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel" to="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" method="_on_panel_mouse_exited"]
+[connection signal="copied_item" from="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" to="Camera2D/GUI/Main/LevelEditor/OptionsMenusContainer/OptionsMenus/ItemsMenu" method="_on_time_line_copied_item"]
 [connection signal="scrolling" from="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/TimeLineScroller" to="Camera2D/GUI/Main/LevelEditor/TimeLineBox/TimeLine/PanelContainer/Panel/TimeLine" method="_on_h_scroll_bar_scrolling"]
 [connection signal="pressed" from="Camera2D/GUI/Main/MainMenu/PanelContainer/VBoxContainer/HBoxContainer/LoadSongButton" to="." method="_on_main_menu_load_pressed"]
 [connection signal="pressed" from="Camera2D/GUI/Main/MainMenu/PanelContainer/VBoxContainer/HBoxContainer/NewSongButton" to="." method="_on_main_menu_new_pressed"]
