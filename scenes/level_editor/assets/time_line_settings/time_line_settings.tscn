@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgco5km7x87pi"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/time_line_settings/time_line_settings.gd" id="1_dpl24"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/time_line_settings/snap_beats.gd" id="1_x2jft"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_di6fo"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.286275, 0.294118, 0.352941, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.0745098, 0.0745098, 0.0745098, 0.372549)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1pags"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.172549, 0.176471, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bot8o"]
+
+[node name="TimeLineSettings" type="PanelContainer"]
+custom_minimum_size = Vector2(400, 0)
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_di6fo")
+script = ExtResource("1_dpl24")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SnapBeats" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("1_x2jft")
+
+[node name="Label" type="Label" parent="HBoxContainer/SnapBeats"]
+layout_mode = 2
+text = "Snap Beats: "
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/SnapBeats"]
+layout_mode = 2
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/SnapBeats/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+max_value = 3.0
+value = 3.0
+rounded = true
+tick_count = 4
+
+[node name="Button" type="Button" parent="HBoxContainer/SnapBeats/HBoxContainer"]
+custom_minimum_size = Vector2(17.645, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+focus_mode = 0
+
+[node name="Tools" type="ItemList" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.57
+theme_override_styles/panel = SubResource("StyleBoxFlat_1pags")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_bot8o")
+allow_search = false
+item_count = 2
+max_columns = 5
+same_column_width = true
+item_0/text = "Select"
+item_1/text = "Delete"
+
+[connection signal="changed_snap_beats" from="HBoxContainer/SnapBeats" to="." method="_on_changed_snap_beats"]
+[connection signal="value_changed" from="HBoxContainer/SnapBeats/HBoxContainer/HSlider" to="HBoxContainer/SnapBeats" method="_on_slider_value_change"]
+[connection signal="pressed" from="HBoxContainer/SnapBeats/HBoxContainer/Button" to="HBoxContainer/SnapBeats" method="_on_reset_button_pressed"]
