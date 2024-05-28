@@ -80,4 +80,5 @@ func _get_current_second() -> float:
 
 ## Called when song stops _playing
 func _finished_playing() -> void:
+	_playing = false
 	song_ended.emit()
