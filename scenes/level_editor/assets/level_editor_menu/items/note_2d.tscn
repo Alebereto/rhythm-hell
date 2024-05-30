@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b3r8huwskjklu"]
 
-[ext_resource type="Script" path="res://scenes/level_editor/assets/items/note_2d.gd" id="1_iyfym"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/items/note_2d.gd" id="1_iyfym"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wqdow"]
 size = Vector2(14, 14)
@@ -32,6 +32,13 @@ offset_bottom = 2.0
 mouse_filter = 2
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+input_pickable = false
+monitoring = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(1.25, 1.25)
 shape = SubResource("RectangleShape2D_wqdow")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
