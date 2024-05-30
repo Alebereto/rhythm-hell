@@ -1,7 +1,14 @@
 class_name SongPlayer extends Node
 
+signal song_ended
+
+signal song_played
+signal song_paused
+signal song_seeked(value: float)
+
 
 @onready var _audio_player: AudioStreamPlayer = $AudioStreamPlayer
+
 
 var current_second: float: get = _get_current_second
 var current_raw_second: float: get = _get_current_raw_second
@@ -21,19 +28,12 @@ var _ticks_begin: int
 var _time_delay: float
 
 
-signal song_ended
-
-signal song_played
-signal song_paused
-signal song_seeked(value: float)
-
 
 func load_audio_file(audio_path: String) -> void:
 	var audio_stream = AudioStreamOggVorbis.load_from_file(audio_path)
 	_audio_player.stream = audio_stream
 
 	_has_song = true
-
 
 ## Used to play song from given time
 func play() -> void:
