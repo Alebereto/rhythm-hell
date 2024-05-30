@@ -14,8 +14,7 @@ var default_slider_value: int = 3
 const LABEL_TEXT: String = "Snap Beats: "
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+func on_level_load():
 	_slider.value = default_slider_value
 	_on_slider_value_change(default_slider_value)
 
