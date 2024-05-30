@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://c32ax83ybum6y"]
 
-[ext_resource type="Script" path="res://scenes/level_editor/assets/items/menu/item_selector/item_selector.gd" id="1_2n2gi"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/items/menu/item_selector/item_selector.gd" id="1_2n2gi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wer4m"]
 content_margin_left = 5.0
@@ -52,7 +52,7 @@ corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ce40t"]
 
-[node name="Items" type="TabContainer"]
+[node name="ItemSelector" type="TabContainer"]
 custom_minimum_size = Vector2(250, 100)
 size_flags_horizontal = 3
 theme_override_constants/side_margin = 0
