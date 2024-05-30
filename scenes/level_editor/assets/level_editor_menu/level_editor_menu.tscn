@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://4fqa7yi4u60p"]
+
+[ext_resource type="PackedScene" uid="uid://bqes8l8rei7do" path="res://scenes/level_editor/assets/level_editor_menu/items/menu/items.tscn" id="1_3mp42"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/level_editor_menu.gd" id="1_u886j"]
+[ext_resource type="PackedScene" uid="uid://c02ssgk60bqfe" path="res://scenes/level_editor/assets/level_editor_menu/song_player_controller/song_player_controller.tscn" id="2_uygsm"]
+[ext_resource type="PackedScene" uid="uid://dgco5km7x87pi" path="res://scenes/level_editor/assets/level_editor_menu/time_line_settings/time_line_settings.tscn" id="3_4733k"]
+[ext_resource type="PackedScene" uid="uid://dqjw525a76dft" path="res://scenes/level_editor/assets/level_editor_menu/time_line/time_line.tscn" id="4_0h8s6"]
+[ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="5_kg3l1"]
+
+[node name="LevelEditorMenu" type="MarginContainer"]
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+script = ExtResource("1_u886j")
+
+[node name="Panels" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 17
+
+[node name="OptionsMenus" type="VBoxContainer" parent="Panels"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ItemsMenu" parent="Panels/OptionsMenus" instance=ExtResource("1_3mp42")]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_vertical = 10
+size_flags_stretch_ratio = 2.0
+
+[node name="SongMenu" type="HBoxContainer" parent="Panels/OptionsMenus"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/separation = 9
+
+[node name="SongPlayerController" parent="Panels/OptionsMenus/SongMenu" node_paths=PackedStringArray("_song_player") instance=ExtResource("2_uygsm")]
+layout_mode = 2
+_song_player = NodePath("../../../../SongPlayer")
+
+[node name="TimeLineSettings" parent="Panels/OptionsMenus/SongMenu" instance=ExtResource("3_4733k")]
+layout_mode = 2
+
+[node name="TimeLine" parent="Panels" instance=ExtResource("4_0h8s6")]
+layout_mode = 2
+
+[node name="SongPlayer" parent="." instance=ExtResource("5_kg3l1")]
+
+[connection signal="item_switched" from="Panels/OptionsMenus/ItemsMenu" to="." method="_on_items_menu_item_switched"]
+[connection signal="paused" from="Panels/OptionsMenus/SongMenu/SongPlayerController" to="." method="_on_song_player_controller_paused"]
+[connection signal="played" from="Panels/OptionsMenus/SongMenu/SongPlayerController" to="." method="_on_song_player_controller_played"]
+[connection signal="scroller_value_changed" from="Panels/OptionsMenus/SongMenu/SongPlayerController" to="." method="_on_song_player_controller_scroller_value_changed"]
+[connection signal="seeked" from="Panels/OptionsMenus/SongMenu/SongPlayerController" to="." method="_on_song_player_controller_seeked"]
+[connection signal="snap_beats_changed" from="Panels/OptionsMenus/SongMenu/TimeLineSettings" to="." method="_on_time_line_settings_snap_beats_changed"]
+[connection signal="tool_changed" from="Panels/OptionsMenus/SongMenu/TimeLineSettings" to="." method="_on_time_line_settings_tool_changed"]
+[connection signal="item_copied" from="Panels/TimeLine" to="." method="_on_time_line_item_copied"]
+[connection signal="time_marker_moved" from="Panels/TimeLine" to="." method="_on_time_line_time_marker_moved"]
+[connection signal="song_ended" from="SongPlayer" to="." method="_on_song_player_song_ended"]
