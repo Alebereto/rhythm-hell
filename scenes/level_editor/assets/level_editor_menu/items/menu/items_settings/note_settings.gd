@@ -37,7 +37,7 @@ func _on_change() -> void:
 
 
 
-# Input functions ==============
+# Input signals ==============
 
 
 func _on_name_edit(new_text):
