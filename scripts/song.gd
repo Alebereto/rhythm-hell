@@ -18,7 +18,7 @@ var song_offset: float: get = _get_song_offset
 # Name of song
 var song_name: String: get = _get_song_name
 # Song length
-var length: float: get = _get_song_length
+var length: float: get = _get_song_length, set = _set_song_length
 
 # Total number of notes in song
 var note_count: int: get = _get_note_count
@@ -32,13 +32,15 @@ func _get_note_list() -> Array: return data["note_list"]
 func _get_bpm_events() -> Array: return data["bpm_events"]
 func _get_song_offset() -> float: return data["song_offset"]
 func _get_song_name() -> String: return data["name"]
-func _get_song_length() -> float: return data["length"]
+func _get_song_length(): return data["length"]
 
 func _get_note_count() -> int: return len(note_list)
 func _get_beat_count() -> float: return seconds_to_beats(length)
 
+func _set_song_length(value: float) -> void: data["length"] = value
 
-var audio_path: String
+
+var audio_path: String = ""
 
 
 ## Constructor
@@ -109,6 +111,7 @@ func create_default_data() -> Dictionary:
 	default_data["bpm_events"] = []
 	default_data["song_offset"] = 0.0
 	default_data["name"] = "My Song"
-	default_data["length"] = 1.0
+	default_data["length"] = null
+	default_data["items_dict"] = null
 
 	return default_data
