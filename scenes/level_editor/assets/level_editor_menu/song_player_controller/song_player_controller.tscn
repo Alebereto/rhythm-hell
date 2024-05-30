@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c02ssgk60bqfe"]
 
-[ext_resource type="Script" path="res://scenes/level_editor/assets/song_player_controller/song_player_controller.gd" id="1_7ntlb"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/song_player_controller/song_player_controller.gd" id="1_7ntlb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_di6fo"]
 content_margin_left = 10.0
@@ -44,6 +44,7 @@ text = "0:00"
 [node name="PlayButton" type="Button" parent="VBoxContainer/TimeShower"]
 custom_minimum_size = Vector2(25, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_constants/icon_max_width = 25
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ctrsf")
 icon_alignment = 1
