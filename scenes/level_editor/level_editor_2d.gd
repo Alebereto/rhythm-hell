@@ -3,92 +3,65 @@ extends Node2D
 enum MENU {NONE, MAIN_MENU, LEVEL_EDITOR}
 
 
-@export_category("Game Data")
-# Song name
-@export var song_name: String = "My Song"
-# Song audio file
-@export_global_file("*.ogg") var audio_source: String
-# Initial BPM of song
-@export_range(0,200) var initial_bpm: int = 100
-
-var song_length: float
-
-
 @export_category("Prefrences")
 # Location to save song into
 @export_dir var songs_dir: String = "res://songs"
 
 
 @export_category("Refrences")
-
-@export_group("Nodes")
-@export var time_line: Node2D
-@export var header_tabs: HBoxContainer
-
-@export_group("Menus")
-@export var main_menu: MarginContainer
-@export var level_editor: VBoxContainer
+@export_group("Menu")
+@export var _header_tabs: PanelContainer
+@export var _level_editor_menu: MarginContainer
+@export var _main_menu: MarginContainer
 
 @export_group("Popups")
-@export var _load_dialog: FileDialog
+@export var _load_dir_popup: FileDialog
 @export var _bad_path_popup: AcceptDialog
 
 
 
-@onready var song_player = $SongPlayer
-
-
 var _current_menu: MENU = MENU.NONE
-var _song: Song
-
-
-signal loaded_level_editor(song: Song)
-signal load_dialog_complete(path)
 
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# connect signals
-	_connect_signals()
-
 	# load main menu on startup
 	_load_main_menu()
 
 
-
-func _connect_signals() -> void:
-	header_tabs.file_popup.id_pressed.connect(_on_file_popup_pressed)
-	
-
 # menu functions
 func _hide_menus() -> void:
-	main_menu.visible = false
-	level_editor.visible = false
+	_main_menu.visible = false
+	_level_editor_menu.visible = false
 
 func _show_menu(id: MENU) -> void:
 	_hide_menus()
 	_current_menu = id
 	match id:
-		MENU.MAIN_MENU: main_menu.visible = true
-		MENU.LEVEL_EDITOR: level_editor.visible = true
+		MENU.MAIN_MENU: _main_menu.visible = true
+		MENU.LEVEL_EDITOR: _level_editor_menu.visible = true
 
 
+## Load the main menu
 func _load_main_menu() -> void:
 	_show_menu(MENU.MAIN_MENU)
 
+## Load the level editor with given song
+func _load_level_editor_menu(song: Song) -> void:
 
-func _load_level_editor() -> void:
+	var success = _level_editor_menu.load_song(song)
+	if not success: return
 
-	loaded_level_editor.emit(_song)
 	_show_menu(MENU.LEVEL_EDITOR)
 
 
-## Gets song path from user, returns true if succeeded
-func _get_song_path():
+
+## Gets level path from user, returns null if failed
+func _get_level_path():
 	# show load file popup and get directory path
-	_load_dialog.visible = true
-	var song_path = await load_dialog_complete
+	_load_dir_popup.visible = true
+	var song_path = await _load_dir_popup.dir_select_resolved
 	# maybe clear dialog box stuff?? ======================
 
 	if song_path == null: return null # user cancelled load
@@ -99,60 +72,29 @@ func _get_song_path():
 	return song_path
 
 
-
 ## Called when loading a song, can fail if song_path input is bad
-func _load_song() -> void:
-	var song_path = await _get_song_path()
+func _load_level() -> void:
+	var song_path = await _get_level_path()
 	if song_path == null: return
 	# load song info
-	_song = Song.new(song_path)
-	song_player.load_audio_file(_song.audio_path)
+	var song = Song.new(song_path)
 
-	_load_level_editor()
-
+	_load_level_editor_menu(song)
 
 ## Called when creating new song
-func _new_song() -> void:
-	_song = Song.new()
-
-	song_player.load_audio_file(audio_source)
-	song_length = song_player.song_length
-
-	_set_song_data()
-	_load_level_editor()
+func _load_new_level(song: Song) -> void:
+	_load_level_editor_menu(song)
 
 
-## Sets song data according to currently selected variables
-func _set_song_data() -> void:
-	_song.data["name"] = song_name
-	_song.data["initial_bpm"] = initial_bpm
-	_song.data["length"] = song_length
 
-## Gets level information dictionary
-func get_level_data() -> Dictionary:
-	# Ordered list of notes (by start beat)
-	var note_list: Array[Dictionary] = time_line.generate_note_list()
-
-	var bpm_events: Array[Dictionary] = []
+## Saves level to songs directory
+func _save_level(song_name: String, save_data: Dictionary, audio_source: String) -> void:
 	
-	var save_data = {
-		"name": song_name,
-		"length": song_length,
-		"initial_bpm": initial_bpm,
-		"note_list": note_list,
-		"bpm_events": bpm_events
-	}
-	
-	return save_data
-
-## Saves song to songs directory
-func _save_song() -> void:
-	
-	var save_data = get_level_data()
 	var save_data_str = JSON.stringify(save_data)
 	
 	# make directory for song
 	var save_dir = "%s/%s" %[songs_dir, song_name]
+	print(save_dir)
 	# check if save directory exists
 	if not DirAccess.dir_exists_absolute(save_dir):
 		DirAccess.make_dir_absolute(save_dir)
@@ -166,28 +108,33 @@ func _save_song() -> void:
 	file.store_string(save_data_str)
 	file.close()
 	# copy audio file to song directory if not exists
-	if not FileAccess.file_exists(audio_source):
+	if not FileAccess.file_exists(audio_path):
 		DirAccess.copy_absolute(audio_source, audio_path)
 
 
-
-# input functions ===========================
-
-func _on_file_popup_pressed(id: int) -> void:
-	match id:
-		1: _save_song()	# save pressed
-		2: _load_song() # load pressed
-
-func _on_load_dir_select(path: String) -> void:
-	load_dialog_complete.emit(path)
-
-func _on_load_dir_cancelled() -> void:
-	load_dialog_complete.emit(null)
+func _on_save_requested(song: Song) -> void:
+	# TODO: check if level exists and show prompt of overwriting
+	_save_level(song.song_name, song.data, song.audio_path)
 
 
-func _on_main_menu_load_pressed():
-	_load_song()
+# input signals ===========================
 
 
-func _on_main_menu_new_pressed():
-	_new_song()
+func _on_main_menu_new_song_requested(song):
+	_load_new_level(song)
+
+
+func _on_main_menu_load_song_requested():
+	_load_level()
+
+
+func _on_header_tabs_load_song_requested():
+	_load_level()
+
+
+func _on_header_tabs_save_song_requested():
+	_level_editor_menu.save()
+
+
+func _on_level_editor_menu_save_level(song: Song):
+	_on_save_requested(song)
