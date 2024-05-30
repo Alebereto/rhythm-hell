@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfprq3k47wt75"]
+[gd_scene load_steps=7 format=3 uid="uid://dfprq3k47wt75"]
 
-[ext_resource type="Script" path="res://scenes/level_editor/assets/items/menu/items_settings/item_settings.gd" id="1_uaw8x"]
-[ext_resource type="Script" path="res://scenes/level_editor/assets/items/menu/items_settings/note_settings.gd" id="2_ve8gy"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/items/menu/items_settings/item_settings.gd" id="1_uaw8x"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/items/menu/items_settings/note_settings.gd" id="2_ve8gy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_di6fo"]
 content_margin_left = 10.0
@@ -15,6 +15,12 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 shadow_color = Color(0.0745098, 0.0745098, 0.0745098, 0.372549)
 shadow_size = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ojflq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rx6d6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rub5a"]
 
 [node name="ItemSettings" type="PanelContainer"]
 size_flags_horizontal = 3
@@ -45,6 +51,7 @@ text = "Name:"
 [node name="LineEdit" type="LineEdit" parent="NoteSettings/Row1/NoteName"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ojflq")
 placeholder_text = "Note"
 
 [node name="NoteDelay" type="HBoxContainer" parent="NoteSettings/Row1"]
@@ -83,6 +90,7 @@ theme_override_constants/separation = 10
 [node name="NoteColor" type="ColorPickerButton" parent="NoteSettings/Row2"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rx6d6")
 toggle_mode = false
 text = "Color"
 color = Color(1, 1, 1, 1)
@@ -91,12 +99,13 @@ edit_alpha = false
 [node name="NoteRotated" type="CheckBox" parent="NoteSettings/Row2"]
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rub5a")
 text = "Rotated"
 
 [node name="SaveNote" type="Button" parent="NoteSettings/Row2"]
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Save"
+text = "Save Note"
 
 [node name="EventSettings" type="VBoxContainer" parent="."]
 visible = false
