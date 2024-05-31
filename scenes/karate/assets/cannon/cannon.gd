@@ -2,12 +2,9 @@ extends Node3D
 
 
 @export var target: Node3D # Cannon target node
-@export var shooter: Node3D # Object that calls "fire_cannon" signal
-
 
 @export var projectiles_root: Node3D
 
-@onready var fire_cannon: Signal = shooter.fire_cannon # shooter's fire cannon signal
 @onready var anchor: Node3D = $Cylinder/ShootAnchor
 
 # Source and target vectors of cannon fire
@@ -22,15 +19,6 @@ var gravity_vector: Vector3 = ProjectSettings.get_setting("physics/3d/default_gr
 # getters for source and target vectors
 func _get_source_pos(): return anchor.global_position
 func _get_target_pos(): return target.global_position
-
-## Called when the node enters the scene tree for the first time.
-func _ready():
-	# connect fire signal from shooter to cannon
-	fire_cannon.connect(fire)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-# func _process(delta):
-# 	pass
 	
 
 ## Get impulse vector for projectile given travel time and projectile mass

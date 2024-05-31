@@ -1,21 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://csxxng205uewp"]
+[gd_scene load_steps=7 format=3 uid="uid://csxxng205uewp"]
 
-[ext_resource type="Script" path="res://scenes/karate/karate_game.gd" id="2_43cjk"]
+[ext_resource type="Script" path="res://scenes/karate/karate_game.gd" id="1_yfebx"]
 [ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player.tscn" id="2_c11h3"]
+[ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="2_cdvyw"]
 [ext_resource type="PackedScene" uid="uid://b8g4v8hxldlql" path="res://scenes/karate/assets/game_world.tscn" id="3_el2kq"]
 [ext_resource type="PackedScene" uid="uid://bodnphfa0q5ds" path="res://scenes/karate/assets/cannon/cannon.tscn" id="4_hox2b"]
 [ext_resource type="PackedScene" uid="uid://leyiqx6051hu" path="res://scenes/karate/assets/hit_indicator.tscn" id="5_6x71t"]
 
-[node name="Main" type="Node3D" node_paths=PackedStringArray("cannon", "player")]
-script = ExtResource("2_43cjk")
-cannon = NodePath("Objects/Cannon")
-song_path = "res://songs/test2"
+[node name="Karate" type="Node3D" node_paths=PackedStringArray("_cannon", "player")]
+script = ExtResource("1_yfebx")
+_cannon = NodePath("Objects/Cannon")
+_projectile_path = "res://scenes/karate/assets/projectiles/projectile.tscn"
+song_path = "res://songs/TEST"
 player = NodePath("Objects/Player")
+
+[node name="SongPlayer" parent="." instance=ExtResource("2_cdvyw")]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.590613, -0.359682, 0.722361, -0.0184239, 0.888925, 0.457682, -0.806745, -0.283622, 0.518384, 5.83937, 4.79853, 0.744372)
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="Objects" type="Node3D" parent="."]
 
@@ -23,13 +25,12 @@ transform = Transform3D(0.590613, -0.359682, 0.722361, -0.0184239, 0.888925, 0.4
 
 [node name="GameWorld" parent="Objects" instance=ExtResource("3_el2kq")]
 
-[node name="Cannon" parent="Objects" node_paths=PackedStringArray("target", "shooter", "projectiles_root") instance=ExtResource("4_hox2b")]
+[node name="Cannon" parent="Objects" node_paths=PackedStringArray("target", "projectiles_root") instance=ExtResource("4_hox2b")]
 transform = Transform3D(0.476867, 0, -0.878975, 0, 1, 0, 0.878975, 0, 0.476867, 4, 0, -4)
 target = NodePath("Target")
-shooter = NodePath("../..")
 projectiles_root = NodePath("../Projectiles")
 
 [node name="Target" parent="Objects/Cannon" instance=ExtResource("5_6x71t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9722, 4.63175)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.19209e-07, 1.25871, 4.63175)
 
 [node name="Projectiles" type="Node3D" parent="Objects"]

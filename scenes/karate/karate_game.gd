@@ -1,32 +1,20 @@
 extends GameController
 
-@export var cannon: Node3D
-
-signal fire_cannon
+@export_group("Cannon")
+@export var _cannon: Node3D
+@export_file("*.tscn") var _projectile_path: String
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	note_started.connect(_play_note)
 	super()
-
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
-func connect_signals():
-	var right_controller: XRController3D = player.find_child("RightController")
-	var left_controller: XRController3D = player.find_child("LeftController")
+func _play_note(note: Dictionary):
+	var fire_time = note["b"] - note["s"]
+	_cannon.fire(_projectile_path, fire_time)
 
-	right_controller.button_pressed.connect(_on_right_button_press)
-
-func _input(event):
-	if event.is_action_pressed("test-shoot"):
-		print("Shooting!!")
-		_shoot_cannon()
-
-func _shoot_cannon():
-	fire_cannon.emit("res://scenes/karate/assets/projectiles/projectile.tscn", 1)
-
-func _on_right_button_press(button: String):
-	print("Pressed %s" %button)
-	_shoot_cannon()

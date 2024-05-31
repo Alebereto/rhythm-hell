@@ -103,6 +103,13 @@ func beats_to_seconds(beats: float) -> float:
 
 
 
+func find_note_idx_after(second: float) -> int:
+	var beat = seconds_to_beats(second)
+	for i in range(len(note_list)):
+		if beat > note_list[i]["s"]: return max(0, i-1)
+	return len(note_list)
+
+
 func create_default_data() -> Dictionary:
 	var default_data: Dictionary = {}
 
