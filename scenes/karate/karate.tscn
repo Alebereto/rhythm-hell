@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://csxxng205uewp"]
+
+[ext_resource type="Script" path="res://scenes/karate/karate_game.gd" id="1_yfebx"]
+[ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player.tscn" id="2_c11h3"]
+[ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="2_cdvyw"]
+[ext_resource type="PackedScene" uid="uid://b8g4v8hxldlql" path="res://scenes/karate/assets/game_world.tscn" id="3_el2kq"]
+[ext_resource type="PackedScene" uid="uid://bodnphfa0q5ds" path="res://scenes/karate/assets/cannon/cannon.tscn" id="4_hox2b"]
+[ext_resource type="PackedScene" uid="uid://leyiqx6051hu" path="res://scenes/karate/assets/hit_indicator.tscn" id="5_6x71t"]
+
+[node name="Karate" type="Node3D" node_paths=PackedStringArray("_cannon", "player")]
+script = ExtResource("1_yfebx")
+_cannon = NodePath("Objects/Cannon")
+_projectile_path = "res://scenes/karate/assets/projectiles/projectile.tscn"
+song_path = "res://songs/TEST"
+player = NodePath("Objects/Player")
+
+[node name="SongPlayer" parent="." instance=ExtResource("2_cdvyw")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.590613, -0.359682, 0.722361, -0.0184239, 0.888925, 0.457682, -0.806745, -0.283622, 0.518384, 5.83937, 4.79853, 0.744372)
+
+[node name="Objects" type="Node3D" parent="."]
+
+[node name="Player" parent="Objects" instance=ExtResource("2_c11h3")]
+
+[node name="GameWorld" parent="Objects" instance=ExtResource("3_el2kq")]
+
+[node name="Cannon" parent="Objects" node_paths=PackedStringArray("target", "projectiles_root") instance=ExtResource("4_hox2b")]
+transform = Transform3D(0.590929, 0, -0.806723, 0, 1, 0, 0.806723, 0, 0.590929, 4, 0, -4)
+target = NodePath("Target")
+projectiles_root = NodePath("../Projectiles")
+
+[node name="Target" parent="Objects/Cannon" instance=ExtResource("5_6x71t")]
+transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 1.259, 5)
+
+[node name="Projectiles" type="Node3D" parent="Objects"]
+
+[connection signal="right_hand_entered_body" from="Objects/Player" to="." method="_on_player_right_hand_entered_body"]
+[connection signal="trigger_pressed" from="Objects/Player" to="." method="_on_player_trigger_pressed"]

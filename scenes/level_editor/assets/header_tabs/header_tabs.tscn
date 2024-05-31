@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://cibxduf6bp4mj"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/header_tabs/tabs.gd" id="1_biml1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iir6p"]
+content_margin_left = 5.0
+bg_color = Color(0.286275, 0.294118, 0.352941, 1)
+shadow_color = Color(0, 0, 0, 0.439216)
+shadow_size = 3
+
+[node name="HeaderTabs" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_iir6p")
+script = ExtResource("1_biml1")
+
+[node name="Tabs" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="File" type="MenuButton" parent="Tabs"]
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.125911, 0.125911, 0.125911, 1)
+text = "File"
+item_count = 3
+popup/item_0/text = "Save"
+popup/item_0/id = 1
+popup/item_1/text = ""
+popup/item_1/id = 0
+popup/item_1/disabled = true
+popup/item_1/separator = true
+popup/item_2/text = "Load"
+popup/item_2/id = 2
+
+[node name="View" type="MenuButton" parent="Tabs"]
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(0.12549, 0.12549, 0.12549, 1)
+text = "View"
+item_count = 1
+popup/item_0/text = "Test"
+popup/item_0/id = 0

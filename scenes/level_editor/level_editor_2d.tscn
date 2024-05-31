@@ -1,0 +1,70 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1ok7lmbjs72v"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/level_editor_2d.gd" id="1_ybeed"]
+[ext_resource type="PackedScene" uid="uid://cibxduf6bp4mj" path="res://scenes/level_editor/assets/header_tabs/header_tabs.tscn" id="3_boiw0"]
+[ext_resource type="PackedScene" uid="uid://4fqa7yi4u60p" path="res://scenes/level_editor/assets/level_editor_menu/level_editor_menu.tscn" id="4_rew7b"]
+[ext_resource type="PackedScene" uid="uid://0xoroomsvefc" path="res://scenes/level_editor/assets/main_menu/main_menu.tscn" id="6_dhvna"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/popups/load_dir_popup.gd" id="7_ghtds"]
+
+[node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("_header_tabs", "_level_editor_menu", "_main_menu", "_load_dir_popup", "_bad_path_popup")]
+script = ExtResource("1_ybeed")
+_header_tabs = NodePath("Camera2D/GUI/Background/MainLayout/HeaderTabs")
+_level_editor_menu = NodePath("Camera2D/GUI/Background/MainLayout/LevelEditorMenu")
+_main_menu = NodePath("Camera2D/GUI/Background/MainLayout/MainMenu")
+_load_dir_popup = NodePath("Popups/LoadDir")
+_bad_path_popup = NodePath("Popups/Alert")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(576.025, 324.045)
+
+[node name="GUI" type="CanvasLayer" parent="Camera2D"]
+
+[node name="Background" type="ColorRect" parent="Camera2D/GUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.188235, 0.196078, 0.239216, 1)
+
+[node name="MainLayout" type="VBoxContainer" parent="Camera2D/GUI/Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="HeaderTabs" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("3_boiw0")]
+layout_mode = 2
+
+[node name="LevelEditorMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("4_rew7b")]
+layout_mode = 2
+
+[node name="MainMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("6_dhvna")]
+visible = false
+layout_mode = 2
+_song_name = "GROOVE"
+_audio_source = "C:/Users/albert/Documents/Godot games/rhythm-hell/audio/music/groovy-ambient-funk-201745.ogg"
+_initial_bpm = 120
+
+[node name="Popups" type="Node" parent="."]
+
+[node name="LoadDir" type="FileDialog" parent="Popups"]
+title = "Open a Directory"
+initial_position = 1
+size = Vector2i(702, 329)
+ok_button_text = "Select Current Folder"
+file_mode = 2
+root_subfolder = "res://songs"
+script = ExtResource("7_ghtds")
+
+[node name="Alert" type="AcceptDialog" parent="Popups"]
+
+[connection signal="load_song_requested" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_load_song_requested"]
+[connection signal="save_song_requested" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_save_song_requested"]
+[connection signal="save_level" from="Camera2D/GUI/Background/MainLayout/LevelEditorMenu" to="." method="_on_level_editor_menu_save_level"]
+[connection signal="load_song_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_load_song_requested"]
+[connection signal="new_song_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_new_song_requested"]

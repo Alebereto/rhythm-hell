@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://0xoroomsvefc"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/main_menu/main_menu.gd" id="1_r6td2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nas6u"]
+content_margin_left = 30.0
+content_margin_top = 30.0
+content_margin_right = 30.0
+content_margin_bottom = 30.0
+bg_color = Color(0.286275, 0.294118, 0.352941, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+shadow_color = Color(0, 0, 0, 0.447059)
+shadow_size = 4
+
+[node name="MainMenu" type="MarginContainer"]
+size_flags_vertical = 3
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+script = ExtResource("1_r6td2")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_nas6u")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+theme_override_constants/separation = 50
+
+[node name="LoadSongButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Load Song"
+
+[node name="NewSongButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "New Song"
+
+[node name="Control" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.75
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/LoadSongButton" to="." method="_on_load_song_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/NewSongButton" to="." method="_on_new_song_button_pressed"]

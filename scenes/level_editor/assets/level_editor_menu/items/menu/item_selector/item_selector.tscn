@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3 uid="uid://c32ax83ybum6y"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/items/menu/item_selector/item_selector.gd" id="1_2n2gi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wer4m"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.286275, 0.294118, 0.352941, 1)
+border_color = Color(0.105882, 0.109804, 0.129412, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qr6e6"]
+content_margin_left = 5.0
+content_margin_right = 5.0
+bg_color = Color(0.164145, 0.167927, 0.190626, 1)
+border_width_left = 1
+border_width_right = 1
+border_color = Color(0.105882, 0.109804, 0.129412, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nxdj3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0s412"]
+bg_color = Color(0.286275, 0.294118, 0.352941, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.345098)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xnv02"]
+bg_color = Color(0.105882, 0.109804, 0.129412, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+shadow_color = Color(0, 0, 0, 0.447059)
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s30gt"]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(0.286275, 0.294118, 0.352941, 1)
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4i7tw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ce40t"]
+
+[node name="ItemSelector" type="TabContainer"]
+custom_minimum_size = Vector2(250, 100)
+size_flags_horizontal = 3
+theme_override_constants/side_margin = 0
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_wer4m")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_qr6e6")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_qr6e6")
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_nxdj3")
+theme_override_styles/panel = SubResource("StyleBoxFlat_0s412")
+theme_override_styles/tabbar_background = SubResource("StyleBoxFlat_xnv02")
+script = ExtResource("1_2n2gi")
+
+[node name="Notes" type="ItemList" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s30gt")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4i7tw")
+allow_reselect = true
+max_columns = 5
+same_column_width = true
+fixed_column_width = 115
+
+[node name="Events" type="ItemList" parent="."]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s30gt")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ce40t")
+allow_reselect = true
+
+[node name="Markers" type="ItemList" parent="."]
+visible = false
+layout_mode = 2
+allow_reselect = true
+
+[connection signal="item_selected" from="Notes" to="." method="_on_notes_item_selected"]
+[connection signal="item_selected" from="Events" to="." method="_on_events_item_selected"]
+[connection signal="item_selected" from="Markers" to="." method="_on_markers_item_selected"]
