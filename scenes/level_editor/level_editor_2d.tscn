@@ -46,7 +46,7 @@ layout_mode = 2
 [node name="MainMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("6_dhvna")]
 visible = false
 layout_mode = 2
-_song_name = "TEST"
+_song_name = "GROOVE"
 _audio_source = "C:/Users/albert/Documents/Godot games/rhythm-hell/audio/music/groovy-ambient-funk-201745.ogg"
 _initial_bpm = 120
 

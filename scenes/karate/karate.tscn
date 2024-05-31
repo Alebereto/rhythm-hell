@@ -26,11 +26,14 @@ transform = Transform3D(0.590613, -0.359682, 0.722361, -0.0184239, 0.888925, 0.4
 [node name="GameWorld" parent="Objects" instance=ExtResource("3_el2kq")]
 
 [node name="Cannon" parent="Objects" node_paths=PackedStringArray("target", "projectiles_root") instance=ExtResource("4_hox2b")]
-transform = Transform3D(0.476867, 0, -0.878975, 0, 1, 0, 0.878975, 0, 0.476867, 4, 0, -4)
+transform = Transform3D(0.590929, 0, -0.806723, 0, 1, 0, 0.806723, 0, 0.590929, 4, 0, -4)
 target = NodePath("Target")
 projectiles_root = NodePath("../Projectiles")
 
 [node name="Target" parent="Objects/Cannon" instance=ExtResource("5_6x71t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.19209e-07, 1.25871, 4.63175)
+transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 1.259, 5)
 
 [node name="Projectiles" type="Node3D" parent="Objects"]
+
+[connection signal="right_hand_entered_body" from="Objects/Player" to="." method="_on_player_right_hand_entered_body"]
+[connection signal="trigger_pressed" from="Objects/Player" to="." method="_on_player_trigger_pressed"]

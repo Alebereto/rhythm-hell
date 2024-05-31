@@ -31,6 +31,7 @@ albedo_color = Color(1, 0, 0, 1)
 material = SubResource("StandardMaterial3D_la08a")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w3nc8"]
+radius = 0.3
 
 [node name="Player" type="XROrigin3D"]
 script = ExtResource("1_wdlaw")
@@ -86,4 +87,8 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_w3nc8")
 
+[connection signal="button_pressed" from="RightController" to="." method="_on_right_controller_button_pressed"]
+[connection signal="button_released" from="RightController" to="." method="_on_right_controller_button_released"]
+[connection signal="body_entered" from="RightController/RightHand" to="." method="_on_right_hand_body_entered"]
+[connection signal="body_shape_entered" from="RightController/RightHand" to="." method="_on_right_hand_body_shape_entered"]
 [connection signal="body_entered" from="LeftController/LeftHand" to="." method="_on_left_hand_body_entered"]

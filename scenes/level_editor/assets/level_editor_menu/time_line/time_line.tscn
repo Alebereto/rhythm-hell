@@ -38,9 +38,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_mm6yf")
 
 [node name="TimeLineGrid" parent="TimeLineBox/TimeLineBox" instance=ExtResource("1_7xl1h")]
 z_index = 1
-_bar_color = Color(0.894118, 0.894118, 0.894118, 0.984314)
-_beat_color = Color(0.741176, 0.741176, 0.741176, 0.960784)
-_layer_color = Color(0.552941, 0.552941, 0.552941, 0.941176)
+_bar_color = Color(0.93408, 0.93408, 0.93408, 1)
+_beat_color = Color(0.529067, 0.529067, 0.529067, 0.960784)
+_layer_color = Color(0.39689, 0.396889, 0.396889, 0.941176)
 
 [node name="TimeLineScroller" type="HScrollBar" parent="."]
 custom_minimum_size = Vector2(0, 20)
