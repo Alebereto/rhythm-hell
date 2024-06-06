@@ -18,9 +18,21 @@ func format_seconds(seconds: float) -> String:
 
 	return "%s:%s%s" % [str(minute), pad, str(second)]
 
-func legal_song_path(song_path: String) -> bool:
+func legal_song_path(_song_path: String) -> bool:
 	# check if dat and ogg files exist in directory ================
 	return true
+
+
+
+func clone_item_info(item_info: ItemInfo) -> ItemInfo:
+	var cloned_item_info
+
+	match item_info.type:
+		ITEM_TYPE.NOTE: cloned_item_info = NoteInfo.new(item_info)
+		ITEM_TYPE.EVENT: cloned_item_info = NoteInfo.new(item_info)
+		ITEM_TYPE.MARKER: cloned_item_info = NoteInfo.new(item_info)
+	return cloned_item_info
+
 
 class ItemInfo:
 	var name: String = "default"
@@ -39,13 +51,17 @@ class NoteInfo extends ItemInfo:
 	var color: Color = Color.WHITE
 	var rotated: bool = true
 
-	func _init():
+	func _init(note= null):
+		# load data from other note
+		if note is NoteInfo:
+			set_from_dict(note.get_info_dict())
+
+		# load data from save file
+		if note is Dictionary:
+			set_from_dict(note)
+		
 		type = Globals.ITEM_TYPE.NOTE
 
-	func clone() -> NoteInfo:
-		var cloned_note = NoteInfo.new()
-		cloned_note.set_from_dict(get_info_dict())
-		return cloned_note
 
 	func get_info_dict() -> Dictionary:
 		var note_data = {
@@ -53,17 +69,18 @@ class NoteInfo extends ItemInfo:
 			"delay": delay,
 			"id": id,
 			"custom_data": custom_data,
-			"color": color,
+			"color": color.to_html(),
 			"rotated": rotated
 		}
 		return note_data
 
 	func set_from_dict(item: Dictionary):
+		
 		name = item["name"]
 		delay = item["delay"]
 		id = item["id"]
 		custom_data = item["custom_data"]
-		color = item["color"]
+		color = Color(item["color"])
 		rotated = item["rotated"]
 
 

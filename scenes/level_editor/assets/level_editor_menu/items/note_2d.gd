@@ -13,31 +13,37 @@ var _note_info: Globals.NoteInfo
 @onready var _area: Area2D = $Area2D
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_note_info = Globals.NoteInfo.new()
-	update_visuals()
+	_update_visuals()
 
 func copy_other(note: Node2D) -> void:
-	set_data(note.get_data())
-	update_visuals()
+	set_data_from(note.get_data())
+	_update_visuals()
 
 
 
 func get_data() -> Globals.NoteInfo:
-	return _note_info.clone()
+	return _note_info
 
-func set_data(data: Globals.NoteInfo) -> void:
-	_note_info = data
+## Gets either note info or note dictionary
+func set_data_from(data) -> void:
+	_note_info = Globals.NoteInfo.new(data)
+	_update_visuals()
 
 
-func set_pickable() -> void:
+func on_placed() -> void:
+	_set_pickable()
+
+func _set_pickable() -> void:
 	_area.collision_layer = 1
 
 
 # set visuals functions
 
-func update_visuals() -> void:
+func _update_visuals() -> void:
 	_set_colors(_note_info.color)
 	_set_sizes(BAR_GAP)
 

@@ -21,6 +21,7 @@ func _set_note_info(info: Globals.NoteInfo) -> void:
 @onready var _note_rotated_panel: CheckBox = $Row2/NoteRotated
 
 
+
 ## Updates values in conrol panel according to note settings.
 ## Used when values are changed externally
 func _update_displays() -> void:

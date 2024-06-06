@@ -24,13 +24,12 @@ func load_song(song: Song) -> bool:
 	# load audio file to song player
 	_song_player.load_audio_file(song.audio_path)
 
-	if song["length"] == null:
-		song["length"] = _song_player.song_length
+	if song["length"] == null:	song["length"] = _song_player.song_length
 	
-	_time_line.load_song(song)
 	_items_menu.load_song(song)
 	_song_player_controller.load_song(song)
 	_time_line_settings.load_song(song)
+	_time_line.load_song(song)
 	
 	_is_focused = true
 	return true
