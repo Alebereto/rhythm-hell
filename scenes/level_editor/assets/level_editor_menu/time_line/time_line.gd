@@ -15,8 +15,9 @@ var _current_tool: Globals.TOOL
 
 ## Called when loading song
 func load_song(song: Song) -> void:
-	_time_line_grid.on_load_song(song)
+	
 	_on_total_beats_changed(song.beat_count)
+	_time_line_grid.on_load_song(song)
 
 func _on_total_beats_changed(beats: float) -> void:
 	_time_line_scroller.max_value = beats
@@ -48,7 +49,7 @@ func set_tool(t: Globals.TOOL) -> void:
 
 ## Sets current selected item to given item
 func set_item(item: Globals.ItemInfo) -> void:
-	_time_line_grid.set_item(item)
+	_time_line_grid.set_indicator_item(item)
 
 
 ## Called when pressing on timeline box and using delete tool
@@ -86,18 +87,25 @@ func on_song_player_value_changed(second: float) -> void:
 
 
 ## Called when left clicking timeline
-func _on_left_click_timeline(time_pos: Vector2) -> void:
+func _on_left_click_timeline(time_pos: Vector2, global_pos: Vector2) -> void:
 	match _current_tool:
 		Globals.TOOL.ITEM:
-			_time_line_grid.place_item(time_pos)
+			_time_line_grid.place_indicator_item(time_pos)
+		Globals.TOOL.DELETE:
+			_delete_pos(global_pos)
 
 ## Called when right clicking timeline
 func _on_right_click_timeline(_time_pos: Vector2) -> void:
 	pass
 
-# Called when mouse moves on timeline
+## Called when mouse moves on timeline
 func _on_timeline_motion(time_pos: Vector2) -> void:
 	_time_line_grid.update_indicator_pos(time_pos)
+
+## Called when moving mouse and holding left click
+func _on_timeline_motion_left_click(_time_pos: Vector2, global_pos: Vector2)  -> void:
+	match _current_tool:
+		Globals.TOOL.DELETE: _delete_pos(global_pos)
 
 
 
@@ -111,21 +119,24 @@ func _on_time_line_scroller_scrolling():
 	_time_line_grid.scroll_to_beat(beat)
 
 
+## Called when mouse interacts with timeline panel
 func _on_time_line_box_gui_input(event):
 	var pos: Vector2 = event.position # mouse location relative to panel
 	var time_pos: Vector2 = _time_line_grid.panel_to_timeline(pos)
 	var global_pos = pos + _time_line_box.global_position
 
+	## Called once when starting click
 	if event is InputEventMouseButton and event.pressed:
 		match event.button_index:
-			1:
-				_on_left_click_timeline(time_pos)
-				if _current_tool == Globals.TOOL.DELETE: _delete_pos(global_pos)
-			2: _on_right_click_timeline(time_pos)
+			1:	# Left click
+				_on_left_click_timeline(time_pos, global_pos)
+
+			2:	# Right click
+				_on_right_click_timeline(time_pos)
 
 	if event is InputEventMouseMotion:
 		_on_timeline_motion(time_pos)
-		if event.button_mask == 1 and _current_tool == Globals.TOOL.DELETE: _delete_pos(global_pos)
+		if event.button_mask == 1: _on_timeline_motion_left_click(time_pos, global_pos)
 
 
 func _on_time_line_box_mouse_entered():
@@ -137,11 +148,14 @@ func _on_time_line_box_mouse_exited():
 	_time_line_grid.show_indicator_item(false)
 
 
+## Called when mouse interacts with time bar panel
 func _on_time_bar_gui_input(event):
 	# If dragging time bar
 	if (event is InputEventMouseButton and event.button_index == 1 and event.pressed) or \
 	 	event is InputEventMouseMotion and event.button_mask == 1:
 
+		# translate position on panel to second in song
 		var time_pos: Vector2 = _time_line_grid.panel_to_timeline(event.position)
 		var second: float = _time_line_grid.pixel_to_second(time_pos.x)
+		# emit time marker moved
 		time_marker_moved.emit(second)
