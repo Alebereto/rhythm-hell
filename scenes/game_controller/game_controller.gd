@@ -23,8 +23,6 @@ signal note_started(note: Dictionary)
 
 # contains song information
 var song: Song
-# OpenXR interface ======================
-var interface: XRInterface
 
 # true if game is paused
 var game_paused: bool = true
@@ -43,34 +41,14 @@ func _ready():
 	song = Song.new(song_path)
 	song_player.load_audio_file(song.audio_path)
 
-	_init_vr()
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
-
-func _init_vr():
-	interface = XRServer.find_interface("OpenXR")
-	if interface and interface.is_initialized():
-		print("OpenXR instantiated successfully.")
-		var vp : Viewport = get_viewport()
-		
-		# Enable xr on viewport
-		vp.use_xr = true
-		
-		# Make sure v-sync is off, v-sync is handled by OpenXR
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-	
-	else:
-		# couldn't start OpenXR.
-		print("OpenXR not instantiated!")
-		# get_tree().quit()
-
-
 func _physics_process(_delta):
 	_check_next_note()
+
 
 
 
