@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Rhythm Hell"
-run/main_scene="res://levels/test/test_scene.tscn"
+run/main_scene="res://scenes/main/main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -47,8 +47,15 @@ level_editor_save={
 ]
 }
 
+[layer_names]
+
+3d_render/layer_1="On all"
+3d_render/layer_2="Only HMD"
+3d_render/layer_3="Only Desktop"
+
 [physics]
 
+common/physics_ticks_per_second=90
 3d/default_gravity=4.9
 3d/default_linear_damp=0.0
 3d/default_angular_damp=0.0
@@ -56,6 +63,8 @@ level_editor_save={
 [rendering]
 
 textures/canvas_textures/default_texture_repeat=1
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
 
 [xr]
 

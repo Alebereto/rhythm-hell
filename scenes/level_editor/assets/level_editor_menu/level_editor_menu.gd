@@ -22,7 +22,7 @@ func load_song(song: Song) -> bool:
 	_song = song
 	
 	# load audio file to song player
-	_song_player.load_audio_file(song.audio_path)
+	_song_player.load_song(song.audio_path)
 
 	if song["length"] == null:	song["length"] = _song_player.song_length
 	
