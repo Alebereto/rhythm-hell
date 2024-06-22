@@ -1,6 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://deckjfxueeioc"]
+[gd_scene load_steps=15 format=3 uid="uid://deckjfxueeioc"]
 
 [ext_resource type="Script" path="res://objects/player.gd" id="1_wdlaw"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_phy7n"]
+size = Vector3(0.243, 0.127, 0.061)
+
+[sub_resource type="BoxMesh" id="BoxMesh_526ds"]
+size = Vector3(0.023, 0.04, 0.166)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vnj8g"]
 
@@ -38,11 +44,27 @@ script = ExtResource("1_wdlaw")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+cull_mask = 1048571
 
 [node name="Neck" type="Node3D" parent="XRCamera3D"]
 
+[node name="Head" type="MeshInstance3D" parent="XRCamera3D/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0626655)
+layers = 4
+mesh = SubResource("BoxMesh_phy7n")
+
+[node name="BandLeft" type="MeshInstance3D" parent="XRCamera3D/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0, 0.032)
+layers = 4
+mesh = SubResource("BoxMesh_526ds")
+
+[node name="BandRight" type="MeshInstance3D" parent="XRCamera3D/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.119933, 0, 0.0199138)
+layers = 4
+mesh = SubResource("BoxMesh_526ds")
+
 [node name="RightController" type="XRController3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.434729)
 tracker = &"right_hand"
 
 [node name="RightHand" type="Area3D" parent="RightController"]
@@ -62,7 +84,7 @@ mesh = SubResource("BoxMesh_tfsx7")
 skeleton = NodePath("../..")
 
 [node name="LeftController" type="XRController3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.434729)
 tracker = &"left_hand"
 
 [node name="LeftHand" type="Area3D" parent="LeftController"]
