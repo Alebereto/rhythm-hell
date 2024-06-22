@@ -1,10 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://ccunoul2af70k"]
+[gd_scene load_steps=3 format=3 uid="uid://ccunoul2af70k"]
 
 [ext_resource type="Script" path="res://objects/song_player.gd" id="1_wve05"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_iyfpw"]
 
 [node name="SongPlayer" type="Node"]
 script = ExtResource("1_wve05")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="SoundEffectPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamPolyphonic_iyfpw")
 
 [connection signal="finished" from="AudioStreamPlayer" to="." method="_finished_playing"]
