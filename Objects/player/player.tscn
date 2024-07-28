@@ -1,12 +1,19 @@
-[gd_scene load_steps=15 format=3 uid="uid://deckjfxueeioc"]
+[gd_scene load_steps=17 format=3 uid="uid://deckjfxueeioc"]
 
-[ext_resource type="Script" path="res://objects/player.gd" id="1_wdlaw"]
+[ext_resource type="Script" path="res://objects/player/player.gd" id="1_wdlaw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_phy7n"]
 size = Vector3(0.243, 0.127, 0.061)
 
 [sub_resource type="BoxMesh" id="BoxMesh_526ds"]
 size = Vector3(0.023, 0.04, 0.166)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hai24"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="SphereMesh" id="SphereMesh_uv6yw"]
+material = SubResource("StandardMaterial3D_hai24")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_vnj8g"]
 
@@ -62,6 +69,12 @@ mesh = SubResource("BoxMesh_526ds")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.119933, 0, 0.0199138)
 layers = 4
 mesh = SubResource("BoxMesh_526ds")
+
+[node name="BlackBox" type="MeshInstance3D" parent="XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.186045)
+visible = false
+cast_shadow = 0
+mesh = SubResource("SphereMesh_uv6yw")
 
 [node name="RightController" type="XRController3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.434729)
