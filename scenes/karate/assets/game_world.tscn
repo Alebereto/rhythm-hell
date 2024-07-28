@@ -1,6 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://b8g4v8hxldlql"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rumbh"]
+sky_top_color = Color(0.482353, 0.482353, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+sky_curve = 0.0284196
+ground_bottom_color = Color(0.912289, 0.912289, 0.912289, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+sun_angle_max = 10.16
+sun_curve = 2.01815
 
 [sub_resource type="Sky" id="Sky_dqwl6"]
 sky_material = SubResource("ProceduralSkyMaterial_rumbh")
@@ -9,12 +16,12 @@ sky_material = SubResource("ProceduralSkyMaterial_rumbh")
 background_mode = 2
 sky = SubResource("Sky_dqwl6")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tybqo"]
-albedo_color = Color(0.695503, 0.695503, 0.695503, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0lfs"]
+albedo_color = Color(0.741385, 0.741385, 0.741385, 1)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_swfbm"]
-material = SubResource("StandardMaterial3D_tybqo")
-cap_bottom = false
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_037og"]
+material = SubResource("StandardMaterial3D_g0lfs")
+radial_steps = 23
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_omv6a"]
 albedo_color = Color(0.537011, 0.537011, 0.537011, 1)
@@ -39,7 +46,7 @@ transform = Transform3D(15, 0, 0, 0, 0.5, 0, 0, 0, 15, 0, -0.5, 0)
 [node name="Floor" type="StaticBody3D" parent="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Floor"]
-mesh = SubResource("CylinderMesh_swfbm")
+mesh = SubResource("TubeTrailMesh_037og")
 
 [node name="SmallCircle" type="MeshInstance3D" parent="Node3D/Floor"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1, 0)
