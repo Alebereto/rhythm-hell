@@ -1,6 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://c5ior2m1uhfoe"]
+[gd_scene load_steps=14 format=3 uid="uid://c5ior2m1uhfoe"]
 
 [ext_resource type="Script" path="res://scenes/karate/assets/projectiles/barrel.gd" id="1_x4etx"]
+[ext_resource type="PackedScene" uid="uid://t45m7h5u6o5k" path="res://scenes/karate/assets/projectiles/rock.tscn" id="2_4koe4"]
+[ext_resource type="AudioStream" uid="uid://b720pthe6yr2k" path="res://audio/sounds/break.wav" id="2_v7sw5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qs8jx"]
 albedo_color = Color(0.337255, 0.156863, 0, 1)
@@ -59,6 +61,8 @@ size = Vector3(0.1, 0.3, 0.05)
 [node name="Barrel" type="RigidBody3D"]
 inertia = Vector3(1, 1, 1)
 script = ExtResource("1_x4etx")
+contained_projectile = ExtResource("2_4koe4")
+id = 1
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0, 0, 0)
@@ -97,3 +101,6 @@ explosiveness = 0.97
 randomness = 0.09
 process_material = SubResource("ParticleProcessMaterial_c4ope")
 draw_pass_1 = SubResource("BoxMesh_1twd7")
+
+[node name="BreakSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_v7sw5")

@@ -1,11 +1,9 @@
 extends Projectile
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+@onready var _hit_sound: AudioStreamPlayer3D = $HitSound
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func on_hit() -> void:
+	super()
+	_hit_sound.play()
+	launch_forwards()
