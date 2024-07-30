@@ -1,19 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://rup8doholb8h"]
+[gd_scene load_steps=5 format=3 uid="uid://rup8doholb8h"]
 
 [ext_resource type="Script" path="res://scenes/game_controller/game_controller.gd" id="1_7tr6g"]
-[ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player.tscn" id="2_ixxql"]
+[ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_ixxql"]
 [ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="2_ur38s"]
+[ext_resource type="Script" path="res://scripts/vr_viewport.gd" id="3_pv1f0"]
 
 [node name="GameController" type="Node3D"]
 process_mode = 3
 script = ExtResource("1_7tr6g")
-_song_path = "res://songs/TEST"
 
 [node name="SongPlayer" parent="." instance=ExtResource("2_ur38s")]
 
 [node name="SubViewport" type="SubViewport" parent="."]
 use_xr = true
 size = Vector2i(0, 0)
+script = ExtResource("3_pv1f0")
 
 [node name="Player" parent="SubViewport" instance=ExtResource("2_ixxql")]
 current = true

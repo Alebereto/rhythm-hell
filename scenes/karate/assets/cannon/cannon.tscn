@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://bodnphfa0q5ds"]
+[gd_scene load_steps=13 format=3 uid="uid://bodnphfa0q5ds"]
 
 [ext_resource type="Script" path="res://scenes/karate/assets/cannon/cannon.gd" id="1_tgywj"]
+[ext_resource type="AudioStream" uid="uid://dixcuu8lxfqmv" path="res://audio/sounds/shoot.wav" id="2_eolmd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e1qs4"]
 albedo_color = Color(0.446777, 0.446777, 0.446777, 1)
@@ -194,3 +195,9 @@ explosiveness = 0.97
 randomness = 0.15
 process_material = SubResource("ParticleProcessMaterial_qx0h4")
 draw_pass_1 = SubResource("SphereMesh_atkw1")
+
+[node name="ProjectileTimers" type="Node" parent="."]
+
+[node name="ShootSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_eolmd")
+volume_db = 1.0

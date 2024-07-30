@@ -5,3 +5,4 @@
 [node name="Main" type="Node"]
 process_mode = 3
 script = ExtResource("1_43msk")
+_song_path = "res://songs/GROOVE"
