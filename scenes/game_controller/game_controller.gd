@@ -47,7 +47,7 @@ var current_beat: float: get = _get_current_beat
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	_player.paused.connect(_on_player_paused)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -71,7 +71,7 @@ func load_song(song: Song) -> void:
 	var game_id = MICRO_GAMES.KARATE # TODO: get micro game from song
 	await _load_micro_game( game_id )
 
-	await _start_level(0, 3)
+	await _start_level(0, 15)
 
 
 ## Loads micro game
@@ -141,6 +141,12 @@ func _on_note_hit(dest_beat: float) -> void:
 	if hit_offset <= micro_game.perfect_timeframe: _perfect_notes += 1
 
 
+## Called when _song ends
+func _song_end() -> void:
+	# TODO: add timer and save some info
+	exit.emit()
+
+
 
 ## Reset game stats
 func _reset_stats() -> void:
@@ -163,12 +169,7 @@ func _unpause() -> void:
 	get_tree().paused = false
 	_song_player.play()
 	_close_menu()
-	
 
-## Called when _song ends
-func _song_end() -> void:
-	# TODO: add timer and save some info
-	exit.emit()
 
 
 func _show_menu() -> void:
@@ -180,6 +181,6 @@ func _close_menu() -> void:
 
 
 ## Called when player pressed menu button
-func _on_player_menu_button_pressed():
+func _on_player_paused():
 	if not game_paused: _pause()
 	else:				_unpause()

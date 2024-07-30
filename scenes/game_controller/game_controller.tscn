@@ -18,5 +18,3 @@ script = ExtResource("3_pv1f0")
 
 [node name="Player" parent="SubViewport" instance=ExtResource("2_ixxql")]
 current = true
-
-[connection signal="menu_button_pressed" from="SubViewport/Player" to="." method="_on_player_menu_button_pressed"]

@@ -3,14 +3,26 @@ extends MicroGame
 
 const CANNON_DELAY := 0.3
 
+var _right_puncher = null
+var _left_puncher = null
+
+
+@export var _projectiles_root: Node3D
+@export var _target: Node3D
 
 @export_group("Cannons")
 @export var _right_cannon: Node3D
 @export var _left_cannon: Node3D
 
+
+var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
+var _gravity_vector: Vector3 = ProjectSettings.get_setting("physics/3d/default_gravity_vector")
+
 # Projectiles
 const _projectile_scenes: Array[PackedScene] = [preload("res://scenes/karate/assets/projectiles/rock.tscn"),
 												preload("res://scenes/karate/assets/projectiles/barrel.tscn")]
+
+enum PROJECTILES{ROCK, BARREL}
 
 # Sounds
 var HitSound = preload("res://audio/sounds/hit.wav")
@@ -23,10 +35,15 @@ func _ready():
 func set_player(player: Player) -> void:
 	super(player)
 
-	# set karate hands
+	# Set player hands and get refrences to them
+	_right_puncher = player.set_right_hand( Globals.HAND.PUNCHER )
+	_left_puncher = player.set_left_hand( Globals.HAND.PUNCHER )
 
 	# connect hand signals
-	# _player.right_hand_entered_body.connect(_on_player_right_hand_entered_body)
+	_right_puncher.projectile_hit.connect(_on_right_puncher_hit_projectile)
+	_left_puncher.projectile_hit.connect(_on_left_puncher_hit_projectile)
+	_right_puncher.projectile_touched.connect(_on_right_puncher_touch_projectile)
+	_left_puncher.projectile_touched.connect(_on_left_puncher_touch_projectile)
 
 
 
@@ -45,6 +62,7 @@ func play_note(note: Dictionary):
 	
 	# Fire projectile
 	await cannon.fire(projectile, fire_time)
+	note_played.emit()
 
 
 func _get_note_delay( _note ): return CANNON_DELAY
@@ -58,21 +76,61 @@ func _create_projectile( note ) -> Projectile:
 		id = 0
 
 	var projectile: Projectile = _projectile_scenes[id].instantiate()
-	projectile.hit.connect(_on_note_hit, ConnectFlags.CONNECT_ONE_SHOT)
 	projectile.destination_beat = note["b"]
 
 	return projectile
 
 
-func _on_note_hit(dest_beat: float) -> void:
-	note_hit.emit(dest_beat)
 
 
 
+func _on_right_puncher_hit_projectile( projectile: Projectile ) -> void:
+	_on_hit_projectile(projectile)
 
-func _on_player_right_hand_entered_body(body):
-	if not (body is Projectile): return
-	# body is a projectile ======
+func _on_left_puncher_hit_projectile( projectile: Projectile ) -> void:
+	_on_hit_projectile(projectile)
 
-	body.apply_impulse(Vector3(0,0,-10))
+func _on_hit_projectile( projectile: Projectile) -> void:
+	projectile.on_hit()
+	note_hit.emit()
+	# if projectile was a barrel
+	if projectile.id == 1: _summon_from_barrel( projectile )
+		
 
+func _on_right_puncher_touch_projectile( projectile: Projectile ) -> void:
+	_on_touch_projectile(projectile)
+
+func _on_left_puncher_touch_projectile( projectile: Projectile ) -> void:
+	_on_touch_projectile(projectile)
+
+func _on_touch_projectile( projectile: Projectile ) -> void:
+	projectile.on_touch()
+	note_missed.emit()
+
+
+func _calculate_impulse(projectile: Projectile, destination: Node3D, travel_time: float) -> Vector3:
+
+	var impulse: Vector3 = (destination.global_position - projectile.global_position) / travel_time
+	impulse -= _gravity_vector * _gravity * 0.5 * travel_time
+
+	impulse /= projectile.mass
+
+	return impulse
+
+func _summon_from_barrel( barrel: Projectile):
+	const BEAT_DELAY = 1
+	var travel_time = song.beats_to_seconds(BEAT_DELAY)
+
+	var projectile_scene: PackedScene = barrel.contained_projectile
+	var contained_proj: Projectile = projectile_scene.instantiate()
+
+	contained_proj.destination_beat = barrel.destination_beat + BEAT_DELAY
+	contained_proj.position = barrel.position
+	contained_proj.position.y += 0.6
+
+	_projectiles_root.add_child(contained_proj)
+	var impulse = _calculate_impulse( contained_proj, _target, travel_time )
+	var torque = Vector3(1,2,2)	# TODO: make random vector
+
+	contained_proj.apply_impulse(impulse)
+	contained_proj.apply_torque_impulse(torque)

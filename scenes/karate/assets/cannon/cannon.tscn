@@ -160,6 +160,8 @@ scale_max = 0.5
 material = SubResource("StandardMaterial3D_78qlx")
 radius = 0.2
 height = 0.4
+radial_segments = 4
+rings = 2
 
 [node name="Cannon" type="Node3D"]
 script = ExtResource("1_tgywj")
@@ -188,7 +190,7 @@ libraries = {
 [node name="PoofEffect" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.63228, 1.34434)
 emitting = false
-amount = 20
+amount = 10
 lifetime = 0.3
 one_shot = true
 explosiveness = 0.97

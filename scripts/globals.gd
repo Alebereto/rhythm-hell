@@ -3,6 +3,10 @@ extends Node
 enum ITEM_TYPE {NOTE, EVENT, MARKER}
 enum TOOL {SELECT, DELETE, ITEM}
 
+enum HAND {PUNCHER}
+
+enum PROJECTILES{ROCK, BARREL}
+
 const SAVE_FILE_NAME = "save.dat"
 const AUDIO_FILE_NAME = "song.ogg"
 
@@ -10,6 +14,7 @@ const SECONDS_IN_MINUTE = 60
 const MILISECONDS_IN_SECOND = 1000000.0
 
 
+## Gets seconds, returns string of clock display MM:SS
 func format_seconds(seconds: float) -> String:
 	var minute = floor(seconds / float(SECONDS_IN_MINUTE))
 	var second = floor(int(seconds) % SECONDS_IN_MINUTE)
@@ -18,6 +23,7 @@ func format_seconds(seconds: float) -> String:
 
 	return "%s:%s%s" % [str(minute), pad, str(second)]
 
+## Gets path to level files, returns true if level is valid
 func legal_song_path(_song_path: String) -> bool:
 	# check if dat and ogg files exist in directory ================
 	return true
