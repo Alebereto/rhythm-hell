@@ -1,7 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://deckjfxueeioc"]
+[gd_scene load_steps=8 format=3 uid="uid://deckjfxueeioc"]
 
 [ext_resource type="Script" path="res://objects/player/player.gd" id="1_wdlaw"]
-[ext_resource type="PackedScene" uid="uid://xvemntj5uwcf" path="res://objects/player/hands/wand.tscn" id="2_pvxke"]
+[ext_resource type="PackedScene" uid="uid://cr8xs0pawumh2" path="res://objects/player/hand_controller.tscn" id="2_qcrnx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_phy7n"]
 size = Vector3(0.243, 0.127, 0.061)
@@ -15,34 +15,6 @@ albedo_color = Color(0, 0, 0, 0.6)
 
 [sub_resource type="SphereMesh" id="SphereMesh_uv6yw"]
 material = SubResource("StandardMaterial3D_hai24")
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_vnj8g"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5ldil"]
-albedo_color = Color(0, 0, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_v26kk"]
-material = SubResource("StandardMaterial3D_5ldil")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mq6do"]
-albedo_color = Color(0, 0, 1, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_tfsx7"]
-material = SubResource("StandardMaterial3D_mq6do")
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_0wq0i"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hh3re"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_x1414"]
-material = SubResource("StandardMaterial3D_hh3re")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_la08a"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_vew3d"]
-material = SubResource("StandardMaterial3D_la08a")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w3nc8"]
 radius = 0.3
@@ -77,63 +49,17 @@ visible = false
 cast_shadow = 0
 mesh = SubResource("SphereMesh_uv6yw")
 
-[node name="RightController" type="XRController3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.434729)
+[node name="RightController" parent="." instance=ExtResource("2_qcrnx")]
 tracker = &"right_hand"
+_hand_color = Color(0, 0, 1, 1)
 
-[node name="RightHand" type="Area3D" parent="RightController"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RightController/RightHand"]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-shape = SubResource("SphereShape3D_vnj8g")
-
-[node name="Cube" type="MeshInstance3D" parent="RightController/RightHand"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
-mesh = SubResource("BoxMesh_v26kk")
-skeleton = NodePath("../..")
-
-[node name="Rod" type="MeshInstance3D" parent="RightController/RightHand"]
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.1, 0, 0, 0.1)
-mesh = SubResource("BoxMesh_tfsx7")
-skeleton = NodePath("../..")
-
-[node name="Wand" parent="RightController" instance=ExtResource("2_pvxke")]
-process_mode = 4
-visible = false
-
-[node name="LeftController" type="XRController3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.434729)
+[node name="LeftController" parent="." instance=ExtResource("2_qcrnx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.435)
 tracker = &"left_hand"
-
-[node name="LeftHand" type="Area3D" parent="LeftController"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftController/LeftHand"]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-shape = SubResource("SphereShape3D_0wq0i")
-
-[node name="Cube" type="MeshInstance3D" parent="LeftController/LeftHand"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
-mesh = SubResource("BoxMesh_x1414")
-skeleton = NodePath("../..")
-
-[node name="Rod" type="MeshInstance3D" parent="LeftController/LeftHand"]
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.1, 0, 0, 0.1)
-mesh = SubResource("BoxMesh_vew3d")
-skeleton = NodePath("../..")
-
-[node name="Wand" parent="LeftController" instance=ExtResource("2_pvxke")]
-process_mode = 4
-visible = false
-color = Color(1, 0, 0, 1)
+_hand_color = Color(1, 0, 0, 1)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_w3nc8")
-
-[connection signal="button_pressed" from="RightController" to="." method="_on_right_controller_button_pressed"]
-[connection signal="button_released" from="RightController" to="." method="_on_right_controller_button_released"]
-[connection signal="body_entered" from="RightController/RightHand" to="." method="_on_right_hand_body_entered"]
-[connection signal="body_shape_entered" from="RightController/RightHand" to="." method="_on_right_hand_body_shape_entered"]
-[connection signal="body_entered" from="LeftController/LeftHand" to="." method="_on_left_hand_body_entered"]

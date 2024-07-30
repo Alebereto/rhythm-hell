@@ -11,6 +11,7 @@ bottom_radius = 0.02
 height = 0.2
 
 [node name="Wand" type="Node3D"]
+process_mode = 3
 script = ExtResource("1_fotyd")
 
 [node name="Model" type="Node3D" parent="."]

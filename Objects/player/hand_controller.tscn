@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr8xs0pawumh2"]
+
+[ext_resource type="Script" path="res://objects/player/hand_controller.gd" id="1_kmbs4"]
+[ext_resource type="PackedScene" uid="uid://xvemntj5uwcf" path="res://objects/player/hands/wand.tscn" id="2_edlys"]
+
+[node name="HandController" type="XRController3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.435)
+script = ExtResource("1_kmbs4")
+
+[node name="Wand" parent="." instance=ExtResource("2_edlys")]

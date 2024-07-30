@@ -1,21 +1,23 @@
 class_name Player extends Node3D
 
+signal paused
 
-signal right_trigger_pressed
-signal menu_button_pressed
-signal right_hand_entered_body(body)
+var height: float = 170
 
+const _HANDS: Array[PackedScene] = [preload("res://objects/player/hands/puncher.tscn")]
 
 @onready var right_controller: XRController3D = $RightController
 @onready var left_controller: XRController3D = $LeftController
 
+func _ready():
+	right_controller.menu_button_pressed.connect(_on_pause)
+	left_controller.menu_button_pressed.connect(_on_pause)
 
-func _on_right_hand_body_entered(body):
-	right_hand_entered_body.emit(body)
+func _on_pause() -> void:
+	paused.emit()
 
+func set_right_hand( hand: int ):
+	return right_controller.set_hand( _HANDS[hand] )
 
-func _on_right_controller_button_pressed(button_name):
-	match button_name:
-		"trigger_click": right_trigger_pressed.emit()
-		"menu_button":	 menu_button_pressed.emit()
-
+func set_left_hand( hand: int ):
+	return left_controller.set_hand( _HANDS[hand] )
