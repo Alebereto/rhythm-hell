@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://deckjfxueeioc"]
+[gd_scene load_steps=18 format=3 uid="uid://deckjfxueeioc"]
 
 [ext_resource type="Script" path="res://objects/player/player.gd" id="1_wdlaw"]
+[ext_resource type="PackedScene" uid="uid://xvemntj5uwcf" path="res://objects/player/hands/wand.tscn" id="2_pvxke"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_phy7n"]
 size = Vector3(0.243, 0.127, 0.061)
@@ -96,6 +97,10 @@ transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.1, 0, 0, 0.1)
 mesh = SubResource("BoxMesh_tfsx7")
 skeleton = NodePath("../..")
 
+[node name="Wand" parent="RightController" instance=ExtResource("2_pvxke")]
+process_mode = 4
+visible = false
+
 [node name="LeftController" type="XRController3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.434729)
 tracker = &"left_hand"
@@ -115,6 +120,11 @@ skeleton = NodePath("../..")
 transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.1, 0, 0, 0.1)
 mesh = SubResource("BoxMesh_vew3d")
 skeleton = NodePath("../..")
+
+[node name="Wand" parent="LeftController" instance=ExtResource("2_pvxke")]
+process_mode = 4
+visible = false
+color = Color(1, 0, 0, 1)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 

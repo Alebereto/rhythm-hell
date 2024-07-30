@@ -6,6 +6,9 @@ signal menu_button_pressed
 signal right_hand_entered_body(body)
 
 
+@onready var right_controller: XRController3D = $RightController
+@onready var left_controller: XRController3D = $LeftController
+
 
 func _on_right_hand_body_entered(body):
 	right_hand_entered_body.emit(body)
