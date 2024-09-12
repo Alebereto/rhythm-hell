@@ -1,11 +1,17 @@
 extends Node3D
 
+
+signal vibrate
+
+
 # Max length that the laser and ray cast gets to
 @export_range(0,32) var max_laser_length: float = 16
 
 var _using_laser = false
 var using_laser: bool:
 	get: return _using_laser
+
+var _focused_menu = null
 
 # Wand rod mesh
 @onready var _rod: MeshInstance3D = $Model/Rod
@@ -21,26 +27,36 @@ var using_laser: bool:
 var _clicking: bool:
 	get: return get_parent().clicking
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_laser.target_position.y = max_laser_length	# set ray length
 
 func _process(_delta):
 	
-	if _using_laser:
-		if _laser.is_colliding():
-			# Update laser length
-			var cast_point = _laser.get_collision_point()
-			var d = _laser.global_position.distance_to(cast_point)
-			_set_laser_length(d)
+	if _using_laser: _handle_laser()
+		
 
-			# check if colliding with vr ui
-			var collider = _laser.get_collider()
-			if collider is VRUI:
-				collider.on_ray_movement(cast_point, _clicking)
-		else:
-			_set_laser_length(max_laser_length)
 
+func _handle_laser():
+	# update colliding object
+	var collider = _laser.get_collider()
+	if collider != _focused_menu:
+		# entering menu
+		if collider is VRUI and _focused_menu == null: _focus(collider)
+		# leaving menu
+		if collider == null and _focused_menu is VRUI: unfocus()
+
+	if _laser.is_colliding():
+		# Update laser length
+		var cast_point = _laser.get_collision_point()
+		var d = _laser.global_position.distance_to(cast_point)
+		_set_laser_length(d)
+
+		if _focused_menu is VRUI:
+			_focused_menu.on_ray_movement(cast_point, _clicking)
+	else:
+		_set_laser_length(max_laser_length)
 
 func _set_laser_length(l: float) -> void:
 	var h = min(l, max_laser_length)
@@ -50,6 +66,27 @@ func _set_laser_length(l: float) -> void:
 
 func set_color(color: Color) -> void:
 	_rod.get_active_material(0).albedo_color = color
+
+
+func _on_hover_item() -> void:
+	vibrate.emit()
+
+
+## Called when focusing on a menu
+func _focus(menu: VRUI) -> void:
+	# connect hover signal
+	menu.hovered.connect(_on_hover_item)
+
+	_focused_menu = menu
+
+## Called when unfocusing from a menu
+func unfocus() -> void:
+	if _focused_menu is VRUI:
+		_focused_menu.on_ray_leave()
+		# disconnect hover signal
+		if _focused_menu.hovered.is_connected(_on_hover_item): _focused_menu.hovered.disconnect(_on_hover_item)
+
+	_focused_menu = null
 
 
 ## Gets called by hand controller when clicking or releasing menu click button
@@ -67,6 +104,7 @@ func laser_on():
 	_using_laser = true
 
 func laser_off():
+	unfocus()
 	_using_laser = false
 	_laser.visible = false
 	_laser.process_mode = Node.PROCESS_MODE_DISABLED

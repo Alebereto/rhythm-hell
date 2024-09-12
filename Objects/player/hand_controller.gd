@@ -41,10 +41,17 @@ func set_wand_state(state: bool) -> void:
 		_wand.visible = true
 		_wand.process_mode = Node.PROCESS_MODE_ALWAYS
 		_using_wand = true
+		if _hand != null:
+			_hand.visible = false
+			_hand.process_mode = Node.PROCESS_MODE_DISABLED
 	else:
+		if _using_wand: _wand.unfocus()
 		_wand.visible = false
 		_wand.process_mode = Node.PROCESS_MODE_DISABLED
 		_using_wand = false
+		if _hand != null:
+			_hand.visible = true
+			_hand.process_mode = Node.PROCESS_MODE_INHERIT
 
 ## Instantiates and adds hand to controller
 func set_hand( hand_scene: PackedScene ):
@@ -60,9 +67,8 @@ func set_hand( hand_scene: PackedScene ):
 	return hand
 
 
-
 func vibrate() -> void:
-	trigger_haptic_pulse("haptic", 0, 0.3, 0.1, 0)
+	trigger_haptic_pulse("haptic", 0, 0.1, 0.1, 0)
 
 
 func _on_button_pressed(button_name):

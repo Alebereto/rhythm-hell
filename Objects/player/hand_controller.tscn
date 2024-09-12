@@ -10,3 +10,4 @@ script = ExtResource("1_kmbs4")
 
 [connection signal="button_pressed" from="." to="." method="_on_button_pressed"]
 [connection signal="button_released" from="." to="." method="_on_button_released"]
+[connection signal="vibrate" from="Wand" to="." method="vibrate"]
