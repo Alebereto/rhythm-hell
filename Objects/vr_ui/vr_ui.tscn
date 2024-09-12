@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://c26q4xhax7ru6"]
+
+[ext_resource type="Script" path="res://objects/vr_ui/vr_ui.gd" id="1_dvmsh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qow32"]
+resource_local_to_scene = true
+size = Vector3(0, 0, 0.1)
+
+[node name="VRMenu" type="Area3D"]
+collision_layer = 33
+monitoring = false
+monitorable = false
+script = ExtResource("1_dvmsh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
+shape = SubResource("BoxShape3D_qow32")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+render_priority = -1

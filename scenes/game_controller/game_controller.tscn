@@ -1,9 +1,67 @@
-[gd_scene load_steps=5 format=3 uid="uid://rup8doholb8h"]
+[gd_scene load_steps=11 format=3 uid="uid://rup8doholb8h"]
 
 [ext_resource type="Script" path="res://scenes/game_controller/game_controller.gd" id="1_7tr6g"]
 [ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_ixxql"]
 [ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="2_ur38s"]
-[ext_resource type="Script" path="res://scripts/vr_viewport.gd" id="3_pv1f0"]
+[ext_resource type="PackedScene" uid="uid://c26q4xhax7ru6" path="res://objects/vr_ui/vr_ui.tscn" id="4_3gyv0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8c1el"]
+bg_color = Color(0.144343, 0.217038, 0.253359, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_flxdr"]
+bg_color = Color(0.247867, 0.354155, 0.407391, 1)
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_23fr2"]
+bg_color = Color(0.0860509, 0.138072, 0.164044, 1)
+border_width_bottom = 5
+border_color = Color(0.552956, 0.552956, 0.552955, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dg1ct"]
+bg_color = Color(0.144343, 0.217038, 0.253359, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1px7o"]
+bg_color = Color(0.808137, 3.32102e-06, 4.81307e-07, 1)
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_csttq"]
+bg_color = Color(0.726223, 3.46541e-06, 2.88785e-07, 1)
+border_width_bottom = 5
+border_color = Color(0.625597, 0.625597, 0.625597, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
 
 [node name="GameController" type="Node3D"]
 process_mode = 3
@@ -11,10 +69,59 @@ script = ExtResource("1_7tr6g")
 
 [node name="SongPlayer" parent="." instance=ExtResource("2_ur38s")]
 
-[node name="SubViewport" type="SubViewport" parent="."]
-use_xr = true
-size = Vector2i(0, 0)
-script = ExtResource("3_pv1f0")
-
-[node name="Player" parent="SubViewport" instance=ExtResource("2_ixxql")]
+[node name="Player" parent="." instance=ExtResource("2_ixxql")]
 current = true
+
+[node name="MenuPanel" parent="." node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("4_3gyv0")]
+process_mode = 4
+transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 0, 1.23902, -2.58684)
+visible = false
+_ui_viewport = NodePath("MenuUI")
+
+[node name="MenuUI" type="SubViewport" parent="MenuPanel"]
+transparent_bg = true
+size = Vector2i(400, 128)
+
+[node name="Control" type="Control" parent="MenuPanel/MenuUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MenuPanel/MenuUI/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+
+[node name="Resume" type="Button" parent="MenuPanel/MenuUI/Control/HBoxContainer"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_8c1el")
+theme_override_styles/hover = SubResource("StyleBoxFlat_flxdr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_23fr2")
+text = "Resume"
+
+[node name="Exit" type="Button" parent="MenuPanel/MenuUI/Control/HBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_dg1ct")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1px7o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_csttq")
+text = "Exit"
+
+[connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/HBoxContainer/Resume" to="MenuPanel" method="_on_hovered"]
+[connection signal="pressed" from="MenuPanel/MenuUI/Control/HBoxContainer/Resume" to="." method="_on_menu_resume_pressed"]
+[connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/HBoxContainer/Exit" to="MenuPanel" method="_on_hovered"]
+[connection signal="pressed" from="MenuPanel/MenuUI/Control/HBoxContainer/Exit" to="." method="_on_menu_exit_pressed"]

@@ -22,6 +22,7 @@ environment = SubResource("Environment_j13s4")
 transform = Transform3D(0.734062, 0.413362, -0.538781, 0, 0.793396, 0.608706, 0.679083, -0.446828, 0.582402, -4.82052, 5.79445, 0)
 
 [node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 33
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0)
