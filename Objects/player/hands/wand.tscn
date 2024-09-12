@@ -1,22 +1,85 @@
-[gd_scene load_steps=4 format=3 uid="uid://xvemntj5uwcf"]
+[gd_scene load_steps=10 format=3 uid="uid://xvemntj5uwcf"]
 
 [ext_resource type="Script" path="res://objects/player/hands/wand.gd" id="1_fotyd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oy8md"]
+resource_local_to_scene = true
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_o02t7"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_oy8md")
 top_radius = 0.02
 bottom_radius = 0.02
-height = 0.2
+height = 0.19
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ppg0c"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bgku4"]
+material = SubResource("StandardMaterial3D_ppg0c")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oe5u5"]
+transparency = 4
+albedo_color = Color(1, 1, 1, 0.54902)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xaf6x"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_oe5u5")
+top_radius = 0.005
+bottom_radius = 0.005
+height = 0.02
+radial_segments = 16
+cap_top = false
+cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0g2ku"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.588235)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 5.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_lf4je"]
+material = SubResource("StandardMaterial3D_0g2ku")
+radius = 0.01
+height = 0.02
+radial_segments = 16
+rings = 4
 
 [node name="Wand" type="Node3D"]
 process_mode = 3
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 script = ExtResource("1_fotyd")
 
 [node name="Model" type="Node3D" parent="."]
 
 [node name="Rod" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.100254)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.105, 0)
 mesh = SubResource("CylinderMesh_o02t7")
 skeleton = NodePath("../..")
+
+[node name="Halo" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0)
+mesh = SubResource("CylinderMesh_bgku4")
+
+[node name="Laser" type="RayCast3D" parent="."]
+process_mode = 4
+visible = false
+target_position = Vector3(0, 0.02, 0)
+collide_with_areas = true
+
+[node name="Beam" type="MeshInstance3D" parent="Laser"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+mesh = SubResource("CylinderMesh_xaf6x")
+
+[node name="SelectIndicator" type="MeshInstance3D" parent="Laser"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.020146, 8.80608e-10)
+mesh = SubResource("SphereMesh_lf4je")

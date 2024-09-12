@@ -18,6 +18,7 @@ material = SubResource("StandardMaterial3D_hai24")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w3nc8"]
 radius = 0.3
+height = 1.7
 
 [node name="Player" type="XROrigin3D"]
 script = ExtResource("1_wdlaw")
@@ -46,10 +47,12 @@ mesh = SubResource("BoxMesh_526ds")
 [node name="BlackBox" type="MeshInstance3D" parent="XRCamera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.186045)
 visible = false
+layers = 2
 cast_shadow = 0
 mesh = SubResource("SphereMesh_uv6yw")
 
 [node name="RightController" parent="." instance=ExtResource("2_qcrnx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.435)
 tracker = &"right_hand"
 _hand_color = Color(0, 0, 1, 1)
 
@@ -61,5 +64,8 @@ _hand_color = Color(1, 0, 0, 1)
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 shape = SubResource("CapsuleShape3D_w3nc8")
+
+[connection signal="trigger_pressed" from="RightController" to="." method="_on_right_trigger_pressed"]
+[connection signal="trigger_pressed" from="LeftController" to="." method="_on_left_trigger_pressed"]
