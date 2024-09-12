@@ -43,7 +43,7 @@ mesh = SubResource("PlaneMesh_raga8")
 shape = SubResource("WorldBoundaryShape3D_cye1y")
 
 [node name="Block" type="StaticBody3D" parent="."]
-transform = Transform3D(0.739149, 0, 0.673542, 0, 1, 0, -0.673542, 0, 0.739149, -1.8277, 1.18093, -2.25884)
+transform = Transform3D(0.739149, 0, 0.673542, 0, 1, 0, -0.673542, 0, 0.739149, -3.66912, 0.295866, -4.67662)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Block"]
 mesh = SubResource("BoxMesh_738dx")
@@ -52,7 +52,7 @@ mesh = SubResource("BoxMesh_738dx")
 shape = SubResource("BoxShape3D_xh73m")
 
 [node name="Block2" type="StaticBody3D" parent="."]
-transform = Transform3D(0.634299, 0, 0.773088, 0, 1, 0, -0.773088, 0, 0.634299, 2.29932, 1.45939, -2.00497)
+transform = Transform3D(0.634299, 0, 0.773088, 0, 1, 0, -0.773088, 0, 0.634299, 2.29932, 0.506551, -3.9181)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Block2"]
 mesh = SubResource("BoxMesh_738dx")

@@ -1,12 +1,183 @@
-[gd_scene load_steps=4 format=3 uid="uid://b41o8w7mxnikc"]
+[gd_scene load_steps=6 format=3 uid="uid://b41o8w7mxnikc"]
 
-[ext_resource type="Script" path="res://scenes/test/main.gd" id="1_332sb"]
+[ext_resource type="Script" path="res://scenes/test/test_scene.gd" id="1_332sb"]
 [ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_0263t"]
 [ext_resource type="PackedScene" uid="uid://cyg852sar6vap" path="res://scenes/test/assets/test_world.tscn" id="3_tjrbu"]
+[ext_resource type="PackedScene" uid="uid://c26q4xhax7ru6" path="res://objects/vr_ui/vr_ui.tscn" id="3_tt5un"]
 
-[node name="Main" type="Node3D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4li0f"]
+content_margin_left = 34.0
+content_margin_top = 49.0
+content_margin_right = 34.0
+content_margin_bottom = 49.0
+bg_color = Color(0.314316, 0.314316, 0.314316, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.650128, 0.650128, 0.650128, 1)
+corner_radius_top_left = 35
+corner_radius_top_right = 35
+corner_radius_bottom_right = 35
+corner_radius_bottom_left = 35
+
+[node name="Test" type="Node3D"]
 script = ExtResource("1_332sb")
 
 [node name="Player" parent="." instance=ExtResource("2_0263t")]
+
+[node name="VRButton" parent="." node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("3_tt5un")]
+transform = Transform3D(0.425, 0, 0, 0, 0.425, 0, 0, 0, 0.425, 0, 1.35545, -2.47963)
+_ui_viewport = NodePath("TestUI")
+
+[node name="TestUI" type="SubViewport" parent="VRButton"]
+transparent_bg = true
+size = Vector2i(700, 512)
+
+[node name="Control" type="Control" parent="VRButton/TestUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VRButton/TestUI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VRButton/TestUI/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 95
+
+[node name="Button" type="Button" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+focus_mode = 0
+text = "Button"
+
+[node name="PanelContainer" type="PanelContainer" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.86
+theme_override_styles/panel = SubResource("StyleBoxFlat_4li0f")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="HSlider" type="HSlider" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="VSlider" type="VSlider" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="SpinBox" type="SpinBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+custom_arrow_step = 1.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VRButton/TestUI/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CheckButton" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="CheckButton2" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="CheckButton3" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="CheckButton4" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="CheckButton5" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="CheckButton6" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="CheckButton7" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="CheckButton8" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="CheckButton9" type="CheckButton" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+focus_mode = 0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CheckBox" type="CheckBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Box1"
+
+[node name="CheckBox2" type="CheckBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Box1"
+
+[node name="CheckBox3" type="CheckBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Box1"
+
+[node name="CheckBox4" type="CheckBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Box1"
+
+[node name="CheckBox5" type="CheckBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Box1"
+
+[node name="CheckBox6" type="CheckBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Box1"
+
+[node name="CheckBox7" type="CheckBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Box1"
+
+[node name="CheckBox8" type="CheckBox" parent="VRButton/TestUI/Control/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+layout_mode = 2
+focus_mode = 0
+text = "Box1"
 
 [node name="World" parent="." instance=ExtResource("3_tjrbu")]
