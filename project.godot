@@ -52,6 +52,7 @@ level_editor_save={
 3d_render/layer_1="On all"
 3d_render/layer_2="Only HMD"
 3d_render/layer_3="Only Desktop"
+3d_physics/layer_6="Laser Touchable"
 
 [physics]
 
