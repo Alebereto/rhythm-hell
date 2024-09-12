@@ -4,8 +4,6 @@ extends Node
 const MainMenuScene: PackedScene = preload("res://scenes/main_menu/main_menu.tscn")
 const GameControllerScene: PackedScene = preload("res://scenes/game_controller/game_controller.tscn")
 
-@export_dir var _song_path: String	# temp path for song to load
-
 
 var _current_scene: Node = null	# The current scene that player is in
 
@@ -13,12 +11,7 @@ var _current_scene: Node = null	# The current scene that player is in
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	# await _load_main_menu()
-
-	# temporary load song
-	var song = Song.new(_song_path)
-	await _load_game_controller( song )
-
+	await _load_main_menu()
 
 
 func _load_main_menu():
