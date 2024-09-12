@@ -24,6 +24,7 @@ func set_right_hand( hand: int ):
 func set_left_hand( hand: int ):
 	return left_controller.set_hand( _HANDS[hand] )
 
+
 func set_wands_state(state: bool):
 	right_controller.set_wand_state(state)
 	left_controller.set_wand_state(state)
@@ -33,7 +34,6 @@ func _on_right_trigger_pressed() -> void:
 	if not right_controller.wand.using_laser:
 		left_controller.wand.laser_off()
 		right_controller.wand.laser_on()
-
 
 func _on_left_trigger_pressed() -> void:
 	if not left_controller.wand.using_laser:

@@ -79,7 +79,7 @@ func _create_mouse_motion_event(viewport_point: Vector2, clicking: bool) -> void
 
 ## Called by wand when it stops pointing at ui
 func on_ray_leave() -> void:
-	var p = Vector2(0,0)
+	var p = Vector2(-1,-1)
 	_create_mouse_click_event(p, false)
 	_create_mouse_motion_event(p, false)
 	_last_event_pos = null

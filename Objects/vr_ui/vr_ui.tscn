@@ -6,7 +6,10 @@
 resource_local_to_scene = true
 size = Vector3(0, 0, 0.1)
 
-[node name="VRButton" type="Area3D"]
+[node name="VRMenu" type="Area3D"]
+collision_layer = 33
+monitoring = false
+monitorable = false
 script = ExtResource("1_dvmsh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

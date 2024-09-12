@@ -12,9 +12,11 @@ const MICRO_GAME_SCENES = [ preload("res://scenes/karate/karate.tscn") ]
 
 
 # Get Player reference
-@onready var _player: Player = $SubViewport/Player
+@onready var _player: Player = $Player
 # Get song player
 @onready var _song_player: SongPlayer = $SongPlayer
+
+@onready var _menu_panel: VRUI = $MenuPanel
 
 
 # contains _song information
@@ -71,7 +73,7 @@ func load_song(song: Song) -> void:
 	var game_id = MICRO_GAMES.KARATE # TODO: get micro game from song
 	await _load_micro_game( game_id )
 
-	await _start_level(0, 15)
+	await _start_level(0, 2)
 
 
 ## Loads micro game
@@ -161,22 +163,29 @@ func _play_sound( _sound ) -> void:
 ## Called when game is paused by the user
 func _pause() -> void:
 	get_tree().paused = true
+	_player.set_wands_state(true)
 	_song_player.pause()
-	_show_menu()
+	_show_menu(true)
 
 ## Called when game is resumed
 func _unpause() -> void:
 	get_tree().paused = false
+	_player.set_wands_state(false)
 	_song_player.play()
-	_close_menu()
+	_show_menu(false)
 
 
 
-func _show_menu() -> void:
-	pass
-
-func _close_menu() -> void:
-	pass
+func _show_menu(state: bool) -> void:
+	if state:
+		_menu_panel.process_mode = Node.PROCESS_MODE_INHERIT
+		_menu_panel.visible = true
+		for obj in get_tree().get_nodes_in_group("hidden_in_menu"): obj.visible = false
+			
+	else:
+		_menu_panel.process_mode = Node.PROCESS_MODE_DISABLED
+		_menu_panel.visible = false
+		for obj in get_tree().get_nodes_in_group("hidden_in_menu"): obj.visible = true
 
 
 
@@ -184,3 +193,12 @@ func _close_menu() -> void:
 func _on_player_paused():
 	if not game_paused: _pause()
 	else:				_unpause()
+
+
+func _on_menu_resume_pressed():
+	if game_paused: _unpause()
+
+
+func _on_menu_exit_pressed():
+	get_tree().paused = false
+	exit.emit()
