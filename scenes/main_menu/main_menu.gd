@@ -1,5 +1,7 @@
 extends Node3D
 
+signal exit
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -9,3 +11,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func _on_play_pressed():
+	print("Play pressed!")
+
+
+func _on_exit_pressed():
+	get_tree().quit()
