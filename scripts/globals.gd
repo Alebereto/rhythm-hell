@@ -40,6 +40,23 @@ func clone_item_info(item_info: ItemInfo) -> ItemInfo:
 	return cloned_item_info
 
 
+
+class Queue:
+	var q: Array = []
+	var max_length
+
+	func _init(max_len = INF):
+		max_length = max_len
+
+	func add(item):
+		if len(q) >= max_length: q.pop_front()
+		q.push_back(item)
+		
+	func peek():
+		return q.front()
+
+
+
 class ItemInfo:
 	var name: String = "default"
 	var type: Globals.ITEM_TYPE
