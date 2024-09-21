@@ -8,7 +8,7 @@ Base for micro-games
 signal exit
 
 enum MICRO_GAMES{ KARATE=0 }
-const MICRO_GAME_SCENES = [ preload("res://scenes/karate/karate.tscn") ]
+const MICRO_GAME_SCENES = [ preload("res://scenes/micro_games/karate/karate.tscn") ]
 
 
 # Get Player reference

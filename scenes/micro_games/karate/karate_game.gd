@@ -19,8 +19,8 @@ var _gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var _gravity_vector: Vector3 = ProjectSettings.get_setting("physics/3d/default_gravity_vector")
 
 # Projectiles
-const _projectile_scenes: Array[PackedScene] = [preload("res://scenes/karate/assets/projectiles/rock.tscn"),
-												preload("res://scenes/karate/assets/projectiles/barrel.tscn")]
+const _projectile_scenes: Array[PackedScene] = [preload("res://scenes/micro_games/karate/assets/projectiles/rock.tscn"),
+												preload("res://scenes/micro_games/karate/assets/projectiles/barrel.tscn")]
 
 enum PROJECTILES{ROCK, BARREL}
 
