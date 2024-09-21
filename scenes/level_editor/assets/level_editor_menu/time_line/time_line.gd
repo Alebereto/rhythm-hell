@@ -14,7 +14,7 @@ var _current_tool: Globals.TOOL
 
 
 ## Called when loading song
-func load_song(song: Song) -> void:
+func load_song(song: Level) -> void:
 	
 	_on_total_beats_changed(song.beat_count)
 	_time_line_grid.on_load_song(song)

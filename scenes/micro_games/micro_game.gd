@@ -16,7 +16,7 @@ signal play_sound( sound )
 
 var _note_timers_root: Node
 
-var song: Song = null
+var song: Level = null
 
 var _player: Player = null
 

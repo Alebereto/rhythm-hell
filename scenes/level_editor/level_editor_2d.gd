@@ -48,7 +48,7 @@ func _load_main_menu() -> void:
 	_show_menu(MENU.MAIN_MENU)
 
 ## Load the level editor with given song
-func _load_level_editor_menu(song: Song) -> void:
+func _load_level_editor_menu(song: Level) -> void:
 
 	var success = _level_editor_menu.load_song(song)
 	if not success: return
@@ -77,12 +77,12 @@ func _load_level() -> void:
 	var song_path = await _get_level_path()
 	if song_path == null: return
 	# load song info
-	var song = Song.new(song_path)
+	var song = Level.new(song_path)
 
 	_load_level_editor_menu(song)
 
 ## Called when creating new song
-func _load_new_level(song: Song) -> void:
+func _load_new_level(song: Level) -> void:
 	_load_level_editor_menu(song)
 
 
@@ -112,7 +112,7 @@ func _save_level(song_name: String, save_data: Dictionary, audio_source: String)
 		DirAccess.copy_absolute(audio_source, audio_path)
 
 
-func _on_save_requested(song: Song) -> void:
+func _on_save_requested(song: Level) -> void:
 	# TODO: check if level exists and show prompt of overwriting
 	_save_level(song.song_name, song.data, song.audio_path)
 
@@ -136,5 +136,5 @@ func _on_header_tabs_save_song_requested():
 	_level_editor_menu.save()
 
 
-func _on_level_editor_menu_save_level(song: Song):
+func _on_level_editor_menu_save_level(song: Level):
 	_on_save_requested(song)

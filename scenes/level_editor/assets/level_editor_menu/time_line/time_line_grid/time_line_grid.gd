@@ -19,7 +19,7 @@ const MARKER_PATH = ""
 
 
 
-var _song: Song
+var _song: Level
 
 
 @export_category("Customize")
@@ -60,7 +60,7 @@ var snap_beats: float = 1.0
 
 
 ## Gets song information. Called when loading the level editor
-func on_load_song(song: Song):
+func on_load_song(song: Level):
 	_song = song
 	_set_initial_values()
 	_load_items(song)
@@ -76,7 +76,7 @@ func _on_total_beats_change() -> void:
 	_draw_grid()
 
 # Loads items from save into timeline
-func _load_items(song: Song) -> void:
+func _load_items(song: Level) -> void:
 	for note in song.note_list:
 		var note_info = Globals.NoteInfo.new(note)
 

@@ -12,7 +12,7 @@ func on_time_line_copied_item(_item):
 
 	pass
 
-func load_song(_song: Song):
+func load_song(_song: Level):
 	_item_selector.select_default()
 	
 	if _song.data["items_dict"] != null:

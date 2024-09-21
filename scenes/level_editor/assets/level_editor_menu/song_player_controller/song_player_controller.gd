@@ -65,7 +65,7 @@ func _init_info(song_name: String, song_length: float) -> void:
 
 
 ## Gets called when loading level editor menu
-func load_song(song: Song):
+func load_song(song: Level):
 	_init_info(song.song_name, song.length)
 
 

@@ -3,7 +3,7 @@ extends MarginContainer
 
 signal save_level(_song)
 
-var _song: Song
+var _song: Level
 
 # true if level editor menu is shown
 var _is_focused: bool = false
@@ -18,7 +18,7 @@ var _is_focused: bool = false
 
 
 ## Loads song, reutrns true if successful
-func load_song(song: Song) -> bool:
+func load_song(song: Level) -> bool:
 	_song = song
 	
 	# load audio file to song player
@@ -84,7 +84,7 @@ func _on_time_line_time_marker_moved(second: float) -> void:
 
 
 
-# Song playing inputs
+# Level playing inputs
 
 func _on_song_player_song_ended() -> void:
 	_song_player_controller.on_song_end()

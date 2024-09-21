@@ -20,7 +20,7 @@ const MICRO_GAME_SCENES = [ preload("res://scenes/karate/karate.tscn") ]
 
 
 # contains _song information
-var _song: Song
+var _song: Level
 
 # micro game scene reference
 var micro_game: MicroGame = null
@@ -63,7 +63,7 @@ func _physics_process(_delta):
 
 
 ## Loads level
-func load_song(song: Song) -> void:
+func load_song(song: Level) -> void:
 
 	# Load song info
 	_song = song

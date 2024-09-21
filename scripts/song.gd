@@ -1,4 +1,4 @@
-class_name Song extends Node
+class_name Level extends Node
 
 '''
 Contains song information
@@ -17,7 +17,7 @@ var bpm_events: Array: get = _get_bpm_events
 var song_offset: float: get = _get_song_offset
 # Name of song
 var song_name: String: get = _get_song_name
-# Song length
+# Level length
 var length: float: get = _get_song_length, set = _set_song_length
 
 # Total number of notes in song
@@ -117,7 +117,7 @@ func create_default_data() -> Dictionary:
 	default_data["note_list"] = []
 	default_data["bpm_events"] = []
 	default_data["song_offset"] = 0.0
-	default_data["name"] = "My Song"
+	default_data["name"] = "My Level"
 	default_data["length"] = null
 	default_data["items_dict"] = null
 
