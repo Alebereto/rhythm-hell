@@ -38,7 +38,7 @@ cap_bottom = false
 environment = SubResource("Environment_j13s4")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.734062, 0.413362, -0.538781, 0, 0.793396, 0.608706, 0.679083, -0.446828, 0.582402, -4.82052, 5.79445, 0)
+transform = Transform3D(0.734062, 0.413362, -0.538781, 0, 0.793396, 0.608706, 0.679083, -0.446828, 0.582402, -4.89282, 8.36911, 4.3431)
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(15, 0, 0, 0, 0.5, 0, 0, 0, 15, 0, -0.5, 0)
