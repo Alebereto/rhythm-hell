@@ -22,9 +22,6 @@ var _clicking: bool:
 
 
 
-# Wand rod mesh
-@onready var _rod: MeshInstance3D = $Model/Rod
-
 # Ray cast of the laser
 @onready var _laser: RayCast3D = $Laser
 # Beam mesh of the laser
@@ -97,7 +94,7 @@ func unfocus() -> void:
 
 
 func set_color(color: Color) -> void:
-	_rod.get_active_material(0).albedo_color = color
+	$Model/Rod.get_active_material(0).albedo_color = color
 
 ## Gets called by hand controller when clicking or releasing menu click button
 func on_button(press: bool) -> void:

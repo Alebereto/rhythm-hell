@@ -72,7 +72,7 @@ func set_hand( hand_scene: PackedScene ):
 
 	if _using_wand: set_wand_state(false)
 
-	return hand
+	return _hand
 
 
 func vibrate() -> void:
