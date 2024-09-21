@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxab35atw6uc5"]
 
-[ext_resource type="Script" path="res://scenes/space_shooter/space_shooter.gd" id="1_pbejw"]
+[ext_resource type="Script" path="res://scenes/micro_games/space_shooter/space_shooter.gd" id="1_pbejw"]
 
 [sub_resource type="Environment" id="Environment_s80b7"]
 background_mode = 1

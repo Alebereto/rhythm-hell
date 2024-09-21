@@ -3,12 +3,12 @@
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
 uid="uid://dmpq47pbsac8l"
-path="res://.godot/imported/song.ogg-bd4c82a9c7ed54b54c1f2d3b340eb04d.oggvorbisstr"
+path="res://.godot/imported/song.ogg-8ceecda016160e90305b750e97cd1a5a.oggvorbisstr"
 
 [deps]
 
-source_file="res://songs/GROOVE/song.ogg"
-dest_files=["res://.godot/imported/song.ogg-bd4c82a9c7ed54b54c1f2d3b340eb04d.oggvorbisstr"]
+source_file="res://levels/GROOVE/song.ogg"
+dest_files=["res://.godot/imported/song.ogg-8ceecda016160e90305b750e97cd1a5a.oggvorbisstr"]
 
 [params]
 

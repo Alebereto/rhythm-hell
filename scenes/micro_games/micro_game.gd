@@ -1,5 +1,8 @@
 class_name MicroGame extends Node3D
 
+'''
+Base class for micro games
+'''
 
 ## Emitted when note is hit, gets note destination beat
 signal note_hit( dest_beat: float )
