@@ -8,9 +8,9 @@ signal item_selected(item: Globals.ItemInfo)
 @onready var _markers_item_list: ItemList = $Markers
 
 
-var _notes = []
-var _events = []
-var _markers = []
+var _notes: Array[Globals.NoteInfo] = []
+var _events: Array[Globals.EventInfo] = []
+var _markers: Array[Globals.MarkerInfo] = []
 
 
 
@@ -23,6 +23,8 @@ func _set_default_items() -> void:
 	var note_info = Globals.NoteInfo.new()
 	add_item(note_info)
 
+	# TODO: add default other items
+
 func _select_item(item_info: Globals.ItemInfo) -> void:
 	item_selected.emit(item_info)
 
@@ -33,16 +35,18 @@ func select_default() -> void:
 	_on_notes_item_selected(0)
 
 func add_item(item_info: Globals.ItemInfo) -> void:
+
+	# TODO: overwrite item with same name
+
 	var copied_item = Globals.clone_item_info(item_info)
 
-	match copied_item.type:
-		Globals.ITEM_TYPE.NOTE:
+	if copied_item is Globals.NoteInfo:
 			_notes.append(copied_item)
 			_notes_item_list.add_item(copied_item.name)
-		Globals.ITEM_TYPE.EVENT:
+	elif copied_item is Globals.EventInfo:
 			_events.append(copied_item)
 			_events_item_list.add_item(copied_item.name)
-		Globals.ITEM_TYPE.MARKER:
+	elif copied_item is Globals.MarkerInfo:
 			_markers.append(copied_item)
 			_markers_item_list.add_item(copied_item.name)
 
@@ -60,42 +64,24 @@ func deselect_all() -> void:
 
 func get_items_dict() -> Dictionary:
 	var items_dict = {
-		"notes": _items_to_dicts(_notes.slice(1)),
-		"events": _items_to_dicts(_events),
-		"markers": _items_to_dicts(_markers)
+		"notes": Globals.items_to_dicts(_notes.slice(1)),
+		"events": Globals.items_to_dicts(_events),
+		"markers": Globals.items_to_dicts(_markers)
 	}
 	return items_dict
 
 func set_from_items_dict(items_dict: Dictionary) -> void:
-	var notes_info = _dicts_to_items(items_dict["notes"], Globals.ITEM_TYPE.NOTE)
+	var notes_info = Globals.dicts_to_items(items_dict["notes"], Globals.ITEM_TYPE.NOTE)
 	for note_info in notes_info:
 		add_item(note_info)
 
-	var events_info = _dicts_to_items(items_dict["events"], Globals.ITEM_TYPE.EVENT)
+	var events_info = Globals.dicts_to_items(items_dict["events"], Globals.ITEM_TYPE.EVENT)
 	for event_info in events_info:
 		add_item(event_info)
 
-	var markers_info = _dicts_to_items(items_dict["markers"], Globals.ITEM_TYPE.MARKER)
+	var markers_info = Globals.dicts_to_items(items_dict["markers"], Globals.ITEM_TYPE.MARKER)
 	for marker_info in markers_info:
 		add_item(marker_info)
-
-
-func _items_to_dicts(items: Array) -> Array:
-	var dict_arr: Array = []
-	for item in items:
-		dict_arr.append(item.get_info_dict())
-	return dict_arr
-
-func _dicts_to_items(dicts: Array, type: Globals.ITEM_TYPE):
-	var items_arr = []
-	for dict in dicts:
-		var item
-		match type:
-			Globals.ITEM_TYPE.NOTE: item = Globals.NoteInfo.new(dict)
-			# Globals.ITEM_TYPE.EVENT: item = Globals.EventInfo.new(dict)
-			# Globals.ITEM_TYPE.MARKER: item = Globals.MarkerInfo.new(dict)
-		items_arr.append(item)
-	return items_arr
 
 
 

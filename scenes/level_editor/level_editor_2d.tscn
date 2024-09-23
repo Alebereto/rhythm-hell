@@ -6,9 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://0xoroomsvefc" path="res://scenes/level_editor/assets/main_menu/main_menu.tscn" id="6_dhvna"]
 [ext_resource type="Script" path="res://scenes/level_editor/assets/popups/load_dir_popup.gd" id="7_ghtds"]
 
-[node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("_header_tabs", "_level_editor_menu", "_main_menu", "_load_dir_popup", "_bad_path_popup")]
+[node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("_level_editor_menu", "_main_menu", "_load_dir_popup", "_bad_path_popup")]
 script = ExtResource("1_ybeed")
-_header_tabs = NodePath("Camera2D/GUI/Background/MainLayout/HeaderTabs")
 _level_editor_menu = NodePath("Camera2D/GUI/Background/MainLayout/LevelEditorMenu")
 _main_menu = NodePath("Camera2D/GUI/Background/MainLayout/MainMenu")
 _load_dir_popup = NodePath("Popups/LoadDir")
@@ -46,7 +45,6 @@ layout_mode = 2
 [node name="MainMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("6_dhvna")]
 visible = false
 layout_mode = 2
-_song_name = "GROOVE"
 _audio_source = "C:/Users/albert/Documents/Godot games/rhythm-hell/audio/music/groovy-ambient-funk-201745.ogg"
 _initial_bpm = 120
 
@@ -66,5 +64,5 @@ script = ExtResource("7_ghtds")
 [connection signal="load_song_requested" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_load_song_requested"]
 [connection signal="save_song_requested" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_save_song_requested"]
 [connection signal="save_level" from="Camera2D/GUI/Background/MainLayout/LevelEditorMenu" to="." method="_on_level_editor_menu_save_level"]
-[connection signal="load_song_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_load_song_requested"]
-[connection signal="new_song_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_new_song_requested"]
+[connection signal="load_level_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_load_level_requested"]
+[connection signal="new_level_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_new_level_requested"]

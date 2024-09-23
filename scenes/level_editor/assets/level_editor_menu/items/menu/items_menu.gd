@@ -12,14 +12,14 @@ func on_time_line_copied_item(_item):
 
 	pass
 
-func load_song(_song: Level):
+func load_level(_level: Level):
 	_item_selector.select_default()
 	
-	if _song.data["items_dict"] != null:
-		_item_selector.set_from_items_dict(_song.data["items_dict"])
+	if _level.items_dict != null:
+		_item_selector.set_from_items_dict(_level.items_dict)
 
-func generate_dynamic_data() -> Dictionary:
-	return {"items_dict": _item_selector.get_items_dict()}
+func generate_dynamic_data(level: Level) -> void:
+	level.items_dict = _item_selector.get_items_dict()
 
 
 

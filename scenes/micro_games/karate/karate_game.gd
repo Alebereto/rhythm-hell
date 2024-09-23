@@ -22,8 +22,6 @@ var _gravity_vector: Vector3 = ProjectSettings.get_setting("physics/3d/default_g
 const _projectile_scenes: Array[PackedScene] = [preload("res://scenes/micro_games/karate/assets/projectiles/rock.tscn"),
 												preload("res://scenes/micro_games/karate/assets/projectiles/barrel.tscn")]
 
-enum PROJECTILES{ROCK, BARREL}
-
 # Sounds
 var HitSound = preload("res://audio/sounds/hit.wav")
 
@@ -47,15 +45,15 @@ func set_player(player: Player) -> void:
 
 
 
-func play_note(note: Dictionary):
+func play_note(note: Globals.NoteInfo):
 
-	var cannon = _left_cannon if note["rotated"] else _right_cannon # get cannon
+	var cannon = _left_cannon if note.rotated else _right_cannon # get cannon
 
 	# Create projectile
 	var projectile: Projectile = _create_projectile( note )
 
 	# Get fire time
-	var fire_time = song.beats_to_seconds(note["b"] - note["s"])
+	var fire_time = level.beats_to_seconds(note.b - note.s)
 	if fire_time <= 0:
 		push_warning("Cannot fire in time <= 0!")
 		fire_time = 0.1
@@ -68,15 +66,15 @@ func play_note(note: Dictionary):
 func _get_note_delay( _note ): return CANNON_DELAY
 
 
-func _create_projectile( note ) -> Projectile:
+func _create_projectile( note: Globals.NoteInfo ) -> Projectile:
 	# Get projectile id
-	var id = note["id"]
+	var id = note.id
 	if id >= len(_projectile_scenes):
 		push_warning("Projectile with id: %d does not exist!" %id)
 		id = 0
 
 	var projectile: Projectile = _projectile_scenes[id].instantiate()
-	projectile.destination_beat = note["b"]
+	projectile.destination_beat = note.b
 
 	return projectile
 
@@ -119,7 +117,7 @@ func _calculate_impulse(projectile: Projectile, destination: Node3D, travel_time
 
 func _summon_from_barrel( barrel: Projectile):
 	const BEAT_DELAY = 1
-	var travel_time = song.beats_to_seconds(BEAT_DELAY)
+	var travel_time = level.beats_to_seconds(BEAT_DELAY)
 
 	var projectile_scene: PackedScene = barrel.contained_projectile
 	var contained_proj: Projectile = projectile_scene.instantiate()

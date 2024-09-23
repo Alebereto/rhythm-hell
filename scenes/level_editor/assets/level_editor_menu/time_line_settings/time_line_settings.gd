@@ -7,7 +7,7 @@ signal tool_changed(t: Globals.TOOL)
 @onready var _tools = $HBoxContainer/Tools
 
 
-func load_song(_song: Level) -> void:
+func load_level(_level: Level) -> void:
 	change_tool_to(Globals.TOOL.SELECT)
 	_snap_beats.on_level_load()
 

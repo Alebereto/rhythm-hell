@@ -1,69 +1,53 @@
-class_name Level extends Node
+class_name Level extends RefCounted
 
 '''
-Contains song information
+Contains level information
 '''
 
-# all song data
-var data: Dictionary = {}
+# Level name
+var name: String = ""
+# Level length in seconds. if set to null, level editor will pick length to be song length
+var length = null
 
 # Initial BPM of song (can change with bpmEvents)
-var initial_bpm: int: get = _get_initial_bpm
-# Ordered array of notes (by starting beat)
-var note_list: Array[Dictionary]: get = _get_note_list
+var initial_bpm: int = 100
 # Changes in bpm during song
-var bpm_events: Array: get = _get_bpm_events
-# Time when first beat comes
-var song_offset: float: get = _get_song_offset
-# Name of song
-var song_name: String: get = _get_song_name
-# Level length
-var length: float: get = _get_song_length, set = _set_song_length
+var bpm_events: Array = []
 
-# Total number of notes in song
-var note_count: int: get = _get_note_count
+# Ordered array of notes (by starting beat)
+var note_list: Array[Globals.NoteInfo] = []
 
-var beat_count: float: get = _get_beat_count
+# Time in song when first beat comes
+var song_offset: float = 0.0
 
+var micro_game_id: Globals.MICRO_GAMES = Globals.MICRO_GAMES.KARATE
 
-# Getters
-func _get_initial_bpm() -> int: return data["initial_bpm"]
-func _get_note_list() -> Array: return data["note_list"]
-func _get_bpm_events() -> Array: return data["bpm_events"]
-func _get_song_offset() -> float: return data["song_offset"]
-func _get_song_name() -> String: return data["name"]
-func _get_song_length(): return data["length"]
-
-func _get_note_count() -> int: return len(note_list)
-func _get_beat_count() -> float: return seconds_to_beats(length)
-
-func _set_song_length(value: float) -> void: data["length"] = value
+var items_dict = null
 
 
-var audio_path: String = ""
+
+var note_count: int:
+	get: return len(note_list)
+var beat_count: float:
+	get: return seconds_to_beats(length)
+
+
+# Path to song file
+var song_audio_path: String = ""
 
 
 ## Constructor
 ##
-func _init(song_path = null):
+func _init(level_path = null):
 	
-	if song_path != null:
-		var data_path = "%s/%s" %[song_path, Globals.SAVE_FILE_NAME]
-		audio_path = "%s/%s" %[song_path, Globals.AUDIO_FILE_NAME]
+	if level_path != null:
+		var data_path = "%s/%s" %[level_path, Globals.SAVE_FILE_NAME]
+		song_audio_path = "%s/%s" %[level_path, Globals.AUDIO_FILE_NAME]
 
 		_get_data_from_file(data_path)
-	else:
-		data = create_default_data()
 
 
-## Get data from given save file path
-func _get_data_from_file(data_path: String) -> void:
-	# get string data from file
-	var file = FileAccess.open(data_path, FileAccess.READ)
-	var data_str = file.get_as_text()
-	file.close()
-	# make string data to dictionary
-	data = JSON.parse_string(data_str)
+
 
 
 func _get_second_in_level(seconds: float) -> float:
@@ -110,15 +94,51 @@ func find_note_idx_after(second: float) -> int:
 	return len(note_list)
 
 
-func create_default_data() -> Dictionary:
-	var default_data: Dictionary = {}
 
-	default_data["initial_bpm"] = 100
-	default_data["note_list"] = []
-	default_data["bpm_events"] = []
-	default_data["song_offset"] = 0.0
-	default_data["name"] = "My Level"
-	default_data["length"] = null
-	default_data["items_dict"] = null
+## Functions for loading and saving level =======================================
 
-	return default_data
+
+## Get data from given (legal) save file path
+func _get_data_from_file(data_path: String) -> void:
+	# get string data from file
+	var file = FileAccess.open(data_path, FileAccess.READ)
+	var data_str = file.get_as_text()
+	file.close()
+	# make string data to dictionary
+	var data: Dictionary = JSON.parse_string(data_str)
+
+	# load data from dictionary
+	_load_from_dictionary(data)
+
+
+## Save level data into dictionary format
+func to_dictionary() -> Dictionary:
+	# Convert note list into dictionary list
+	var note_dict_list = []
+	for note_info: Globals.NoteInfo in note_list:
+		note_dict_list.append(note_info.get_info_dict())
+
+	var dict := {
+		"name"			= name,
+		"length"		= length,
+		"initial_bpm"	= initial_bpm,
+		"song_offset"	= song_offset,
+		"note_list"		= note_dict_list,
+		"items_dict"	= items_dict,
+	}
+
+	return dict
+
+
+func _load_from_dictionary(dict: Dictionary) -> void:
+	name 			= dict["name"]
+	length 			= dict["length"]
+	initial_bpm 	= dict["initial_bpm"]
+	song_offset 	= dict["song_offset"]
+	items_dict		= dict["items_dict"]
+
+	# get note list
+	note_list = []
+	for note_dict in dict["note_list"]:
+		var note_info: Globals.NoteInfo = Globals.NoteInfo.new(note_dict)
+		note_list.append(note_info)

@@ -13,25 +13,24 @@ signal item_settings_saved(item_info: Globals.ItemInfo)
 ## Sets item settings and shows them
 func set_item_display(item: Globals.ItemInfo) -> void:
 	_set_settings_from_item(item)
-	_change_to_window(item.type)
+	_change_to_window(item)
 
 
-func _change_to_window(item_type: Globals.ITEM_TYPE) -> void:
+func _change_to_window(item_info: Globals.ItemInfo) -> void:
 	_note_settings.visible = false
 	_event_settings.visible = false
 	_marker_settings.visible = false
 
-	match item_type:
-		Globals.ITEM_TYPE.NOTE: _note_settings.visible = true
-		Globals.ITEM_TYPE.EVENT: _event_settings.visible = true
-		Globals.ITEM_TYPE.MARKER: _marker_settings.visible = true
+	if item_info is Globals.NoteInfo: 		_note_settings.visible = true
+	elif item_info is Globals.EventInfo: 	_event_settings.visible = true
+	elif item_info is Globals.MarkerInfo: 	_marker_settings.visible = true
 
 
-func _set_settings_from_item(item: Globals.ItemInfo) -> void:
-	match item.type:
-		Globals.ITEM_TYPE.NOTE: _note_settings.note_info = item
-		Globals.ITEM_TYPE.EVENT: _event_settings.event_info = item
-		Globals.ITEM_TYPE.MARKER: _marker_settings.marker_info = item
+func _set_settings_from_item(item_info: Globals.ItemInfo) -> void:
+
+	if	 item_info is Globals.NoteInfo:		_note_settings.note_info = item_info
+	elif item_info is Globals.EventInfo:	_event_settings.event_info = item_info
+	elif item_info is Globals.MarkerInfo:	_marker_settings.marker_info = item_info
 
 
 

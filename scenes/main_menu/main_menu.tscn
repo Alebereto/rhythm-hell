@@ -68,10 +68,11 @@ shadow_size = 5
 
 [node name="MainMenu" type="Node3D"]
 script = ExtResource("1_f0s41")
-_temp_song_path = "res://songs/GROOVE"
+_temp_song_path = "res://levels/My Level"
 
 [node name="MainPanel" parent="." node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
 transform = Transform3D(0.52, 0, 0, 0, 0.52, 0, 0, 0, 0.52, 0, 1.52955, -1.83987)
+visible = false
 _ui_viewport = NodePath("MainMenu")
 
 [node name="MainMenu" type="SubViewport" parent="MainPanel"]
@@ -135,6 +136,13 @@ text = "Exit"
 [node name="World" parent="." instance=ExtResource("2_nny0w")]
 
 [node name="Player" parent="." instance=ExtResource("2_fsg25")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.286706, 0.607773, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [connection signal="mouse_entered" from="MainPanel/MainMenu/Control/VBoxContainer/Play" to="MainPanel" method="_on_hovered"]
 [connection signal="pressed" from="MainPanel/MainMenu/Control/VBoxContainer/Play" to="." method="_on_play_pressed"]
