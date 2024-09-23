@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://rup8doholb8h"]
 
-[ext_resource type="Script" path="res://scenes/game_controller/game_controller.gd" id="1_7tr6g"]
+[ext_resource type="Script" path="res://scenes/micro_games/game_controller.gd" id="1_7tr6g"]
 [ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_ixxql"]
 [ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="2_ur38s"]
 [ext_resource type="PackedScene" uid="uid://c26q4xhax7ru6" path="res://objects/vr_ui/vr_ui.tscn" id="4_3gyv0"]
