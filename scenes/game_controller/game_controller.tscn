@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c26q4xhax7ru6" path="res://objects/vr_ui/vr_ui.tscn" id="4_3gyv0"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_gt1cn"]
-font_size = 64
+font_size = 45
 outline_size = 20
 outline_color = Color(0.201527, 0.201527, 0.201527, 1)
 shadow_size = 10
