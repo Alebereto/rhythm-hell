@@ -13,13 +13,12 @@ func _get_layer_gap() -> float: return (BAR_HEIGHT / (LAYERS+1))
 
 
 # Item scene loactions
-var NoteItem: PackedScene = preload("res://scenes/level_editor/assets/level_editor_menu/items/note_2d.tscn")
+var note_scene: PackedScene = preload("res://scenes/level_editor/assets/level_editor_menu/items/note_2d.tscn")
 const EVENT_PATH = ""
 const MARKER_PATH = ""
 
 
-
-var _song: Song
+var _level: Level
 
 
 @export_category("Customize")
@@ -38,32 +37,30 @@ var _song: Song
 
 
 
-# Total beats in _song
+# Total beats in _level
 var total_beats: float: get = _get_total_beats
-# Indicator note that is shown in timeline
+# Indicator note_scene that is shown in timeline
 var indicator_item: get = _get_indicator_item
 
 # Getters
-func _get_total_beats() -> float: return _song.beat_count
+func _get_total_beats() -> float: return _level.beat_count
 
 func _get_indicator_item():
-	# TODO: change to indicator according to current_item_type
+	# TODO: change to indicator according to current item type
 	if _indicator_root.get_child_count() == 0: return null
 	return _indicator_root.get_child(0)
 
 
-
-var current_item_type: Globals.ITEM_TYPE
 # Timeline settings
 var snap_beats: float = 1.0
 
 
 
 ## Gets song information. Called when loading the level editor
-func on_load_song(song: Song):
-	_song = song
+func load_level(level: Level):
+	_level = level
 	_set_initial_values()
-	_load_items(song)
+	_load_items(level)
 
 
 
@@ -76,14 +73,14 @@ func _on_total_beats_change() -> void:
 	_draw_grid()
 
 # Loads items from save into timeline
-func _load_items(song: Song) -> void:
-	for note in song.note_list:
-		var note_info = Globals.NoteInfo.new(note)
+func _load_items(level: Level) -> void:
+	for note_info in level.note_list:
+		var placing_note = Globals.NoteInfo.new(note_info)
 
-		var x = _beat_to_pixel(note["b"])
-		var y = _layer_to_pixel(note["layer"])
+		var x = _beat_to_pixel(note_info.b)
+		var y = _layer_to_pixel(note_info.layer)
 
-		_place_item(note_info, Vector2(x,y))
+		_place_item(placing_note, Vector2(x,y))
 
 	# TODO: load other items
 
@@ -100,7 +97,7 @@ func update_indicator_pos(time_pos):
 ##
 ## Called when moving time bar in song player controller
 func move_time_marker(second: float) -> void:
-	_time_marker.position.x = _beat_to_pixel(_song.seconds_to_beats(second))
+	_time_marker.position.x = _beat_to_pixel(_level.seconds_to_beats(second))
 
 ## Gets beat in song, moves timeline anchor accordingly
 ##
@@ -208,33 +205,33 @@ func panel_to_timeline(pos: Vector2) -> Vector2:
 	return Vector2(pos.x - _anchor.position.x, pos.y)
 
 func pixel_to_second(pixel: float) -> float:
-	return _song.beats_to_seconds(_pixel_to_beat(pixel))
+	return _level.beats_to_seconds(_pixel_to_beat(pixel))
 	
 
 
 # Generating 
 
-func _generate_note_info(note: Node2D) -> Dictionary:
+func _generate_note_info(note: Node2D) -> Globals.NoteInfo:
 	var beat = _pixel_to_beat(note.position.x)
 	var layer = _pixel_to_layer(note.position.y)
-	# make map of note info
-	var note_info = note.get_data().get_info_dict()
+	# make map of note_scene info
+	var note_info = note.get_data()
 
-	note_info["s"] = beat - note_info["delay"] # note start beat
-	note_info["b"] = beat 	# note arrival beat
-	note_info["layer"] = layer
+	note_info.s = beat - note_info.delay # note_scene start beat
+	note_info.b = beat 	# note_scene arrival beat
+	note_info.layer = layer
 
 	return note_info
 
 ## Used for custom sorting of note_list
-func _sort_note_list(a:Dictionary, b:Dictionary) -> bool:
-	return a["s"] < b["s"]
+func _sort_note_list(a: Globals.NoteInfo, b: Globals.NoteInfo) -> bool:
+	return a.s < b.s
 
-## Generate note list from notes in timeline
-func generate_note_list() -> Array[Dictionary]:
-	var note_list: Array[Dictionary] = []
+## Generate note_scene list from notes in timeline
+func generate_note_list() -> Array[Globals.NoteInfo]:
+	var note_list: Array[Globals.NoteInfo] = []
 
-	for note: Node2D in _notes_root.get_children():
+	for note in _notes_root.get_children():
 		var note_info = _generate_note_info(note)
 		# add to list
 		note_list.append(note_info)
@@ -255,7 +252,7 @@ func place_indicator_item(_item_pos: Vector2) -> void:
 
 ## Gets item info and position on timeline, creates item and places is in position.
 ## Can fail if the placement is not legal
-func _place_item(item_info: Globals.NoteInfo, time_pos: Vector2) -> void:
+func _place_item(item_info: Globals.ItemInfo, time_pos: Vector2) -> void:
 	var item: Node2D = _create_item(item_info)
 	item.position = time_pos
 	item.on_placed()
@@ -264,19 +261,21 @@ func _place_item(item_info: Globals.NoteInfo, time_pos: Vector2) -> void:
 func _create_item(item_info: Globals.ItemInfo) -> Node2D:
 	var item = null
 
-	match item_info.type:
-		Globals.ITEM_TYPE.NOTE:
-			item = NoteItem.instantiate()
+
+	if item_info is Globals.NoteInfo:
+			item = note_scene.instantiate()
 			_notes_root.add_child(item)
 
 			item.set_data_from(item_info)
+	
+	# TODO: create other items
 
 	return item
 
 
 
-func _is_legal_placement(item: Node2D) -> bool:
-	# TODO: check if other note is placed in same beat
+func _is_legal_placement(_item: Node2D) -> bool:
+	# TODO: check if other note_scene is placed in same beat
 	#		check if start beat is before start of song
 	return true
 

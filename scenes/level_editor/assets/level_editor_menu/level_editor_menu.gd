@@ -1,9 +1,9 @@
 extends MarginContainer
 
 
-signal save_level(_song)
+signal save_level(level)
 
-var _song: Song
+var _level: Level
 
 # true if level editor menu is shown
 var _is_focused: bool = false
@@ -17,19 +17,19 @@ var _is_focused: bool = false
 
 
 
-## Loads song, reutrns true if successful
-func load_song(song: Song) -> bool:
-	_song = song
+## Loads level, reutrns true if successful
+func load_level(level: Level) -> bool:
+	_level = level
 	
 	# load audio file to song player
-	_song_player.load_song(song.audio_path)
+	_song_player.load_song(level.song_audio_path)
 
-	if song["length"] == null:	song["length"] = _song_player.song_length
+	if level.length == null: level.length = _song_player.song_length
 	
-	_items_menu.load_song(song)
-	_song_player_controller.load_song(song)
-	_time_line_settings.load_song(song)
-	_time_line.load_song(song)
+	_items_menu.load_level(level)
+	_song_player_controller.load_level(level)
+	_time_line_settings.load_level(level)
+	_time_line.load_level(level)
 	
 	_is_focused = true
 	return true
@@ -37,21 +37,19 @@ func load_song(song: Song) -> bool:
 ## Called when unloading level editor menu
 func unload() -> void:
 	_is_focused = false
+	_level = null
 
 
 ## Sends current level infromation to save_level signal
 func save() -> void:
-	_update_song_data()
-	save_level.emit(_song)
+	_update_level_data()
+	save_level.emit(_level)
 
 # Updates song data with information that is not immediatley saved
-func _update_song_data() -> void:
+func _update_level_data() -> void:
 	# Ordered list of notes (by start beat)
-	var time_line_data: Dictionary = _time_line.generate_dynamic_data()
-	var items_data: Dictionary = _items_menu.generate_dynamic_data()
-
-	_song.data.merge(time_line_data, true)
-	_song.data.merge(items_data, true)
+	_time_line.generate_dynamic_data(_level)
+	_items_menu.generate_dynamic_data(_level)
 
 
 # Input signals ====================
@@ -84,7 +82,7 @@ func _on_time_line_time_marker_moved(second: float) -> void:
 
 
 
-# Song playing inputs
+# Level playing inputs
 
 func _on_song_player_song_ended() -> void:
 	_song_player_controller.on_song_end()

@@ -1,5 +1,8 @@
 class_name MicroGame extends Node3D
 
+'''
+Base class for micro games
+'''
 
 ## Emitted when note is hit, gets note destination beat
 signal note_hit( dest_beat: float )
@@ -13,7 +16,7 @@ signal play_sound( sound )
 
 var _note_timers_root: Node
 
-var song: Song = null
+var level: Level = null
 
 var _player: Player = null
 
@@ -36,12 +39,12 @@ func _ready():
 
 ## Gets called by game controller max_note_delay seconds
 ## before note start, adds note to queue.
-func add_note_to_queue( note ) -> void:
+func add_note_to_queue( note: Globals.NoteInfo ) -> void:
 	var wait_time: float = max_note_delay - _get_note_delay(note)
 	# make timer
 	var timer = Timer.new()
-	timer.timeout.connect( play_note.bind( note ) )
-	timer.timeout.connect((func(node): node.queue_free()).bind(timer))
+	timer.timeout.connect( play_note.bind( note ) ) # call play_note of note when timer ends
+	timer.timeout.connect((func(node): node.queue_free()).bind(timer)) # delete timer after timer ends
 	timer.autostart = true
 	timer.one_shot = true
 	timer.wait_time = wait_time
@@ -55,12 +58,12 @@ func _clear_note_queue() -> void:
 
 ## Called by micro_game to get playing note time.
 ## Must override
-func _get_note_delay( _note ): return 0
+func _get_note_delay( _note: Globals.NoteInfo ): return 0
 
 
 ## Called by game_controller when playing note.
 ## Must override
-func play_note( _note ): pass
+func play_note( _note: Globals.NoteInfo ): pass
 
 ## Called by game_controller when setting the player.
 ## Can override to set link player controls to game

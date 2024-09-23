@@ -8,9 +8,9 @@ Editor tool that saves level made in level editor
 const SAVE_NAME = "save.dat"
 const TRACK_NAME = "track.ogg"
 
-# Song audio file
+# Level audio file
 var track_path: String
-# Song name
+# Level name
 var song_name: String = "test"
 # Initial BPM of song
 var initial_bpm: int = 60

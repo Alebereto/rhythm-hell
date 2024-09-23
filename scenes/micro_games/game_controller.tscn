@@ -1,9 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://rup8doholb8h"]
+[gd_scene load_steps=12 format=3 uid="uid://rup8doholb8h"]
 
-[ext_resource type="Script" path="res://scenes/game_controller/game_controller.gd" id="1_7tr6g"]
+[ext_resource type="Script" path="res://scenes/micro_games/game_controller.gd" id="1_7tr6g"]
 [ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_ixxql"]
 [ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="2_ur38s"]
 [ext_resource type="PackedScene" uid="uid://c26q4xhax7ru6" path="res://objects/vr_ui/vr_ui.tscn" id="4_3gyv0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_gt1cn"]
+font_size = 45
+outline_size = 20
+outline_color = Color(0.201527, 0.201527, 0.201527, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 0.862745)
+shadow_offset = Vector2(2, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8c1el"]
 bg_color = Color(0.144343, 0.217038, 0.253359, 1)
@@ -80,7 +88,7 @@ _ui_viewport = NodePath("MenuUI")
 
 [node name="MenuUI" type="SubViewport" parent="MenuPanel"]
 transparent_bg = true
-size = Vector2i(400, 128)
+size = Vector2i(400, 400)
 
 [node name="Control" type="Control" parent="MenuPanel/MenuUI"]
 layout_mode = 3
@@ -90,7 +98,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MenuPanel/MenuUI/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuPanel/MenuUI/Control"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -98,12 +106,25 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -20.0
+offset_top = -20.0
 offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="MenuPanel/MenuUI/Control/VBoxContainer"]
+layout_mode = 2
+text = "Paused"
+label_settings = SubResource("LabelSettings_gt1cn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="MenuPanel/MenuUI/Control/VBoxContainer"]
+layout_mode = 2
 theme_override_constants/separation = 40
 
-[node name="Resume" type="Button" parent="MenuPanel/MenuUI/Control/HBoxContainer"]
+[node name="Resume" type="Button" parent="MenuPanel/MenuUI/Control/VBoxContainer/Buttons"]
 custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
 focus_mode = 0
@@ -112,7 +133,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_flxdr")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_23fr2")
 text = "Resume"
 
-[node name="Exit" type="Button" parent="MenuPanel/MenuUI/Control/HBoxContainer"]
+[node name="Exit" type="Button" parent="MenuPanel/MenuUI/Control/VBoxContainer/Buttons"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
 focus_mode = 0
@@ -121,7 +142,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_1px7o")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_csttq")
 text = "Exit"
 
-[connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/HBoxContainer/Resume" to="MenuPanel" method="_on_hovered"]
-[connection signal="pressed" from="MenuPanel/MenuUI/Control/HBoxContainer/Resume" to="." method="_on_menu_resume_pressed"]
-[connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/HBoxContainer/Exit" to="MenuPanel" method="_on_hovered"]
-[connection signal="pressed" from="MenuPanel/MenuUI/Control/HBoxContainer/Exit" to="." method="_on_menu_exit_pressed"]
+[connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Resume" to="MenuPanel" method="_on_hovered"]
+[connection signal="pressed" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Resume" to="." method="_on_menu_resume_pressed"]
+[connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Exit" to="MenuPanel" method="_on_hovered"]
+[connection signal="pressed" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Exit" to="." method="_on_menu_exit_pressed"]

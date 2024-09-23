@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://csxxng205uewp"]
 
-[ext_resource type="Script" path="res://scenes/karate/karate_game.gd" id="1_yfebx"]
-[ext_resource type="PackedScene" uid="uid://b8g4v8hxldlql" path="res://scenes/karate/assets/game_world.tscn" id="3_el2kq"]
-[ext_resource type="PackedScene" uid="uid://bodnphfa0q5ds" path="res://scenes/karate/assets/cannon/cannon.tscn" id="4_hox2b"]
-[ext_resource type="PackedScene" uid="uid://leyiqx6051hu" path="res://scenes/karate/assets/cannon/hit_indicator.tscn" id="5_6x71t"]
+[ext_resource type="Script" path="res://scenes/micro_games/karate/karate_game.gd" id="1_yfebx"]
+[ext_resource type="PackedScene" uid="uid://b8g4v8hxldlql" path="res://scenes/micro_games/karate/assets/game_world.tscn" id="3_el2kq"]
+[ext_resource type="PackedScene" uid="uid://bodnphfa0q5ds" path="res://scenes/micro_games/karate/assets/cannon/cannon.tscn" id="4_hox2b"]
+[ext_resource type="PackedScene" uid="uid://leyiqx6051hu" path="res://scenes/micro_games/karate/assets/cannon/hit_indicator.tscn" id="5_6x71t"]
 
 [node name="Karate" type="Node3D" node_paths=PackedStringArray("_projectiles_root", "_target", "_right_cannon", "_left_cannon")]
 process_mode = 1

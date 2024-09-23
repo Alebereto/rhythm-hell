@@ -16,45 +16,63 @@ shadow_color = Color(0, 0, 0, 0.447059)
 shadow_size = 4
 
 [node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_right = 200
-theme_override_constants/margin_bottom = 100
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
 script = ExtResource("1_r6td2")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="Panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(500, 350)
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_nas6u")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="Contents" type="VBoxContainer" parent="Panel"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="Control" type="Control" parent="PanelContainer/VBoxContainer"]
+[node name="LevelSettings" type="HBoxContainer" parent="Panel/Contents"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+[node name="Name" type="HBoxContainer" parent="Panel/Contents/LevelSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Contents/LevelSettings/Name"]
+layout_mode = 2
+text = "Level Name:"
+
+[node name="TextEdit" type="TextEdit" parent="Panel/Contents/LevelSettings/Name"]
+custom_minimum_size = Vector2(140, 30)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+placeholder_text = "name"
+scroll_fit_content_height = true
+
+[node name="MenuButtons" type="HBoxContainer" parent="Panel/Contents"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 theme_override_constants/separation = 50
 
-[node name="LoadSongButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="LoadLevelButton" type="Button" parent="Panel/Contents/MenuButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Load Song"
+text = "Load Level"
 
-[node name="NewSongButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="NewLevelButton" type="Button" parent="Panel/Contents/MenuButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "New Song"
+text = "Create New Level"
 
-[node name="Control" type="Control" parent="PanelContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.75
-
-[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/LoadSongButton" to="." method="_on_load_song_button_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/NewSongButton" to="." method="_on_new_song_button_pressed"]
+[connection signal="pressed" from="Panel/Contents/MenuButtons/LoadLevelButton" to="." method="_on_load_level_button_pressed"]
+[connection signal="pressed" from="Panel/Contents/MenuButtons/NewLevelButton" to="." method="_on_new_level_button_pressed"]

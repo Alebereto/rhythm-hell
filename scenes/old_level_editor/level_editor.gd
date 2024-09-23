@@ -4,9 +4,9 @@ enum GT {KARATE, BADMIN}
 
 # Game type
 @export var game_type: GT = GT.KARATE
-# Song name
+# Level name
 @export var song_name: String = "test2"
-# Song audio file
+# Level audio file
 @export_global_file("*.ogg") var audio_source: String
 # Initial BPM of song
 @export_range(0,200) var initial_bpm: int = 60
@@ -22,7 +22,7 @@ enum GT {KARATE, BADMIN}
 # value of current place in song (seconds)
 var track_time: float = 0
 var paused: bool = true
-# Song length in seconds
+# Level length in seconds
 var song_length: float = 60
 
 const SAVE_NAME = "save.dat"

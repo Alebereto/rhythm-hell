@@ -8,6 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://ccunoul2af70k" path="res://objects/song_player.tscn" id="5_kg3l1"]
 
 [node name="LevelEditorMenu" type="MarginContainer"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -298.5
+offset_bottom = 298.5
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 5

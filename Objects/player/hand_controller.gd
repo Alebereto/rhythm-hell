@@ -1,5 +1,6 @@
 extends XRController3D
 
+
 signal trigger_pressed
 signal menu_button_pressed
 
@@ -8,6 +9,7 @@ signal menu_button_pressed
 @export_color_no_alpha var _hand_color: Color = Color.WHITE
 # Wand
 @onready var _wand = $Wand
+
 
 # true if using wand
 var _using_wand = true
@@ -30,25 +32,31 @@ var clicking: bool:
 func _ready():
 	_wand.set_color(_hand_color)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
+
 ## Set whether player is holding wands or not
 func set_wand_state(state: bool) -> void:
+	# Turn wand on
 	if state:
-		_wand.visible = true
-		_wand.process_mode = Node.PROCESS_MODE_ALWAYS
-		_using_wand = true
+		# if player has hand, deactivate hand
 		if _hand != null:
 			_hand.visible = false
 			_hand.process_mode = Node.PROCESS_MODE_DISABLED
+		# activate wand
+		_wand.visible = true
+		_wand.process_mode = Node.PROCESS_MODE_ALWAYS
+		_using_wand = true
+		
+	# Turn wand off
 	else:
+		# deactivate wand
 		if _using_wand: _wand.unfocus()
 		_wand.visible = false
 		_wand.process_mode = Node.PROCESS_MODE_DISABLED
 		_using_wand = false
+		# if player has hand, activate hand
 		if _hand != null:
 			_hand.visible = true
 			_hand.process_mode = Node.PROCESS_MODE_INHERIT
@@ -64,7 +72,7 @@ func set_hand( hand_scene: PackedScene ):
 
 	if _using_wand: set_wand_state(false)
 
-	return hand
+	return _hand
 
 
 func vibrate() -> void:

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://t45m7h5u6o5k"]
 
-[ext_resource type="Script" path="res://scenes/karate/assets/projectiles/rock.gd" id="1_0nw1h"]
+[ext_resource type="Script" path="res://scenes/micro_games/karate/assets/projectiles/rock.gd" id="1_0nw1h"]
 [ext_resource type="AudioStream" uid="uid://bye41mfof2em4" path="res://audio/sounds/hit.wav" id="2_xxiv1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_462y0"]

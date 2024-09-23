@@ -18,7 +18,7 @@ func _process(_delta):
 
 func _on_play_pressed():
 	# temporary load song
-	var song = Song.new(_temp_song_path)
+	var song = Level.new(_temp_song_path)
 	song_played.emit(song)
 
 

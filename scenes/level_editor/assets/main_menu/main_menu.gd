@@ -1,13 +1,13 @@
 extends MarginContainer
 
-signal new_song_requested(song: Song)
-signal load_song_requested
+signal new_level_requested(level: Level)
+signal load_level_requested
 
 
 @export_category("Game Data")
-# Song name
-@export var _song_name: String = "My Song"
-# Song audio file
+# Level name
+@export var _level_name: String = "My Level"
+# Level audio file
 @export_global_file("*.ogg") var _audio_source: String
 # Initial BPM of song
 @export_range(0,200) var _initial_bpm: int = 100
@@ -15,22 +15,25 @@ signal load_song_requested
 
 
 ## Sets song data according to currently selected variables
-func _get_new_song() -> Song:
-	var song: Song = Song.new()
+func _get_new_level() -> Level:
+	var level: Level = Level.new()
 
-	song.data["name"] = _song_name
-	song.data["initial_bpm"] = _initial_bpm
-	song.audio_path = _audio_source
+	# TODO: get from menu
 
-	return song
+	level.name = _level_name
+	level.initial_bpm = _initial_bpm
+	level.song_audio_path = _audio_source
+
+	return level
 
 
 
 # Input signals ======================
 
-func _on_load_song_button_pressed():
-	load_song_requested.emit()
+func _on_new_level_button_pressed():
+	# TODO: make sure _get_new_level() worked
+	new_level_requested.emit(_get_new_level())
 
 
-func _on_new_song_button_pressed():
-	new_song_requested.emit(_get_new_song())
+func _on_load_level_button_pressed():
+	load_level_requested.emit()

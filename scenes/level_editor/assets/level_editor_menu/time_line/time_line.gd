@@ -13,22 +13,19 @@ signal time_marker_moved(second: float)
 var _current_tool: Globals.TOOL
 
 
-## Called when loading song
-func load_song(song: Song) -> void:
+## Called when loading level
+func load_level(level: Level) -> void:
 	
-	_on_total_beats_changed(song.beat_count)
-	_time_line_grid.on_load_song(song)
+	_on_total_beats_changed(level.beat_count)
+	_time_line_grid.load_level(level)
 
 func _on_total_beats_changed(beats: float) -> void:
 	_time_line_scroller.max_value = beats
 
 
-## get data that was dynamically created in level editor
-func generate_dynamic_data() -> Dictionary:
-	return {
-		"note_list": _time_line_grid.generate_note_list()
-	}
-
+## add data that was dynamically created in level editor
+func generate_dynamic_data(level: Level) -> void:
+	level.note_list = _time_line_grid.generate_note_list()
 
 
 
