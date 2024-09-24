@@ -39,9 +39,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_nas6u")
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LevelSettings" type="HBoxContainer" parent="Panel/Contents"]
+[node name="LevelSettings" type="HFlowContainer" parent="Panel/Contents"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
 
 [node name="Name" type="HBoxContainer" parent="Panel/Contents/LevelSettings"]
 layout_mode = 2
@@ -55,7 +57,7 @@ custom_minimum_size = Vector2(140, 30)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-placeholder_text = "name"
+placeholder_text = "My Level"
 scroll_fit_content_height = true
 
 [node name="MenuButtons" type="HBoxContainer" parent="Panel/Contents"]
@@ -73,6 +75,9 @@ text = "Load Level"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Create New Level"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+size = Vector2i(392, 159)
 
 [connection signal="pressed" from="Panel/Contents/MenuButtons/LoadLevelButton" to="." method="_on_load_level_button_pressed"]
 [connection signal="pressed" from="Panel/Contents/MenuButtons/NewLevelButton" to="." method="_on_new_level_button_pressed"]

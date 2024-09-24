@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bv4hfm380gfao"]
+[gd_scene load_steps=11 format=3 uid="uid://bv4hfm380gfao"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/assets/panels/custom_levels/level_list_item.gd" id="1_5qo6d"]
 [ext_resource type="Texture2D" uid="uid://dq87kfsd8c08u" path="res://icon.svg" id="1_drwo5"]
@@ -15,15 +15,7 @@ corner_radius_bottom_left = 1000
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wrj7e"]
 content_margin_right = 10.0
-bg_color = Color(0.435294, 0.564706, 0.686275, 0.768627)
-skew = Vector2(0.3, 0)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 1000
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4plb"]
-bg_color = Color(0.286742, 0.398423, 0.501329, 0.8)
+bg_color = Color(0.435294, 0.564706, 0.686275, 0.717647)
 skew = Vector2(0.3, 0)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -31,7 +23,7 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 1000
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5w5sx"]
-bg_color = Color(0.34902, 0.47451, 0.588235, 0.913725)
+bg_color = Color(0.298039, 0.34902, 0.694118, 0.870588)
 skew = Vector2(0.3, 0)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -62,8 +54,8 @@ layout_mode = 2
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_y611i")
 theme_override_styles/hover = SubResource("StyleBoxFlat_wrj7e")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_g4plb")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_5w5sx")
+action_mode = 0
 
 [node name="LevelInfo" type="HBoxContainer" parent="."]
 layout_mode = 2

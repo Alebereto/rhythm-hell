@@ -5,7 +5,7 @@ Base for micro-games
 '''
 
 # Called when exiting micro game
-signal exit
+signal exit( exit_data )
 
 const MICRO_GAME_SCENES = [ preload("res://scenes/micro_games/karate/karate.tscn") ]
 
@@ -16,6 +16,9 @@ const MICRO_GAME_SCENES = [ preload("res://scenes/micro_games/karate/karate.tscn
 @onready var _song_player: SongPlayer = $SongPlayer
 # Get pause menu panel
 @onready var _menu_panel: VRUI = $MenuPanel
+
+
+var _ended: bool = false
 
 
 # contains level information
@@ -53,7 +56,7 @@ func _ready():
 
 # Called every physics frame.
 func _physics_process(_delta):
-	if not game_paused:
+	if not game_paused and not _ended:
 		_check_next_note()
 		_check_song_end()
 
@@ -139,16 +142,18 @@ func _on_note_hit(dest_beat: float) -> void:
 
 
 ## Exits level and switches to main menu
-func _switch_to_main_menu() -> void:
+func _switch_to_main_menu( aborted: bool = false ) -> void:
 
 	# TODO: add exit data, like score or flag if exited mid game
 
-	exit.emit()
+	exit.emit( null )
 
 ## Called when level ends
 func _on_level_end() -> void:
-	
-	_player.fade_out( 0.4, _switch_to_main_menu )
+	if _ended: return
+	_ended = true
+	_player.stop_inputs()
+	_player.fade_out( 0.8, _switch_to_main_menu )
 
 
 
@@ -204,5 +209,10 @@ func _on_menu_resume_pressed():
 
 
 func _on_menu_exit_pressed():
+	_player.stop_inputs()
 	get_tree().paused = false
-	exit.emit()
+	_switch_to_main_menu(true)
+
+
+func _on_menu_replay_pressed():
+	pass # Replace with function body.

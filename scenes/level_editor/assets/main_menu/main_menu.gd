@@ -5,8 +5,6 @@ signal load_level_requested
 
 
 @export_category("Game Data")
-# Level name
-@export var _level_name: String = "My Level"
 # Level audio file
 @export_global_file("*.ogg") var _audio_source: String
 # Initial BPM of song
@@ -18,9 +16,10 @@ signal load_level_requested
 func _get_new_level() -> Level:
 	var level: Level = Level.new()
 
-	# TODO: get from menu
+	var level_name = $Panel/Contents/LevelSettings/Name/TextEdit.text
+	if level_name == "": level_name = "My Level"
 
-	level.name = _level_name
+	level.name = level_name
 	level.initial_bpm = _initial_bpm
 	level.song_audio_path = _audio_source
 

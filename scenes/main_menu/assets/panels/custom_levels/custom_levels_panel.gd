@@ -22,10 +22,11 @@ func _ready():
 
 
 
-func _add_level_item_box( level: Level, image_path = null):
+func _add_level_item_box( level: Level, texture):
 	# init level item
 	var level_item = LEVEL_ITEM_SCENE.instantiate()
-	level_item.set_params( level, image_path )
+
+	level_item.set_params( level, texture )
 	_level_items_root.add_child(level_item)
 	# connect level item signals
 	level_item.hovered.connect(_on_hover)
@@ -40,7 +41,7 @@ func _load_levels() -> void:
 
 
 func _update_selected_level_panel_info( level_item ) -> void:
-	# TODO: update image
+	$Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/LevelImage.texture = level_item._texture
 	var l = level_item.get_level()
 	$Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/BasicInfo/Name.text = l.name
 	$Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/BasicInfo/Type.text = Globals.MICRO_GAME_NAMES[l.micro_game_id]

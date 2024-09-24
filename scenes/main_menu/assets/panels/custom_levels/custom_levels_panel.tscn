@@ -172,7 +172,7 @@ theme_override_constants/separation = 90
 [node name="LevelInfo" type="HBoxContainer" parent="Main/Levels/SelectedLevel/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 45
 
 [node name="LevelImage" type="TextureRect" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo"]
 custom_minimum_size = Vector2(70, 70)
