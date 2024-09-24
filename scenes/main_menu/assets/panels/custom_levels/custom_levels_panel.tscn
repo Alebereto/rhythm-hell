@@ -1,0 +1,246 @@
+[gd_scene load_steps=17 format=3 uid="uid://bbyygansk8my6"]
+
+[ext_resource type="Script" path="res://scenes/main_menu/assets/panels/custom_levels/custom_levels_panel.gd" id="1_btwey"]
+[ext_resource type="Texture2D" uid="uid://cvrks0hfmnt45" path="res://images/back.png" id="1_iaus3"]
+[ext_resource type="Texture2D" uid="uid://dq87kfsd8c08u" path="res://icon.svg" id="3_u8k2q"]
+[ext_resource type="Texture2D" uid="uid://b8v1kn533a23x" path="res://images/clock.png" id="4_l7gta"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4thwc"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.435294, 0.564706, 0.686275, 1)
+skew = Vector2(0.15, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqfrf"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.797347, 0.202036, 2.98411e-06, 1)
+skew = Vector2(0.15, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0vm6h"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.673833, 0.095993, 0, 1)
+skew = Vector2(0.15, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lns8c"]
+bg_color = Color(0.435294, 0.564706, 0.686275, 1)
+skew = Vector2(0.15, 0)
+border_width_right = 100
+border_color = Color(0.435294, 0.564706, 0.686275, 0)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+shadow_offset = Vector2(-1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_w1omo"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_2v6ri"]
+font_size = 30
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.701961)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1g0gr"]
+font_size = 18
+font_color = Color(0.75362, 0.758509, 0.76829, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qq00o"]
+font_size = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3le0g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_71ab3"]
+bg_color = Color(0.144343, 0.217038, 0.253359, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yshfb"]
+bg_color = Color(0.131827, 0.104159, 1, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i8dfm"]
+bg_color = Color(0, 0.572549, 1, 1)
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[node name="CustomLevelsPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_btwey")
+
+[node name="Main" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 68.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Title" type="HBoxContainer" parent="Main"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="BackButton" type="Button" parent="Main/Title"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_4thwc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bqfrf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0vm6h")
+icon = ExtResource("1_iaus3")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Title" type="Label" parent="Main/Title"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_lns8c")
+text = "Custom Levels"
+label_settings = SubResource("LabelSettings_w1omo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Levels" type="HBoxContainer" parent="Main"]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Main/Levels"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+vertical_scroll_mode = 2
+
+[node name="LevelsList" type="VBoxContainer" parent="Main/Levels/ScrollContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="SelectedLevel" type="CenterContainer" parent="Main/Levels"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main/Levels/SelectedLevel"]
+layout_mode = 2
+theme_override_constants/separation = 90
+
+[node name="LevelInfo" type="HBoxContainer" parent="Main/Levels/SelectedLevel/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="LevelImage" type="TextureRect" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_u8k2q")
+expand_mode = 5
+
+[node name="BasicInfo" type="VBoxContainer" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo"]
+layout_mode = 2
+size_flags_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/BasicInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level Name"
+label_settings = SubResource("LabelSettings_2v6ri")
+vertical_alignment = 1
+
+[node name="Type" type="Label" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/BasicInfo"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "GameType"
+label_settings = SubResource("LabelSettings_1g0gr")
+
+[node name="Time" type="VBoxContainer" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo"]
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Time" type="Label" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/Time"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "01:23"
+label_settings = SubResource("LabelSettings_qq00o")
+vertical_alignment = 1
+
+[node name="Clock" type="TextureRect" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/Time"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_l7gta")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_3le0g")
+
+[node name="PlayButton" type="Button" parent="Main/Levels/SelectedLevel/VBoxContainer"]
+custom_minimum_size = Vector2(130, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+focus_mode = 0
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_71ab3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yshfb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i8dfm")
+text = "Play"
+
+[connection signal="mouse_entered" from="Main/Title/BackButton" to="." method="_on_hover"]
+[connection signal="pressed" from="Main/Title/BackButton" to="." method="_on_back_pressed"]
+[connection signal="mouse_entered" from="Main/Levels/SelectedLevel/VBoxContainer/PlayButton" to="." method="_on_hover"]
+[connection signal="pressed" from="Main/Levels/SelectedLevel/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]

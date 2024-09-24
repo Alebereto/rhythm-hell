@@ -1,0 +1,129 @@
+[gd_scene load_steps=9 format=3 uid="uid://bv4twd1uneke"]
+
+[ext_resource type="Script" path="res://scenes/main_menu/assets/panels/main_panel.gd" id="1_qa3pc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6he1c"]
+font_size = 61
+outline_size = 5
+outline_color = Color(0.114897, 0.114897, 0.114897, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.819608)
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5pfw"]
+bg_color = Color(0.144343, 0.217038, 0.253359, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sxj0x"]
+bg_color = Color(0.131827, 0.104159, 1, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vfls"]
+bg_color = Color(0, 0.572549, 1, 1)
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dhy58"]
+bg_color = Color(0.144343, 0.217038, 0.253359, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sakpc"]
+bg_color = Color(0.884314, 3.20069e-06, 1.15514e-06, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2vnw"]
+bg_color = Color(1, 0.245241, 0.187845, 1)
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[node name="MainPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qa3pc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -106.5
+offset_top = -115.0
+offset_right = 106.5
+offset_bottom = 115.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Rhythm Hell"
+label_settings = SubResource("LabelSettings_6he1c")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CustomLevelsButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+focus_mode = 0
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_d5pfw")
+theme_override_styles/hover = SubResource("StyleBoxFlat_sxj0x")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5vfls")
+text = "Custom Levels"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+focus_mode = 0
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_dhy58")
+theme_override_styles/hover = SubResource("StyleBoxFlat_sakpc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_l2vnw")
+text = "Exit"
+
+[connection signal="mouse_entered" from="VBoxContainer/CustomLevelsButton" to="." method="_on_hover"]
+[connection signal="pressed" from="VBoxContainer/CustomLevelsButton" to="." method="_on_custom_levels_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/ExitButton" to="." method="_on_hover"]
+[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

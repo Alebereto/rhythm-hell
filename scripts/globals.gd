@@ -2,6 +2,7 @@ extends Node
 
 
 enum MICRO_GAMES{ REMIX=-1, KARATE=0 , SPACE_SHOOTER=1, }
+const MICRO_GAME_NAMES = ["Karate", "Space Shooter", "Remix"]
 
 # level editor enums
 enum ITEM_TYPE {NOTE, EVENT, MARKER}
@@ -14,9 +15,12 @@ enum HAND {PUNCHER}
 enum PROJECTILES{ROCK, BARREL}
 
 
-
+# Level loading
+const LEVELS_DIR = "res://levels/"
 const SAVE_FILE_NAME = "save.dat"
 const AUDIO_FILE_NAME = "song.ogg"
+
+
 
 const SECONDS_IN_MINUTE = 60
 const MILISECONDS_IN_SECOND = 1000000.0
@@ -33,10 +37,26 @@ func format_seconds(seconds: float) -> String:
 	return "%s:%s%s" % [str(minute), pad, str(second)]
 
 ## Gets path to level files, returns true if level is valid
-func legal_level_path(_level_path: String) -> bool:
+func is_legal_level_path(_level_path: String) -> bool:
 	# check if dat and ogg files exist in directory ================
 	return true
 
+
+## Gets pairs of [level, image_path] for every level in levels directory
+func get_levels_data() -> Array:
+	var folders = DirAccess.get_directories_at(LEVELS_DIR)
+
+	var levels_data = []
+
+	for folder in folders:
+		var dir = LEVELS_DIR + folder
+
+		if not is_legal_level_path(dir): continue
+		var level: Level = Level.new(dir)
+		# TODO: get level image path
+		levels_data.append([level, null])
+	
+	return levels_data
 
 
 

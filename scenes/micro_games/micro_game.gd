@@ -16,7 +16,8 @@ signal play_sound( sound )
 
 var _note_timers_root: Node
 
-var level: Level = null
+# current bpm
+var bpm: int = 100
 
 var _player: Player = null
 
@@ -37,23 +38,9 @@ func _ready():
 	add_child(_note_timers_root)
 
 
-## Gets called by game controller max_note_delay seconds
-## before note start, adds note to queue.
-func add_note_to_queue( note: Globals.NoteInfo ) -> void:
-	var wait_time: float = max_note_delay - _get_note_delay(note)
-	# make timer
-	var timer = Timer.new()
-	timer.timeout.connect( play_note.bind( note ) ) # call play_note of note when timer ends
-	timer.timeout.connect((func(node): node.queue_free()).bind(timer)) # delete timer after timer ends
-	timer.autostart = true
-	timer.one_shot = true
-	timer.wait_time = wait_time
-	_note_timers_root.add_child( timer )
 
-
-func _clear_note_queue() -> void:
-	for timer in _note_timers_root.get_children():
-		timer.queue_free()
+func _beats_to_seconds(beats: float) -> float:
+	return (beats / float(bpm)) * 60.0
 
 
 ## Called by micro_game to get playing note time.
@@ -61,9 +48,13 @@ func _clear_note_queue() -> void:
 func _get_note_delay( _note: Globals.NoteInfo ): return 0
 
 
-## Called by game_controller when playing note.
+## Called by micro game when playing note
 ## Must override
-func play_note( _note: Globals.NoteInfo ): pass
+func _play_note( _note: Globals.NoteInfo ): pass
+
+
+
+
 
 ## Called by game_controller when setting the player.
 ## Can override to set link player controls to game
@@ -71,3 +62,20 @@ func set_player(player: Player) -> void:
 	_player = player
 
 
+## Gets called by game controller max_note_delay seconds
+## before note start, adds note to queue.
+func add_note_to_queue( note: Globals.NoteInfo ) -> void:
+	var wait_time: float = max_note_delay - _get_note_delay(note)
+	# make timer
+	var timer = Timer.new()
+	timer.timeout.connect( _play_note.bind( note ) ) # call _play_note of note when timer ends
+	timer.timeout.connect((func(node): node.queue_free()).bind(timer)) # delete timer after timer ends
+	timer.autostart = true
+	timer.one_shot = true
+	timer.wait_time = wait_time
+	_note_timers_root.add_child( timer )
+
+
+func clear_note_queue() -> void:
+	for timer in _note_timers_root.get_children():
+		timer.queue_free()

@@ -1,0 +1,128 @@
+[gd_scene load_steps=12 format=3 uid="uid://bv4hfm380gfao"]
+
+[ext_resource type="Script" path="res://scenes/main_menu/assets/panels/custom_levels/level_list_item.gd" id="1_5qo6d"]
+[ext_resource type="Texture2D" uid="uid://dq87kfsd8c08u" path="res://icon.svg" id="1_drwo5"]
+[ext_resource type="Texture2D" uid="uid://b8v1kn533a23x" path="res://images/clock.png" id="2_pgr0r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y611i"]
+content_margin_right = 10.0
+bg_color = Color(0.435294, 0.564706, 0.686275, 0.333333)
+skew = Vector2(0.3, 0)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 1000
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wrj7e"]
+content_margin_right = 10.0
+bg_color = Color(0.435294, 0.564706, 0.686275, 0.768627)
+skew = Vector2(0.3, 0)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 1000
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4plb"]
+bg_color = Color(0.286742, 0.398423, 0.501329, 0.8)
+skew = Vector2(0.3, 0)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 1000
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5w5sx"]
+bg_color = Color(0.34902, 0.47451, 0.588235, 0.913725)
+skew = Vector2(0.3, 0)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 1000
+
+[sub_resource type="LabelSettings" id="LabelSettings_qxj8p"]
+font_size = 20
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.701961)
+
+[sub_resource type="LabelSettings" id="LabelSettings_htk28"]
+font_size = 18
+font_color = Color(0.75362, 0.758509, 0.76829, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7a6oj"]
+font_size = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rncpc"]
+
+[node name="LevelListItem" type="MarginContainer"]
+size_flags_vertical = 2
+theme_override_constants/margin_right = 50
+script = ExtResource("1_5qo6d")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_y611i")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wrj7e")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_g4plb")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_5w5sx")
+
+[node name="LevelInfo" type="HBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+
+[node name="LevelImage" type="TextureRect" parent="LevelInfo"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("1_drwo5")
+expand_mode = 5
+
+[node name="BasicInfo" type="VBoxContainer" parent="LevelInfo"]
+layout_mode = 2
+size_flags_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="LevelInfo/BasicInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level Name"
+label_settings = SubResource("LabelSettings_qxj8p")
+vertical_alignment = 1
+
+[node name="Type" type="Label" parent="LevelInfo/BasicInfo"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "GameType"
+label_settings = SubResource("LabelSettings_htk28")
+
+[node name="Time" type="VBoxContainer" parent="LevelInfo"]
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Time" type="Label" parent="LevelInfo/Time"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "01:23"
+label_settings = SubResource("LabelSettings_7a6oj")
+vertical_alignment = 1
+
+[node name="Clock" type="TextureRect" parent="LevelInfo/Time"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_pgr0r")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VSeparator" type="VSeparator" parent="LevelInfo"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_rncpc")
+
+[connection signal="mouse_entered" from="Button" to="." method="_on_hover"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

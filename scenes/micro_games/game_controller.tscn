@@ -85,6 +85,7 @@ process_mode = 4
 transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 0, 1.23902, -2.58684)
 visible = false
 _ui_viewport = NodePath("MenuUI")
+transparacy = 1.0
 
 [node name="MenuUI" type="SubViewport" parent="MenuPanel"]
 transparent_bg = true

@@ -45,7 +45,7 @@ func set_player(player: Player) -> void:
 
 
 
-func play_note(note: Globals.NoteInfo):
+func _play_note(note: Globals.NoteInfo):
 
 	var cannon = _left_cannon if note.rotated else _right_cannon # get cannon
 
@@ -53,7 +53,7 @@ func play_note(note: Globals.NoteInfo):
 	var projectile: Projectile = _create_projectile( note )
 
 	# Get fire time
-	var fire_time = level.beats_to_seconds(note.b - note.s)
+	var fire_time = _beats_to_seconds(note.b - note.s)
 	if fire_time <= 0:
 		push_warning("Cannot fire in time <= 0!")
 		fire_time = 0.1
@@ -117,7 +117,7 @@ func _calculate_impulse(projectile: Projectile, destination: Node3D, travel_time
 
 func _summon_from_barrel( barrel: Projectile):
 	const BEAT_DELAY = 1
-	var travel_time = level.beats_to_seconds(BEAT_DELAY)
+	var travel_time = _beats_to_seconds(BEAT_DELAY)
 
 	var projectile_scene: PackedScene = barrel.contained_projectile
 	var contained_proj: Projectile = projectile_scene.instantiate()

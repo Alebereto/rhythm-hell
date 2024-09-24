@@ -9,12 +9,14 @@ size = Vector3(0.243, 0.127, 0.061)
 [sub_resource type="BoxMesh" id="BoxMesh_526ds"]
 size = Vector3(0.023, 0.04, 0.166)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hai24"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dkias"]
+resource_local_to_scene = true
+render_priority = 127
 transparency = 1
-albedo_color = Color(0, 0, 0, 0.6)
+albedo_color = Color(0, 0, 0, 0)
 
-[sub_resource type="SphereMesh" id="SphereMesh_uv6yw"]
-material = SubResource("StandardMaterial3D_hai24")
+[sub_resource type="QuadMesh" id="QuadMesh_rfnj5"]
+material = SubResource("StandardMaterial3D_dkias")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w3nc8"]
 radius = 0.3
@@ -44,12 +46,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.119933, 0, 0.0199138)
 layers = 4
 mesh = SubResource("BoxMesh_526ds")
 
-[node name="BlackBox" type="MeshInstance3D" parent="XRCamera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.186045)
-visible = false
+[node name="FadeWall" type="MeshInstance3D" parent="XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
 layers = 2
 cast_shadow = 0
-mesh = SubResource("SphereMesh_uv6yw")
+mesh = SubResource("QuadMesh_rfnj5")
 
 [node name="RightController" parent="." instance=ExtResource("2_qcrnx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.435)

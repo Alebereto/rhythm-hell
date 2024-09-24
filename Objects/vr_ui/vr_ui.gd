@@ -18,6 +18,19 @@ var _last_event_pos = null
 			_update_viewport()
 
 
+@export_range(0,1) var transparacy: float:
+	set(value):
+		if not _ui_viewport: return
+		var node = _ui_viewport.get_child(0)
+		if node is Control:
+			node.modulate.a = clamp(value, 0, 1)
+	get:
+		if not _ui_viewport: return 0
+		var node = _ui_viewport.get_child(0)
+		if node is Control: return node.modulate.a
+		else: return 1
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_update_viewport()
