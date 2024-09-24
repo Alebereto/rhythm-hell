@@ -6,6 +6,10 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+
+
+func set_player(player: Player) -> void: pass
+
+func _play_note(note: Globals.NoteInfo): pass
+
+func _get_note_delay( _note ): return 0
