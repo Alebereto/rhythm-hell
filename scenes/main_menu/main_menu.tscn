@@ -1,155 +1,48 @@
-[gd_scene load_steps=13 format=3 uid="uid://c7aqemlq6ug5y"]
+[gd_scene load_steps=7 format=3 uid="uid://c7aqemlq6ug5y"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_f0s41"]
 [ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_fsg25"]
 [ext_resource type="PackedScene" uid="uid://c26q4xhax7ru6" path="res://objects/vr_ui/vr_ui.tscn" id="2_hxakq"]
 [ext_resource type="PackedScene" uid="uid://decplkyoloi8h" path="res://scenes/main_menu/assets/main_menu_world.tscn" id="2_nny0w"]
-[ext_resource type="PackedScene" uid="uid://bbyygansk8my6" path="res://scenes/main_menu/assets/panels/custom_levels_panel.tscn" id="3_8fget"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_6he1c"]
-font_size = 36
-outline_size = 5
-outline_color = Color(0.114897, 0.114897, 0.114897, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5pfw"]
-bg_color = Color(0.144343, 0.217038, 0.253359, 1)
-border_width_bottom = 5
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sxj0x"]
-bg_color = Color(0.131827, 0.104159, 1, 1)
-border_width_bottom = 5
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vfls"]
-bg_color = Color(0, 0.572549, 1, 1)
-border_width_bottom = 5
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dhy58"]
-bg_color = Color(0.144343, 0.217038, 0.253359, 1)
-border_width_bottom = 5
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sakpc"]
-bg_color = Color(0.884314, 3.20069e-06, 1.15514e-06, 1)
-border_width_bottom = 5
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2vnw"]
-bg_color = Color(1, 0.245241, 0.187845, 1)
-border_width_bottom = 5
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_size = 5
+[ext_resource type="PackedScene" uid="uid://bbyygansk8my6" path="res://scenes/main_menu/assets/panels/custom_levels/custom_levels_panel.tscn" id="3_cklli"]
+[ext_resource type="PackedScene" uid="uid://bv4twd1uneke" path="res://scenes/main_menu/assets/panels/main_panel.tscn" id="4_5xjab"]
 
 [node name="MainMenu" type="Node3D"]
 script = ExtResource("1_f0s41")
-_temp_song_path = "res://levels/My Level"
 
-[node name="CustomLevelsPanel" parent="." node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
-transform = Transform3D(0.48, 0, 0, 0, 0.48, 0, 0, 0, 0.48, 0, 1.39051, -2.03959)
-visible = false
+[node name="Panels" type="Node3D" parent="."]
+
+[node name="CustomLevels" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
+process_mode = 4
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6.5, 1.4385, -4)
 _ui_viewport = NodePath("SubViewport")
 
-[node name="SubViewport" type="SubViewport" parent="CustomLevelsPanel"]
+[node name="SubViewport" type="SubViewport" parent="Panels/CustomLevels"]
 disable_3d = true
 transparent_bg = true
-size = Vector2i(800, 500)
+size = Vector2i(1000, 600)
 
-[node name="CustomLevelsPanel" parent="CustomLevelsPanel/SubViewport" instance=ExtResource("3_8fget")]
+[node name="CustomLevelsPanel" parent="Panels/CustomLevels/SubViewport" instance=ExtResource("3_cklli")]
+modulate = Color(1, 1, 1, 0)
 
-[node name="MainPanel" parent="." node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
-transform = Transform3D(0.52, 0, 0, 0, 0.52, 0, 0, 0, 0.52, 0, 1.52955, -1.83987)
+[node name="Main" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 1.5, -4)
 _ui_viewport = NodePath("SubViewport")
+transparacy = 1.0
 
-[node name="SubViewport" type="SubViewport" parent="MainPanel"]
+[node name="SubViewport" type="SubViewport" parent="Panels/Main"]
 transparent_bg = true
-size = Vector2i(300, 300)
+size = Vector2i(500, 300)
 
-[node name="MainPanel" type="Control" parent="MainPanel/SubViewport"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel/SubViewport/MainPanel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -106.5
-offset_top = -115.0
-offset_right = 106.5
-offset_bottom = 115.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 30
-
-[node name="Label" type="Label" parent="MainPanel/SubViewport/MainPanel/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-text = "Rhythm Hell"
-label_settings = SubResource("LabelSettings_6he1c")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Play" type="Button" parent="MainPanel/SubViewport/MainPanel/VBoxContainer"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_d5pfw")
-theme_override_styles/hover = SubResource("StyleBoxFlat_sxj0x")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_5vfls")
-text = "Play"
-
-[node name="Exit" type="Button" parent="MainPanel/SubViewport/MainPanel/VBoxContainer"]
-custom_minimum_size = Vector2(120, 60)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 6
-focus_mode = 0
-theme_override_styles/normal = SubResource("StyleBoxFlat_dhy58")
-theme_override_styles/hover = SubResource("StyleBoxFlat_sakpc")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_l2vnw")
-text = "Exit"
+[node name="MainPanel" parent="Panels/Main/SubViewport" instance=ExtResource("4_5xjab")]
 
 [node name="World" parent="." instance=ExtResource("2_nny0w")]
 
 [node name="Player" parent="." instance=ExtResource("2_fsg25")]
 
-[connection signal="mouse_entered" from="MainPanel/SubViewport/MainPanel/VBoxContainer/Play" to="MainPanel" method="_on_hovered"]
-[connection signal="pressed" from="MainPanel/SubViewport/MainPanel/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="mouse_entered" from="MainPanel/SubViewport/MainPanel/VBoxContainer/Exit" to="MainPanel" method="_on_hovered"]
-[connection signal="pressed" from="MainPanel/SubViewport/MainPanel/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
+[connection signal="back_pressed" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="." method="_on_custom_levels_panel_back_pressed"]
+[connection signal="hovered" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="Panels/CustomLevels" method="_on_hovered"]
+[connection signal="level_played" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="." method="_on_level_played"]
+[connection signal="custom_levels_pressed" from="Panels/Main/SubViewport/MainPanel" to="." method="_on_main_panel_custom_levels_pressed"]
+[connection signal="exit_pressed" from="Panels/Main/SubViewport/MainPanel" to="." method="_on_main_panel_exit_pressed"]
+[connection signal="hovered" from="Panels/Main/SubViewport/MainPanel" to="Panels/Main" method="_on_hovered"]

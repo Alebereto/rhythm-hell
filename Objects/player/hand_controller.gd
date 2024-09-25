@@ -16,6 +16,9 @@ var _using_wand = true
 # ref to current hand
 var _hand = null
 
+# true if controller emits inputs
+var _inputs_active = true
+
 # Getters
 var is_using_wand:
 	get: return _using_wand
@@ -28,12 +31,11 @@ var clicking: bool:
 	get: return is_button_pressed("trigger")
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_wand.set_color(_hand_color)
 
-func _process(_delta):
-	pass
 
 
 ## Set whether player is holding wands or not
@@ -79,7 +81,16 @@ func vibrate() -> void:
 	trigger_haptic_pulse("haptic", 0, 0.1, 0.1, 0)
 
 
+func stop_inputs():
+	_inputs_active = false
+	if _using_wand: _wand.laser_off()
+
+
+
+# inputs ==========================
+
 func _on_button_pressed(button_name):
+	if not _inputs_active: return
 	match button_name:
 		"trigger_click":
 			trigger_pressed.emit()
@@ -87,6 +98,7 @@ func _on_button_pressed(button_name):
 		"menu_button":	 menu_button_pressed.emit()
 
 func _on_button_released(button_name):
+	if not _inputs_active: return
 	match button_name:
 		"trigger_click":
 			if _using_wand: _wand.on_button(false)

@@ -68,7 +68,7 @@ func _get_level_path():
 
 	if level_path == null: return null # user cancelled load
 
-	if not Globals.legal_level_path(level_path):
+	if not Globals.is_legal_level_path(level_path):
 		_bad_path_popup.visible = true
 		return null
 	return level_path

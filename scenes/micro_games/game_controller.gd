@@ -5,7 +5,7 @@ Base for micro-games
 '''
 
 # Called when exiting micro game
-signal exit
+signal exit( exit_data )
 
 const MICRO_GAME_SCENES = [ preload("res://scenes/micro_games/karate/karate.tscn") ]
 
@@ -16,6 +16,9 @@ const MICRO_GAME_SCENES = [ preload("res://scenes/micro_games/karate/karate.tscn
 @onready var _song_player: SongPlayer = $SongPlayer
 # Get pause menu panel
 @onready var _menu_panel: VRUI = $MenuPanel
+
+
+var _ended: bool = false
 
 
 # contains level information
@@ -49,20 +52,19 @@ var current_beat: float: get = _get_current_beat
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_player.paused.connect(_on_player_paused)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+	_player.fade_in()
 
 # Called every physics frame.
 func _physics_process(_delta):
-	if not game_paused:
+	if not game_paused and not _ended:
 		_check_next_note()
 		_check_song_end()
 
 
+
+
 ## Loads level
-func load_song(level: Level) -> void:
+func load_level(level: Level) -> void:
 
 	# Load level info
 	_level = level
@@ -88,9 +90,9 @@ func _load_micro_game( game_id: Globals.MICRO_GAMES ) -> void:
 	micro_game.note_hit.connect( _on_note_hit )
 	micro_game.play_sound.connect( _play_sound )
 
-	micro_game.level = _level
 	# set player refrence and init some attributes in micro game
 	micro_game.set_player(_player)
+	micro_game.bpm = _level.initial_bpm
 
 ## Starts level from given time
 func _start_level(time: float = 0, delay: float = 1.5) -> void:
@@ -125,7 +127,7 @@ func _check_next_note() -> void:
 			_next_note_idx += 1
 
 func _check_song_end() -> void:
-	if _song_player.current_second >= _level.length: _song_end()
+	if _song_player.current_second >= _level.length: _on_level_end()
 
 
 ## Adds next note to queue
@@ -141,10 +143,26 @@ func _on_note_hit(dest_beat: float) -> void:
 	if hit_offset <= micro_game.perfect_timeframe: _perfect_notes += 1
 
 
+## Collect data when leaving game scene
+func _collect_game_data( aborted: bool ) -> Dictionary:
+	# TODO: add score and such
+	var data = {"aborted": aborted}
+	return data
+
+
+## Exits level and switches to main menu
+func _switch_to_main_menu( aborted: bool = false ) -> void:
+
+	var data = _collect_game_data(aborted)
+
+	exit.emit( data )
+
 ## Called when level ends
-func _song_end() -> void:
-	# TODO: add timer and save some info
-	exit.emit()
+func _on_level_end() -> void:
+	if _ended: return
+	_ended = true
+	_player.stop_inputs()
+	_player.fade_out( 0.8, _switch_to_main_menu )
 
 
 
@@ -173,7 +191,7 @@ func _unpause() -> void:
 	_show_menu(false)
 
 
-
+## Shows pause menu
 func _show_menu(state: bool) -> void:
 	if state:
 		_menu_panel.process_mode = Node.PROCESS_MODE_INHERIT
@@ -187,6 +205,8 @@ func _show_menu(state: bool) -> void:
 
 
 
+# Input methods =================================
+
 ## Called when player pressed menu button
 func _on_player_paused():
 	if not game_paused: _pause()
@@ -198,5 +218,10 @@ func _on_menu_resume_pressed():
 
 
 func _on_menu_exit_pressed():
+	_player.stop_inputs()
 	get_tree().paused = false
-	exit.emit()
+	_switch_to_main_menu(true)
+
+
+func _on_menu_replay_pressed():
+	pass # Replace with function body.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://rup8doholb8h"]
+[gd_scene load_steps=15 format=3 uid="uid://rup8doholb8h"]
 
 [ext_resource type="Script" path="res://scenes/micro_games/game_controller.gd" id="1_7tr6g"]
 [ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_ixxql"]
@@ -36,6 +36,35 @@ shadow_size = 5
 bg_color = Color(0.0860509, 0.138072, 0.164044, 1)
 border_width_bottom = 5
 border_color = Color(0.552956, 0.552956, 0.552955, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnpbq"]
+bg_color = Color(0.144343, 0.217038, 0.253359, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gph4w"]
+bg_color = Color(0.808137, 3.32102e-06, 4.81307e-07, 1)
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keig2"]
+bg_color = Color(0.726223, 3.46541e-06, 2.88785e-07, 1)
+border_width_bottom = 5
+border_color = Color(0.625597, 0.625597, 0.625597, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -85,10 +114,11 @@ process_mode = 4
 transform = Transform3D(0.655, 0, 0, 0, 0.655, 0, 0, 0, 0.655, 0, 1.23902, -2.58684)
 visible = false
 _ui_viewport = NodePath("MenuUI")
+transparacy = 1.0
 
 [node name="MenuUI" type="SubViewport" parent="MenuPanel"]
 transparent_bg = true
-size = Vector2i(400, 400)
+size = Vector2i(500, 300)
 
 [node name="Control" type="Control" parent="MenuPanel/MenuUI"]
 layout_mode = 3
@@ -133,6 +163,15 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_flxdr")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_23fr2")
 text = "Resume"
 
+[node name="Replay" type="Button" parent="MenuPanel/MenuUI/Control/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_mnpbq")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gph4w")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_keig2")
+text = "Replay"
+
 [node name="Exit" type="Button" parent="MenuPanel/MenuUI/Control/VBoxContainer/Buttons"]
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 2
@@ -144,5 +183,7 @@ text = "Exit"
 
 [connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Resume" to="MenuPanel" method="_on_hovered"]
 [connection signal="pressed" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Resume" to="." method="_on_menu_resume_pressed"]
+[connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Replay" to="MenuPanel" method="_on_hovered"]
+[connection signal="pressed" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Replay" to="." method="_on_menu_replay_pressed"]
 [connection signal="mouse_entered" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Exit" to="MenuPanel" method="_on_hovered"]
 [connection signal="pressed" from="MenuPanel/MenuUI/Control/VBoxContainer/Buttons/Exit" to="." method="_on_menu_exit_pressed"]

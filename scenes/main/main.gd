@@ -2,7 +2,7 @@ extends Node
 
 
 const MainMenuScene: PackedScene = preload("res://scenes/main_menu/main_menu.tscn")
-const GameControllerScene: PackedScene = preload("res://scenes/game_controller/game_controller.tscn")
+const GameControllerScene: PackedScene = preload("res://scenes/micro_games/game_controller.tscn")
 
 var _xr_interface: XRInterface
 
@@ -15,19 +15,20 @@ func _ready():
 	await _load_main_menu()
 
 
-func _load_main_menu():
+func _load_main_menu( load_data = null ):
 	_close_scene()
 
 	# create main menu scene
 	var main_menu = MainMenuScene.instantiate()
 	_current_scene = main_menu
+	main_menu.load_data = load_data
 	add_child(main_menu)
 	if not main_menu.is_node_ready(): await main_menu.ready
 
-	main_menu.song_played.connect(_load_game_controller, ConnectFlags.CONNECT_ONE_SHOT)
+	main_menu.level_played.connect(_load_game_controller, ConnectFlags.CONNECT_ONE_SHOT)
 
 
-func _load_game_controller( song ):
+func _load_game_controller( level ):
 	_close_scene()
 
 	# create game scene
@@ -39,7 +40,7 @@ func _load_game_controller( song ):
 	game_controller.exit.connect(_load_main_menu, ConnectFlags.CONNECT_ONE_SHOT)
 
 	# load song
-	await game_controller.load_song( song )
+	await game_controller.load_level( level )
 
 
 
