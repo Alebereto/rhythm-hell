@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends HFlowContainer
 
 signal note_settings_changed(note: Globals.NoteInfo)
 signal note_settings_saved(note: Globals.NoteInfo)
@@ -6,20 +6,22 @@ signal note_settings_saved(note: Globals.NoteInfo)
 
 var _note_values: Globals.NoteInfo
 
-var note_info: Globals.NoteInfo: get = _get_note_info, set = _set_note_info
-func _get_note_info() -> Globals.NoteInfo: return _note_values
-func _set_note_info(info: Globals.NoteInfo) -> void:
-	_note_values = info
-	_update_displays()
+var note_info: Globals.NoteInfo:
+	get:
+		return _note_values
+	set(info):
+		_note_values = info
+		_update_displays()
 
 
 # Note Settings controllers
-@onready var _name_panel: LineEdit = $Row1/NoteName/LineEdit
-@onready var _note_delay_panel: SpinBox = $Row1/NoteDelay/SpinBox
-@onready var _id_panel: SpinBox = $Row1/NoteID/SpinBox
-@onready var _note_color_panel: ColorPickerButton = $Row2/NoteColor
-@onready var _note_rotated_panel: CheckBox = $Row2/NoteRotated
+@onready var _name_panel: LineEdit = $NoteName/LineEdit
+@onready var _note_delay_panel: SpinBox = $NoteDelay/SpinBox
+@onready var _id_panel: SpinBox = $NoteID/SpinBox
+@onready var _note_color_panel: ColorPickerButton = $NoteColor
+@onready var _note_rotated_panel: CheckBox = $NoteRotated
 
+@onready var _save_note_button: Button = $SaveNote
 
 
 ## Updates values in conrol panel according to note settings.
@@ -42,6 +44,10 @@ func _on_change() -> void:
 
 
 func _on_name_edit(new_text):
+	if new_text == "" or new_text == Globals.DEFAULT_ITEM_NAME:
+		_save_note_button.disabled = true
+	else:
+		_save_note_button.disabled = false
 	_note_values.name = new_text
 	_on_change()
 

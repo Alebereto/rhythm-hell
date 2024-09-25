@@ -11,6 +11,8 @@ const MICRO_GAME_NAMES = ["Karate", "Space Shooter", "Remix"]
 enum ITEM_TYPE {NOTE, EVENT, MARKER}
 enum TOOL {SELECT, DELETE, ITEM}
 
+const DEFAULT_ITEM_NAME = "Default"
+
 # player enum
 enum HAND {PUNCHER}
 
@@ -93,7 +95,8 @@ class Queue:
 
 
 class ItemInfo:
-	var name: String = "default"
+	var name: String = DEFAULT_ITEM_NAME
+	var color: Color = Color.WHITE
 
 	func _init():
 		pass
@@ -108,7 +111,6 @@ class NoteInfo extends ItemInfo:
 	var id: int = 0
 	
 	var layer: int = 1
-	var color: Color = Color.WHITE
 	var rotated: bool = true
 
 	var custom_data: Dictionary = {}

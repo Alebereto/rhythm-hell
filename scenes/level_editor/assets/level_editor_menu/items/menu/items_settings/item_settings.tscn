@@ -16,7 +16,7 @@ corner_radius_bottom_left = 5
 shadow_color = Color(0.0745098, 0.0745098, 0.0745098, 0.372549)
 shadow_size = 3
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ojflq"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_thphq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rx6d6"]
 
@@ -28,66 +28,62 @@ size_flags_stretch_ratio = 0.81
 theme_override_styles/panel = SubResource("StyleBoxFlat_di6fo")
 script = ExtResource("1_uaw8x")
 
-[node name="NoteSettings" type="VBoxContainer" parent="."]
+[node name="NoteSettings" type="HFlowContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 20
+mouse_filter = 2
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 15
 script = ExtResource("2_ve8gy")
 
-[node name="Row1" type="HBoxContainer" parent="NoteSettings"]
-layout_mode = 2
-size_flags_vertical = 0
-theme_override_constants/separation = 14
-
-[node name="NoteName" type="HBoxContainer" parent="NoteSettings/Row1"]
+[node name="NoteName" type="HBoxContainer" parent="NoteSettings"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.19
 theme_override_constants/separation = 13
 
-[node name="Label" type="Label" parent="NoteSettings/Row1/NoteName"]
+[node name="Label" type="Label" parent="NoteSettings/NoteName"]
 layout_mode = 2
 text = "Name:"
 
-[node name="LineEdit" type="LineEdit" parent="NoteSettings/Row1/NoteName"]
+[node name="LineEdit" type="LineEdit" parent="NoteSettings/NoteName"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ojflq")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_thphq")
 placeholder_text = "Note"
+max_length = 15
 
-[node name="NoteDelay" type="HBoxContainer" parent="NoteSettings/Row1"]
+[node name="NoteDelay" type="HBoxContainer" parent="NoteSettings"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 14
 
-[node name="Label" type="Label" parent="NoteSettings/Row1/NoteDelay"]
+[node name="Label" type="Label" parent="NoteSettings/NoteDelay"]
 layout_mode = 2
 text = "Note Delay:"
 
-[node name="SpinBox" type="SpinBox" parent="NoteSettings/Row1/NoteDelay"]
+[node name="SpinBox" type="SpinBox" parent="NoteSettings/NoteDelay"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.75
+focus_mode = 2
 max_value = 10.0
 step = 0.125
 alignment = 1
+update_on_text_changed = true
 
-[node name="NoteID" type="HBoxContainer" parent="NoteSettings/Row1"]
+[node name="NoteID" type="HBoxContainer" parent="NoteSettings"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="NoteSettings/Row1/NoteID"]
+[node name="Label" type="Label" parent="NoteSettings/NoteID"]
 layout_mode = 2
 text = "ID: "
 
-[node name="SpinBox" type="SpinBox" parent="NoteSettings/Row1/NoteID"]
+[node name="SpinBox" type="SpinBox" parent="NoteSettings/NoteID"]
 layout_mode = 2
+focus_mode = 2
 
-[node name="Row2" type="HBoxContainer" parent="NoteSettings"]
-layout_mode = 2
-size_flags_vertical = 2
-theme_override_constants/separation = 10
-
-[node name="NoteColor" type="ColorPickerButton" parent="NoteSettings/Row2"]
+[node name="NoteColor" type="ColorPickerButton" parent="NoteSettings"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_rx6d6")
@@ -96,15 +92,17 @@ text = "Color"
 color = Color(1, 1, 1, 1)
 edit_alpha = false
 
-[node name="NoteRotated" type="CheckBox" parent="NoteSettings/Row2"]
+[node name="NoteRotated" type="CheckBox" parent="NoteSettings"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_rub5a")
 text = "Rotated"
 
-[node name="SaveNote" type="Button" parent="NoteSettings/Row2"]
+[node name="SaveNote" type="Button" parent="NoteSettings"]
 layout_mode = 2
 size_flags_horizontal = 10
+focus_mode = 0
+disabled = true
 text = "Save Note"
 
 [node name="EventSettings" type="VBoxContainer" parent="."]
@@ -117,9 +115,9 @@ layout_mode = 2
 
 [connection signal="note_settings_changed" from="NoteSettings" to="." method="_on_settings_changed"]
 [connection signal="note_settings_saved" from="NoteSettings" to="." method="_on_settings_saved"]
-[connection signal="text_changed" from="NoteSettings/Row1/NoteName/LineEdit" to="NoteSettings" method="_on_name_edit"]
-[connection signal="value_changed" from="NoteSettings/Row1/NoteDelay/SpinBox" to="NoteSettings" method="_on_delay_value_changed"]
-[connection signal="value_changed" from="NoteSettings/Row1/NoteID/SpinBox" to="NoteSettings" method="_on_id_value_changed"]
-[connection signal="color_changed" from="NoteSettings/Row2/NoteColor" to="NoteSettings" method="_on_note_color_changed"]
-[connection signal="toggled" from="NoteSettings/Row2/NoteRotated" to="NoteSettings" method="_on_note_rotated_toggled"]
-[connection signal="pressed" from="NoteSettings/Row2/SaveNote" to="NoteSettings" method="_on_save_note_pressed"]
+[connection signal="text_changed" from="NoteSettings/NoteName/LineEdit" to="NoteSettings" method="_on_name_edit"]
+[connection signal="value_changed" from="NoteSettings/NoteDelay/SpinBox" to="NoteSettings" method="_on_delay_value_changed"]
+[connection signal="value_changed" from="NoteSettings/NoteID/SpinBox" to="NoteSettings" method="_on_id_value_changed"]
+[connection signal="color_changed" from="NoteSettings/NoteColor" to="NoteSettings" method="_on_note_color_changed"]
+[connection signal="toggled" from="NoteSettings/NoteRotated" to="NoteSettings" method="_on_note_rotated_toggled"]
+[connection signal="pressed" from="NoteSettings/SaveNote" to="NoteSettings" method="_on_save_note_pressed"]

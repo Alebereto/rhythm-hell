@@ -54,14 +54,14 @@ func _update_level_data() -> void:
 
 # Input signals ====================
 
-# Items menu inputs
+# Items menu inputs ========
 
 func _on_items_menu_item_switched(item: Globals.ItemInfo) -> void:
 	_time_line.set_item(item)
 	_time_line_settings.change_tool_to(Globals.TOOL.ITEM)	# emits tool changed signal
 
 
-# TimeLine settings inputs
+# TimeLine settings inputs ======
 
 func _on_time_line_settings_tool_changed(t: Globals.TOOL) -> void:
 	_time_line.set_tool(t)
@@ -71,7 +71,7 @@ func _on_time_line_settings_snap_beats_changed(value: float) -> void:
 
 
 
-# TimeLine inputs
+# TimeLine inputs ==========
 
 func _on_time_line_item_copied(item: Globals.ItemInfo) -> void:
 	_items_menu.on_time_line_copied_item(item)
@@ -82,7 +82,7 @@ func _on_time_line_time_marker_moved(second: float) -> void:
 
 
 
-# Level playing inputs
+# Level playing inputs =================
 
 func _on_song_player_song_ended() -> void:
 	_song_player_controller.on_song_end()
@@ -104,7 +104,7 @@ func _on_song_player_controller_seeked(seconds: float) -> void:
 func _on_song_player_controller_scroller_value_changed(second: float) -> void:
 	_time_line.on_song_player_value_changed(second)
 
-# Keyboard inputs
+# Keyboard inputs ===================
 
 func _input(event):
 	if _is_focused:
@@ -114,6 +114,11 @@ func _input(event):
 			_time_line_settings.change_tool_to(Globals.TOOL.DELETE)
 		if event.is_action_pressed("level_editor_set_item_tool"):
 			_time_line_settings.change_tool_to(Globals.TOOL.ITEM)
+
+		if event.is_action_pressed("level_editor_undo"):
+			pass	# TODO: undo
+		if event.is_action_pressed("level_editor_redo"):
+			pass	# TODO: redo
 
 		if event.is_action_pressed("level_editor_save"):
 			save()
