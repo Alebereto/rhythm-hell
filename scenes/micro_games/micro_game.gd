@@ -76,6 +76,6 @@ func add_note_to_queue( note: Globals.NoteInfo ) -> void:
 	_note_timers_root.add_child( timer )
 
 
-func clear_note_queue() -> void:
+func _clear_note_queue() -> void:
 	for timer in _note_timers_root.get_children():
 		timer.queue_free()

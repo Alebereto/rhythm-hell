@@ -6,6 +6,8 @@ signal level_played( level )
 @onready var player: Player = $Player
 
 
+var load_data = null
+
 # menu panels
 @onready var _main_menu_panel: VRUI = $Panels/Main
 @onready var _custom_levels_panel: VRUI = $Panels/CustomLevels
@@ -14,6 +16,8 @@ const PANEL_ANIMATION_TIME: float = 0.4
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if load_data != null:
+		pass # TODO: use load data
 	player.fade_in()
 
 

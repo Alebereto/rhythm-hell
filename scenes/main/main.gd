@@ -21,6 +21,7 @@ func _load_main_menu( load_data = null ):
 	# create main menu scene
 	var main_menu = MainMenuScene.instantiate()
 	_current_scene = main_menu
+	main_menu.load_data = load_data
 	add_child(main_menu)
 	if not main_menu.is_node_ready(): await main_menu.ready
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bbyygansk8my6"]
+[gd_scene load_steps=16 format=3 uid="uid://bbyygansk8my6"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/assets/panels/custom_levels/custom_levels_panel.gd" id="1_btwey"]
 [ext_resource type="Texture2D" uid="uid://cvrks0hfmnt45" path="res://images/back.png" id="1_iaus3"]
@@ -65,8 +65,6 @@ font_color = Color(0.75362, 0.758509, 0.76829, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qq00o"]
 font_size = 20
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3le0g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_71ab3"]
 bg_color = Color(0.144343, 0.217038, 0.253359, 1)
@@ -163,13 +161,14 @@ theme_override_constants/separation = 10
 [node name="SelectedLevel" type="CenterContainer" parent="Main/Levels"]
 visible = false
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Main/Levels/SelectedLevel"]
 layout_mode = 2
 theme_override_constants/separation = 90
 
 [node name="LevelInfo" type="HBoxContainer" parent="Main/Levels/SelectedLevel/VBoxContainer"]
+custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 45
@@ -184,7 +183,7 @@ expand_mode = 5
 
 [node name="BasicInfo" type="VBoxContainer" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo"]
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 0
 mouse_filter = 2
 theme_override_constants/separation = 5
 
@@ -204,7 +203,7 @@ label_settings = SubResource("LabelSettings_1g0gr")
 
 [node name="Time" type="VBoxContainer" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo"]
 layout_mode = 2
-size_flags_horizontal = 10
+size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 10
 
@@ -213,6 +212,7 @@ layout_mode = 2
 size_flags_vertical = 6
 text = "01:23"
 label_settings = SubResource("LabelSettings_qq00o")
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Clock" type="TextureRect" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/Time"]
@@ -223,10 +223,6 @@ mouse_filter = 2
 texture = ExtResource("4_l7gta")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="VSeparator" type="VSeparator" parent="Main/Levels/SelectedLevel/VBoxContainer/LevelInfo"]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxEmpty_3le0g")
 
 [node name="PlayButton" type="Button" parent="Main/Levels/SelectedLevel/VBoxContainer"]
 custom_minimum_size = Vector2(130, 60)

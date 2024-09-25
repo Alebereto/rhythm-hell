@@ -61,6 +61,8 @@ func _physics_process(_delta):
 		_check_song_end()
 
 
+
+
 ## Loads level
 func load_level(level: Level) -> void:
 
@@ -141,12 +143,19 @@ func _on_note_hit(dest_beat: float) -> void:
 	if hit_offset <= micro_game.perfect_timeframe: _perfect_notes += 1
 
 
+## Collect data when leaving game scene
+func _collect_game_data( aborted: bool ) -> Dictionary:
+	# TODO: add score and such
+	var data = {"aborted": aborted}
+	return data
+
+
 ## Exits level and switches to main menu
 func _switch_to_main_menu( aborted: bool = false ) -> void:
 
-	# TODO: add exit data, like score or flag if exited mid game
+	var data = _collect_game_data(aborted)
 
-	exit.emit( null )
+	exit.emit( data )
 
 ## Called when level ends
 func _on_level_end() -> void:
