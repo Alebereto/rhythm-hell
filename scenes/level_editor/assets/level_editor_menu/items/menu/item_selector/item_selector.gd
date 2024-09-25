@@ -3,6 +3,7 @@ extends TabContainer
 signal item_selected(item: Globals.ItemInfo)
 
 const ITEM_TEXTURES = [preload("res://images/item.png"), null, null]
+const UNROTATED_NOTE_TEXTURE = preload("res://images/square.png")
 enum MENUS{NOTES, EVENTS, MARKERS}
 
 @onready var _notes_item_list: ItemList = $Notes
@@ -55,8 +56,8 @@ func add_item(item_info: Globals.ItemInfo) -> void:
 	if copied_item is Globals.NoteInfo:
 		item_arr = _notes
 		item_list = _notes_item_list
-		item_texture = ITEM_TEXTURES[MENUS.NOTES]
-		# TODO: if note is rotated place different texture
+		if copied_item.rotated: item_texture = ITEM_TEXTURES[MENUS.NOTES]
+		else: 					item_texture = UNROTATED_NOTE_TEXTURE
 	elif copied_item is Globals.EventInfo:
 		item_arr = _events
 		item_list = _events_item_list
@@ -81,8 +82,21 @@ func add_item(item_info: Globals.ItemInfo) -> void:
 		item_arr[arr_idx] = copied_item
 		item_list.set_item_icon_modulate(arr_idx, copied_item.color)
 
-func remove_item(idx: int) -> void:
-	if idx == 0: return # cannot remove default item
+func remove_item(idx: int, menu_id: MENUS) -> void:
+	if idx <= 0: return # cannot remove default item
+	match menu_id:
+		MENUS.NOTES:
+			if idx >= len(_notes): return
+			_notes.remove_at(idx)
+			_notes_item_list.remove_item(idx)
+		MENUS.EVENTS:
+			if idx >= len(_events): return
+			_events.remove_at(idx)
+			_events_item_list.remove_item(idx)
+		MENUS.MARKERS:
+			if idx >= len(_markers): return
+			_markers.remove_at(idx)
+			_markers_item_list.remove_item(idx)
 	
 
 
@@ -124,10 +138,9 @@ func set_from_items_dict(items_dict: Dictionary) -> void:
 func _on_notes_item_selected(index):
 	_select_item(_notes[index])
 
-func _on_notes_item_clicked(index:int, at_position:Vector2, mouse_button_index:int):
-	# TODO: remove item if left clicked
-	pass # Replace with function body.
-
+func _on_notes_item_clicked(index:int, _at_position:Vector2, mouse_button_index:int):
+	if mouse_button_index == MouseButton.MOUSE_BUTTON_RIGHT:
+		remove_item(index, MENUS.NOTES)
 
 func _on_events_item_selected(index):
 	_select_item(_events[index])
