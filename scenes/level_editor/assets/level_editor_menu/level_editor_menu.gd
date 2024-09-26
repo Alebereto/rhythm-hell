@@ -1,12 +1,21 @@
 extends MarginContainer
 
+const ACTIONS_REMEMBERED = 10
 
-signal save_level(level)
+signal save_level(level: Level)
+
+
+# true if all changes were saved. TODO: use for unsaved changes popup
+var saved = false
+
 
 var _level: Level
 
 # true if level editor menu is shown
 var _is_focused: bool = false
+
+var _previous_actions = Globals.Stack.new(ACTIONS_REMEMBERED)
+var _undone_actions = Globals.Stack.new(ACTIONS_REMEMBERED)
 
 @onready var _song_player: SongPlayer = $SongPlayer
 @onready var _items_menu: HBoxContainer = $Panels/OptionsMenus/ItemsMenu
@@ -37,22 +46,73 @@ func load_level(level: Level) -> bool:
 ## Called when unloading level editor menu
 func unload() -> void:
 	_is_focused = false
-	_level = null
 
+	_clear_action_memory()
+	_level = null
 
 ## Sends current level infromation to save_level signal
 func save() -> void:
 	_update_level_data()
+	saved = true
 	save_level.emit(_level)
 
-# Updates song data with information that is not immediatley saved
+
+
+
+## Takes given action.
+func _take_action( action: Globals.EditorAction ):
+	_time_line.take_action(action)
+
+
+## Called after succsesfuly taking an action
+func _on_action_taken( action: Globals.EditorAction ):
+	saved = false
+	# If action is saved in stack, clear redo stack and add action to previous actions.
+	if action.remember:
+		action.remember = false
+		_undone_actions.clear()
+		_previous_actions.push( action )
+
+
+## Undo last action
+func _undo():
+	if _previous_actions.size() <= 0: return
+
+	var last_action: Globals.EditorAction = _previous_actions.pop()
+	var _inverse_last_action = last_action.get_inverse_action()
+	_inverse_last_action.remember = false # maybe add this line to get_inverse_action()
+
+	_take_action( _inverse_last_action )
+	_undone_actions.push(last_action)
+	
+## Redo last undone action
+func _redo():
+	if _undone_actions.size() <= 0: return
+
+	var redo_action = _undone_actions.pop()
+
+	_take_action(redo_action)
+	_previous_actions.push(redo_action)
+
+
+func _clear_action_memory():
+	_previous_actions.clear()
+	_undone_actions.clear()
+
+
+
+
+# Updates level data with information that is not immediatley saved
 func _update_level_data() -> void:
 	# Ordered list of notes (by start beat)
 	_time_line.generate_dynamic_data(_level)
 	_items_menu.generate_dynamic_data(_level)
 
 
-# Input signals ====================
+
+
+
+# Input signals ==================================================
 
 # Items menu inputs ========
 
@@ -82,7 +142,7 @@ func _on_time_line_time_marker_moved(second: float) -> void:
 
 
 
-# Level playing inputs =================
+# song playing inputs =================
 
 func _on_song_player_song_ended() -> void:
 	_song_player_controller.on_song_end()
@@ -115,10 +175,8 @@ func _input(event):
 		if event.is_action_pressed("level_editor_set_item_tool"):
 			_time_line_settings.change_tool_to(Globals.TOOL.ITEM)
 
-		if event.is_action_pressed("level_editor_undo"):
-			pass	# TODO: undo
-		if event.is_action_pressed("level_editor_redo"):
-			pass	# TODO: redo
+		if event.is_action_pressed("level_editor_undo"): _undo()
+		if event.is_action_pressed("level_editor_redo"): _redo()
 
 		if event.is_action_pressed("level_editor_save"):
 			save()

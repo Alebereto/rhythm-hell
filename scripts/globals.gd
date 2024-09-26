@@ -104,8 +104,8 @@ class Stack:
 		_s = []
 		_max_size = max_size
 	
-	func add(item):
-		if len(_s) >= _max_size: _s.pop_front()
+	func push(item):
+		if size() >= _max_size: _s.pop_front()
 		_s.push_back(item)
 	
 	func pop():
@@ -113,6 +113,8 @@ class Stack:
 	
 	func clear():
 		_s.clear()
+	
+	func size(): return len(_s)
 
 
 
@@ -132,6 +134,7 @@ const DEFAULT_ITEM_NAME = "Default"
 class ItemInfo:
 	var name: String = DEFAULT_ITEM_NAME
 	var color: Color = Color.WHITE
+	var b: float = 0
 
 	func _init():
 		pass
@@ -149,7 +152,6 @@ class NoteInfo extends ItemInfo:
 
 	var custom_data: Dictionary = {}
 
-	var b: float = 0
 	var s: float = 0
 
 	func _init(note= null):
@@ -230,23 +232,31 @@ func clone_item_info(item_info: ItemInfo) -> ItemInfo:
 # Actions =-=-=-=-=-=
 
 class EditorAction:
-	func _init():
-		pass
+	var remember = true
+
+	func _init(): pass
 	
-	func get_inverse_action():
-		pass
+	func get_inverse_action(): pass
 
 
-class PlaceNote extends EditorAction:
-	func _init():
-		pass
-	
-	func get_inverse_action() -> DeleteNote:
-		return DeleteNote.new()
+class PlaceItem extends EditorAction:
+	var _item_info: ItemInfo
 
-class DeleteNote extends EditorAction:
-	func _init():
-		pass
+	func _init(item_info):
+		_item_info = item_info
 	
-	func get_inverse_action() -> PlaceNote:
-		return PlaceNote.new()
+	func get_item_info(): return _item_info
+	
+	func get_inverse_action() -> DeleteItem:
+		return DeleteItem.new(_item_info)
+
+class DeleteItem extends EditorAction:
+	var _item_info: ItemInfo
+
+	func _init(item_info):
+		_item_info = item_info
+
+	func get_item_info(): return _item_info
+	
+	func get_inverse_action() -> PlaceItem:
+		return PlaceItem.new(_item_info)

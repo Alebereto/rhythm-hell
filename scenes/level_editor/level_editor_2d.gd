@@ -133,12 +133,26 @@ func _on_level_editor_menu_save_level(level: Level):
 	_on_save_requested(level)
 
 
-# Other =======
+# Header ============
 
-func _on_header_tabs_load_level_requested():
+
+func _on_header_tabs_save_level():
+	_level_editor_menu.save()
+
+
+func _on_header_tabs_new_level():
+	pass # Replace with function body.
+
+func _on_header_tabs_load_level():
 	var level: Level = await _get_level_from_user()
 	_load_level_editor_menu(level)
 
 
-func _on_header_tabs_save_level_requested():
-	_level_editor_menu.save()
+
+
+func _on_header_tabs_redo():
+	pass # Replace with function body.
+
+
+func _on_header_tabs_undo():
+	pass # Replace with function body.

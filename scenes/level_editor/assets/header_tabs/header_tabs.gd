@@ -1,9 +1,15 @@
 extends PanelContainer
 
-signal save_song_requested
-signal load_song_requested
+# file signals
+signal new_level
+signal load_level
+signal save_level
 
-enum BUTTON_ID{NEW, LOAD, SAVE, QUIT}
+# edit signals
+signal undo
+signal redo
+
+enum FILE_BUTTON_ID{NEW, LOAD, SAVE, QUIT}
 
 @onready var _file_tab: MenuButton = $Tabs/File
 @onready var _edit_tab: MenuButton = $Tabs/Edit
@@ -19,12 +25,19 @@ func _ready():
 	_edit_tab.get_popup().id_pressed.connect(_on_view_popup_pressed)
 
 
+func set_undo_state(state: bool):
+	pass
+func set_redo_state(state: bool):
+	pass
+
+
+
 # Input signals =================================
 
 func _on_file_popup_pressed(id: int) -> void:
 	match id:
-		BUTTON_ID.SAVE: save_song_requested.emit()	# save pressed
-		BUTTON_ID.LOAD: load_song_requested.emit() 	# load pressed
+		FILE_BUTTON_ID.SAVE: save_level.emit()	# save pressed
+		FILE_BUTTON_ID.LOAD: load_level.emit() 	# load pressed
 
 func _on_view_popup_pressed(_id):
 	pass

@@ -63,6 +63,7 @@ size_flags_vertical = 10
 [connection signal="seeked" from="Panels/OptionsMenus/SongMenu/SongPlayerController" to="." method="_on_song_player_controller_seeked"]
 [connection signal="snap_beats_changed" from="Panels/OptionsMenus/SongMenu/TimeLineSettings" to="." method="_on_time_line_settings_snap_beats_changed"]
 [connection signal="tool_changed" from="Panels/OptionsMenus/SongMenu/TimeLineSettings" to="." method="_on_time_line_settings_tool_changed"]
+[connection signal="action_taken" from="Panels/TimeLine" to="." method="_on_action_taken"]
 [connection signal="item_copied" from="Panels/TimeLine" to="." method="_on_time_line_item_copied"]
 [connection signal="time_marker_moved" from="Panels/TimeLine" to="." method="_on_time_line_time_marker_moved"]
 [connection signal="song_ended" from="SongPlayer" to="." method="_on_song_player_song_ended"]
