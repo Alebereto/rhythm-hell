@@ -61,8 +61,11 @@ script = ExtResource("7_ghtds")
 
 [node name="Alert" type="AcceptDialog" parent="Popups"]
 
-[connection signal="load_song_requested" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_load_song_requested"]
-[connection signal="save_song_requested" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_save_song_requested"]
+[connection signal="load_level" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_load_level"]
+[connection signal="new_level" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_new_level"]
+[connection signal="redo" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_redo"]
+[connection signal="save_level" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_save_level"]
+[connection signal="undo" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_undo"]
 [connection signal="save_level" from="Camera2D/GUI/Background/MainLayout/LevelEditorMenu" to="." method="_on_level_editor_menu_save_level"]
 [connection signal="load_level_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_load_level_requested"]
 [connection signal="new_level_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_new_level_requested"]

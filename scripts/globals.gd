@@ -1,33 +1,10 @@
 extends Node
 
-# godot image
-const GODOT_IMAGE = preload("res://icon.svg")
-
-# micro game indeces
-enum MICRO_GAMES{ REMIX=-1, KARATE=0 , SPACE_SHOOTER=1, }
-const MICRO_GAME_NAMES = ["Karate", "Space Shooter", "Remix"]
-
-# level editor enums
-enum ITEM_TYPE {NOTE, EVENT, MARKER}
-enum TOOL {SELECT, DELETE, ITEM}
-
-# player enum
-enum HAND {PUNCHER}
-
-# karate projectiles enum
-enum PROJECTILES{ROCK, BARREL}
-
-
-# Level loading
-const LEVELS_DIR = "res://levels/"
-const SAVE_FILE_NAME = "save.dat"
-const AUDIO_FILE_NAME = "song.ogg"
-const IMAGE_NAME = "cover.jpg"
-
-
-
 const SECONDS_IN_MINUTE = 60
 const MILISECONDS_IN_SECOND = 1000000.0
+
+# godot image
+const GODOT_IMAGE = preload("res://icon.svg")
 
 
 
@@ -39,6 +16,31 @@ func format_seconds(seconds: float) -> String:
 	if second < 10: pad = "0"
 
 	return "%s:%s%s" % [str(minute), pad, str(second)]
+
+
+
+
+# For micro games =============================================================================================
+
+# micro game indeces
+enum MICRO_GAMES{ REMIX=-1, KARATE=0 , SPACE_SHOOTER=1, }
+const MICRO_GAME_NAMES = ["Karate", "Space Shooter", "Remix"]
+
+# player enum
+enum HAND {PUNCHER}
+
+# karate projectiles enum
+enum PROJECTILES{ROCK, BARREL}
+
+
+
+# for level saving and loading ================================================================================
+
+const LEVELS_DIR = "res://levels/"
+const SAVE_FILE_NAME = "save.dat"
+const AUDIO_FILE_NAME = "song.ogg"
+const IMAGE_NAME = "cover.jpg"
+
 
 ## Gets path to level files, returns true if level is valid
 func is_legal_level_path(_level_path: String) -> bool:
@@ -73,27 +75,66 @@ func get_levels_data() -> Array:
 
 
 
+# Data structures ========================================================================================
 
 class Queue:
-	var q: Array = []
-	var max_length
+	var _q: Array
+	var _max_size
 
 	func _init(max_len = INF):
-		max_length = max_len
+		_q = []
+		_max_size = max_len
 
 	func add(item):
-		if len(q) >= max_length: q.pop_front()
-		q.push_back(item)
+		if len(_q) >= _max_size: _q.pop_front()
+		_q.push_back(item)
 		
 	func peek():
-		return q.front()
+		return _q.front()
+	
+	func clear():
+		_q.clear()
+
+
+class Stack:
+	var _s: Array
+	var _max_size
+
+	func _init(max_size = INF):
+		_s = []
+		_max_size = max_size
+	
+	func push(item):
+		if size() >= _max_size: _s.pop_front()
+		_s.push_back(item)
+	
+	func pop():
+		return _s.pop_back()
+	
+	func clear():
+		_s.clear()
+	
+	func size(): return len(_s)
 
 
 
 
+# For level editor ======================================================================================
+
+# level editor enums
+enum ITEM_TYPE {NOTE, EVENT, MARKER}
+enum TOOL {SELECT, DELETE, ITEM}
+
+const DEFAULT_ITEM_NAME = "Default"
+
+
+
+# Item infos =-=-=-=-=-=-=
 
 class ItemInfo:
-	var name: String = "default"
+	var name: String = DEFAULT_ITEM_NAME
+	var color: Color = Color.WHITE
+	var b: float = 0
 
 	func _init():
 		pass
@@ -101,19 +142,16 @@ class ItemInfo:
 	# override
 	func get_info_dict() -> Dictionary: return {}
 
-
 class NoteInfo extends ItemInfo:
 	
 	var delay: float = 1
 	var id: int = 0
 	
 	var layer: int = 1
-	var color: Color = Color.WHITE
 	var rotated: bool = true
 
 	var custom_data: Dictionary = {}
 
-	var b: float = 0
 	var s: float = 0
 
 	func _init(note= null):
@@ -189,3 +227,36 @@ func clone_item_info(item_info: ItemInfo) -> ItemInfo:
 	# elif item_info is MarkerInfo: 	cloned_item_info = MarkerInfo.new(item_info)
 
 	return cloned_item_info
+
+
+# Actions =-=-=-=-=-=
+
+class EditorAction:
+	var remember = true
+
+	func _init(): pass
+	
+	func get_inverse_action(): pass
+
+
+class PlaceItem extends EditorAction:
+	var _item_info: ItemInfo
+
+	func _init(item_info):
+		_item_info = item_info
+	
+	func get_item_info(): return _item_info
+	
+	func get_inverse_action() -> DeleteItem:
+		return DeleteItem.new(_item_info)
+
+class DeleteItem extends EditorAction:
+	var _item_info: ItemInfo
+
+	func _init(item_info):
+		_item_info = item_info
+
+	func get_item_info(): return _item_info
+	
+	func get_inverse_action() -> PlaceItem:
+		return PlaceItem.new(_item_info)

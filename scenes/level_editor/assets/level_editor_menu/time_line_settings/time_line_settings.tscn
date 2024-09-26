@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dgco5km7x87pi"]
+[gd_scene load_steps=13 format=3 uid="uid://dgco5km7x87pi"]
 
 [ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line_settings/time_line_settings.gd" id="1_dpl24"]
 [ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line_settings/snap_beats.gd" id="1_x2jft"]
+[ext_resource type="Texture2D" uid="uid://7r81hmuyh6iv" path="res://images/refresh.png" id="3_2yxnh"]
 [ext_resource type="Texture2D" uid="uid://uomvoa4ev5vx" path="res://images/select.png" id="3_qktwh"]
 [ext_resource type="Texture2D" uid="uid://vygr63p5lj2i" path="res://images/delete.png" id="4_wev2s"]
 [ext_resource type="Texture2D" uid="uid://bcvhgm3okknvp" path="res://images/item.png" id="5_hkrhe"]
@@ -18,6 +19,26 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 shadow_color = Color(0.0745098, 0.0745098, 0.0745098, 0.372549)
 shadow_size = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i2xko"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o0lvh"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.568973, 0.568973, 0.568973, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_es18d"]
+bg_color = Color(0.683077, 0.683077, 0.683077, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1pags"]
 content_margin_left = 8.0
@@ -48,6 +69,7 @@ size_flags_horizontal = 3
 script = ExtResource("1_x2jft")
 
 [node name="Label" type="Label" parent="HBoxContainer/SnapBeats"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Snap Beats: "
 
@@ -64,10 +86,16 @@ rounded = true
 tick_count = 4
 
 [node name="Button" type="Button" parent="HBoxContainer/SnapBeats/HBoxContainer"]
-custom_minimum_size = Vector2(17.645, 0)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 8
 focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_i2xko")
+theme_override_styles/hover = SubResource("StyleBoxFlat_o0lvh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_es18d")
+icon = ExtResource("3_2yxnh")
+icon_alignment = 1
+expand_icon = true
 
 [node name="Tools" type="ItemList" parent="HBoxContainer"]
 custom_minimum_size = Vector2(265, 45)

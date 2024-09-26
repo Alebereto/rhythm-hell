@@ -220,7 +220,7 @@ func _on_menu_resume_pressed():
 func _on_menu_exit_pressed():
 	_player.stop_inputs()
 	get_tree().paused = false
-	_switch_to_main_menu(true)
+	_player.fade_out( 0.8, _switch_to_main_menu.bind(true) )
 
 
 func _on_menu_replay_pressed():

@@ -29,17 +29,18 @@ theme_override_constants/separation = 17
 
 [node name="OptionsMenus" type="VBoxContainer" parent="Panels"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 10
 
 [node name="ItemsMenu" parent="Panels/OptionsMenus" instance=ExtResource("1_3mp42")]
 custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
-size_flags_vertical = 10
+size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="SongMenu" type="HBoxContainer" parent="Panels/OptionsMenus"]
 layout_mode = 2
-size_flags_vertical = 6
+size_flags_vertical = 10
 theme_override_constants/separation = 9
 
 [node name="SongPlayerController" parent="Panels/OptionsMenus/SongMenu" node_paths=PackedStringArray("_song_player") instance=ExtResource("2_uygsm")]
@@ -51,6 +52,7 @@ layout_mode = 2
 
 [node name="TimeLine" parent="Panels" instance=ExtResource("4_0h8s6")]
 layout_mode = 2
+size_flags_vertical = 10
 
 [node name="SongPlayer" parent="." instance=ExtResource("5_kg3l1")]
 
@@ -61,6 +63,7 @@ layout_mode = 2
 [connection signal="seeked" from="Panels/OptionsMenus/SongMenu/SongPlayerController" to="." method="_on_song_player_controller_seeked"]
 [connection signal="snap_beats_changed" from="Panels/OptionsMenus/SongMenu/TimeLineSettings" to="." method="_on_time_line_settings_snap_beats_changed"]
 [connection signal="tool_changed" from="Panels/OptionsMenus/SongMenu/TimeLineSettings" to="." method="_on_time_line_settings_tool_changed"]
+[connection signal="action_taken" from="Panels/TimeLine" to="." method="_on_action_taken"]
 [connection signal="item_copied" from="Panels/TimeLine" to="." method="_on_time_line_item_copied"]
 [connection signal="time_marker_moved" from="Panels/TimeLine" to="." method="_on_time_line_time_marker_moved"]
 [connection signal="song_ended" from="SongPlayer" to="." method="_on_song_player_song_ended"]

@@ -77,12 +77,14 @@ script = ExtResource("1_2n2gi")
 
 [node name="Notes" type="ItemList" parent="."]
 layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 4
+theme_override_constants/icon_margin = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_s30gt")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_4i7tw")
 allow_reselect = true
-max_columns = 5
-same_column_width = true
-fixed_column_width = 115
+max_columns = 6
+fixed_icon_size = Vector2i(20, 20)
 
 [node name="Events" type="ItemList" parent="."]
 visible = false
@@ -96,6 +98,7 @@ visible = false
 layout_mode = 2
 allow_reselect = true
 
+[connection signal="item_clicked" from="Notes" to="." method="_on_notes_item_clicked"]
 [connection signal="item_selected" from="Notes" to="." method="_on_notes_item_selected"]
 [connection signal="item_selected" from="Events" to="." method="_on_events_item_selected"]
 [connection signal="item_selected" from="Markers" to="." method="_on_markers_item_selected"]
