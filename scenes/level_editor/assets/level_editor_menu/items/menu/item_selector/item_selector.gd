@@ -53,6 +53,7 @@ func add_item(item_info: Globals.ItemInfo) -> void:
 	var item_list: ItemList
 	var item_texture: Texture
 
+	# set values according to item type
 	if copied_item is Globals.NoteInfo:
 		item_arr = _notes
 		item_list = _notes_item_list

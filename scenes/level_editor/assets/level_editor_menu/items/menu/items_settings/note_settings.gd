@@ -11,6 +11,10 @@ var note_info: Globals.NoteInfo:
 		return _note_values
 	set(info):
 		_note_values = info
+		if _is_savable(_note_values):
+			_save_note_button.disabled = false
+		else:
+			_save_note_button.disabled = true
 		_update_displays()
 
 
@@ -38,17 +42,22 @@ func _update_displays() -> void:
 func _on_change() -> void:
 	note_settings_changed.emit(note_info)
 
+func _is_savable( note_info ):
+	var note_name = note_info.name
+	return note_name != "" and note_name != Globals.DEFAULT_ITEM_NAME
 
 
 # Input signals ==============
 
 
 func _on_name_edit(new_text):
-	if new_text == "" or new_text == Globals.DEFAULT_ITEM_NAME:
-		_save_note_button.disabled = true
-	else:
-		_save_note_button.disabled = false
 	_note_values.name = new_text
+
+	if _is_savable(_note_values):
+		_save_note_button.disabled = false
+	else:
+		_save_note_button.disabled = true
+	
 	_on_change()
 
 func _on_delay_value_changed(value):
