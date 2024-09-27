@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://0xoroomsvefc"]
 
 [ext_resource type="Script" path="res://scenes/level_editor/assets/main_menu/main_menu.gd" id="1_r6td2"]
-[ext_resource type="Texture2D" uid="uid://dkdbp6cm7gea0" path="res://images/load_file.png" id="2_kweht"]
-[ext_resource type="Texture2D" uid="uid://n0a2fcvnq0nm" path="res://images/new_file.png" id="3_7di5x"]
+[ext_resource type="Texture2D" uid="uid://dkdbp6cm7gea0" path="res://assets/icons/load_file.png" id="2_kweht"]
+[ext_resource type="Texture2D" uid="uid://n0a2fcvnq0nm" path="res://assets/icons/new_file.png" id="3_7di5x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nas6u"]
 content_margin_left = 30.0

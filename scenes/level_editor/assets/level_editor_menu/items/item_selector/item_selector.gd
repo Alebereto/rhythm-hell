@@ -2,8 +2,8 @@ extends TabContainer
 
 signal item_selected(item: Globals.ItemInfo)
 
-const ITEM_TEXTURES = [preload("res://images/item.png"), null, null]
-const UNROTATED_NOTE_TEXTURE = preload("res://images/square.png")
+const ITEM_TEXTURES = [preload("res://assets/icons/item.png"), null, null]
+const UNROTATED_NOTE_TEXTURE = preload("res://assets/icons/square.png")
 enum MENUS{NOTES, EVENTS, MARKERS}
 
 @onready var _notes_item_list: ItemList = $Notes

@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dixcuu8lxfqmv"
-path="res://.godot/imported/shoot.wav-6682e47e2590badc65ba86186c81e48a.sample"
+uid="uid://bye41mfof2em4"
+path="res://.godot/imported/hit.wav-b122da9ae3f69dfbe7a6d1bf9e1b423e.sample"
 
 [deps]
 
-source_file="res://audio/sounds/shoot.wav"
-dest_files=["res://.godot/imported/shoot.wav-6682e47e2590badc65ba86186c81e48a.sample"]
+source_file="res://assets/sounds/hit.wav"
+dest_files=["res://.godot/imported/hit.wav-b122da9ae3f69dfbe7a6d1bf9e1b423e.sample"]
 
 [params]
 

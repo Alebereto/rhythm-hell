@@ -1,9 +1,9 @@
 [gd_scene load_steps=16 format=3 uid="uid://bbyygansk8my6"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/assets/panels/custom_levels/custom_levels_panel.gd" id="1_btwey"]
-[ext_resource type="Texture2D" uid="uid://cvrks0hfmnt45" path="res://images/back.png" id="1_iaus3"]
+[ext_resource type="Texture2D" uid="uid://cvrks0hfmnt45" path="res://assets/icons/back.png" id="1_iaus3"]
 [ext_resource type="Texture2D" uid="uid://dq87kfsd8c08u" path="res://icon.svg" id="3_u8k2q"]
-[ext_resource type="Texture2D" uid="uid://b8v1kn533a23x" path="res://images/clock.png" id="4_l7gta"]
+[ext_resource type="Texture2D" uid="uid://b8v1kn533a23x" path="res://assets/icons/clock.png" id="4_l7gta"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4thwc"]
 content_margin_left = 8.0

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/main_menu/assets/panels/custom_levels/level_list_item.gd" id="1_5qo6d"]
 [ext_resource type="Texture2D" uid="uid://dq87kfsd8c08u" path="res://icon.svg" id="1_drwo5"]
-[ext_resource type="Texture2D" uid="uid://b8v1kn533a23x" path="res://images/clock.png" id="2_pgr0r"]
+[ext_resource type="Texture2D" uid="uid://b8v1kn533a23x" path="res://assets/icons/clock.png" id="2_pgr0r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y611i"]
 content_margin_right = 10.0

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dqjw525a76dft"]
 
-[ext_resource type="PackedScene" uid="uid://css301rnh0cd7" path="res://scenes/level_editor/assets/level_editor_menu/time_line/time_line_grid/time_line_grid.tscn" id="1_7xl1h"]
+[ext_resource type="PackedScene" uid="uid://css301rnh0cd7" path="res://scenes/level_editor/assets/level_editor_menu/time_line/time_line_grid.tscn" id="1_7xl1h"]
 [ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line/time_line.gd" id="1_d446y"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rtyhx"]

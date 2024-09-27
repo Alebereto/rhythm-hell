@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://css301rnh0cd7"]
 
-[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line/time_line_grid/time_line_grid.gd" id="1_b8pkd"]
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line/time_line_grid.gd" id="1_b8pkd"]
 [ext_resource type="PackedScene" uid="uid://b3r8huwskjklu" path="res://scenes/level_editor/assets/level_editor_menu/items/note_2d.tscn" id="2_43pa2"]
 
 [node name="TimeLineGrid" type="Node2D"]

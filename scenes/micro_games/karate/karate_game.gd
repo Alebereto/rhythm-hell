@@ -23,7 +23,7 @@ const _projectile_scenes: Array[PackedScene] = [preload("res://scenes/micro_game
 												preload("res://scenes/micro_games/karate/assets/projectiles/barrel.tscn")]
 
 # Sounds
-var HitSound = preload("res://audio/sounds/hit.wav")
+var HitSound = preload("res://assets/sounds/hit.wav")
 
 
 # Called when the node enters the scene tree for the first time.
