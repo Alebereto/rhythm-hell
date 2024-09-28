@@ -18,23 +18,33 @@ func format_seconds(seconds: float) -> String:
 	return "%s:%s%s" % [str(minute), pad, str(second)]
 
 
+# For main menu ===============================================================================================
+
+enum MENU_NAME{MAIN, CUSTOM_LEVELS, RESULTS_SCREEN}
+class MainMenuLoadData:
+	var menu_name: MENU_NAME = MENU_NAME.MAIN
+	
+
 
 
 # For micro games =============================================================================================
 
 # micro game indeces
-enum MICRO_GAMES{ REMIX=-1, KARATE=0 , SPACE_SHOOTER=1, }
-const MICRO_GAME_NAMES = ["Karate", "Space Shooter", "Remix"]
+enum MICRO_GAMES{ REMIX=-1, KARATE=0 , MOLE_TURF=1, }
+const MICRO_GAME_NAMES = ["Karate", "Mole Turf", "Remix"]
 
 # player enum
-enum HAND {PUNCHER}
+enum HAND {PUNCHER, HAMMER}
 
 # karate projectiles enum
 enum PROJECTILES{ROCK, BARREL}
 
+# mole turf moles
+enum MOLE_TYPES{NORMAL, BLUE, YELLOW}
 
 
-# for level saving and loading ================================================================================
+
+# For level saving and loading ================================================================================
 
 const LEVELS_DIR = "res://levels/"
 const SAVE_FILE_NAME = "save.dat"

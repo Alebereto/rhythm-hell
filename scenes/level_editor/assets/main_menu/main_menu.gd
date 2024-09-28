@@ -10,6 +10,8 @@ signal load_level_requested
 # Initial BPM of song
 @export_range(0,200) var _initial_bpm: int = 100
 
+@export var game_type: Globals.MICRO_GAMES
+
 
 
 ## Sets song data according to currently selected variables
@@ -21,6 +23,7 @@ func _get_new_level() -> Level:
 
 	level.name = level_name
 	level.initial_bpm = _initial_bpm
+	level.micro_game_id = game_type
 	level.song_audio_path = _audio_source
 
 	return level

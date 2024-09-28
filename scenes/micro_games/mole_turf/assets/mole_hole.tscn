@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://bboiug5hrsif0"]
+
+[ext_resource type="Script" path="res://scenes/micro_games/mole_turf/assets/mole_hole.gd" id="1_hkjlf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l5r15"]
+albedo_color = Color(0.439216, 0.329412, 0.243137, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_a7634"]
+material = SubResource("StandardMaterial3D_l5r15")
+inner_radius = 0.15
+outer_radius = 0.3
+rings = 8
+ring_segments = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qhb2k"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_3pfnp"]
+material = SubResource("StandardMaterial3D_qhb2k")
+size = Vector2(0.4, 0.4)
+
+[node name="MoleHole" type="Node3D"]
+script = ExtResource("1_hkjlf")
+
+[node name="Ring" type="MeshInstance3D" parent="."]
+mesh = SubResource("TorusMesh_a7634")
+
+[node name="Black" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0208729, 0)
+mesh = SubResource("PlaneMesh_3pfnp")
