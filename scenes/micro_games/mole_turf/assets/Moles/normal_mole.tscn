@@ -1,4 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://da7o118oq7iyt"]
+[gd_scene load_steps=10 format=3 uid="uid://da7o118oq7iyt"]
+
+[ext_resource type="Script" path="res://scenes/micro_games/mole_turf/assets/Moles/normal_mole.gd" id="1_3b50b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36cb7"]
 albedo_color = Color(0.290196, 0.25098, 0.203922, 1)
@@ -43,7 +45,8 @@ rings = 2
 material = SubResource("StandardMaterial3D_7imr3")
 size = Vector3(0.05, 0.01, 0.005)
 
-[node name="Mole" type="Node3D"]
+[node name="NormalMole" type="Node3D"]
+script = ExtResource("1_3b50b")
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.810997, 0)

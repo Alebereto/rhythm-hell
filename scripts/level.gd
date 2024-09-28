@@ -120,6 +120,7 @@ func to_dictionary() -> Dictionary:
 
 	var dict := {
 		"name"			= name,
+		"micro_game_id"	= micro_game_id,
 		"length"		= length,
 		"initial_bpm"	= initial_bpm,
 		"song_offset"	= song_offset,
@@ -136,6 +137,7 @@ func _load_from_dictionary(dict: Dictionary) -> void:
 	initial_bpm 	= dict["initial_bpm"]
 	song_offset 	= dict["song_offset"]
 	items_dict		= dict["items_dict"]
+	micro_game_id	= dict["micro_game_id"]
 
 	# get note list
 	note_list = []

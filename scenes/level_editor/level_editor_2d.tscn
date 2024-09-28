@@ -47,7 +47,6 @@ visible = false
 layout_mode = 2
 _audio_source = "C:/Users/albert/Documents/Godot games/rhythm-hell/assets/music/groovy-ambient-funk-201745.ogg"
 _initial_bpm = 120
-game_type = 1
 
 [node name="Popups" type="Node" parent="."]
 

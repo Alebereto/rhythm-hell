@@ -5,7 +5,7 @@ const MOLE_HOLE_COUNT = 4
 var _right_hammer = null
 var _left_hammer = null
 
-const MOLE_SCENES = [preload("res://scenes/micro_games/mole_turf/assets/mole.tscn")]
+const MOLE_SCENES = [preload("res://scenes/micro_games/mole_turf/assets/moles/normal_mole.tscn")]
 
 
 @onready var _mole_holes = [$Objects/MoleHoles/Hole1,
@@ -38,8 +38,9 @@ func _play_note( _note: Globals.NoteInfo ):
 		mole_id = Globals.MOLE_TYPES.NORMAL
 
 	var mole = _create_mole(MOLE_SCENES[mole_id])
+	var sprout_time = _beats_to_seconds(_note.b - _note.s)
 
-	mole_hole.sprout(mole)
+	mole_hole.sprout(mole, sprout_time)
 
 
 func _create_mole(mole_scene: PackedScene):
