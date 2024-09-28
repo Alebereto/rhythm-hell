@@ -45,8 +45,9 @@ layout_mode = 2
 [node name="MainMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("6_dhvna")]
 visible = false
 layout_mode = 2
-_audio_source = "C:/Users/albert/Documents/Godot games/rhythm-hell/audio/music/groovy-ambient-funk-201745.ogg"
+_audio_source = "C:/Users/albert/Documents/Godot games/rhythm-hell/assets/music/groovy-ambient-funk-201745.ogg"
 _initial_bpm = 120
+game_type = 1
 
 [node name="Popups" type="Node" parent="."]
 

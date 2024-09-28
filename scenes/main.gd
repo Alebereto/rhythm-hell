@@ -21,6 +21,7 @@ func _load_main_menu( load_data = null ):
 	# create main menu scene
 	var main_menu = MainMenuScene.instantiate()
 	_current_scene = main_menu
+
 	main_menu.load_data = load_data
 	add_child(main_menu)
 	if not main_menu.is_node_ready(): await main_menu.ready
@@ -39,7 +40,7 @@ func _load_game_controller( level ):
 
 	game_controller.exit.connect(_load_main_menu, ConnectFlags.CONNECT_ONE_SHOT)
 
-	# load song
+	# load level
 	await game_controller.load_level( level )
 
 

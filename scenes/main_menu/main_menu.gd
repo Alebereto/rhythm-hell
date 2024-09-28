@@ -9,6 +9,8 @@ signal level_played( level )
 var load_data = null
 
 # menu panels
+var _current_menu: Globals.MENU_NAME = Globals.MENU_NAME.MAIN
+
 @onready var _main_menu_panel: VRUI = $Panels/Main
 @onready var _custom_levels_panel: VRUI = $Panels/CustomLevels
 const PANEL_ANIMATION_TIME: float = 0.4
@@ -16,7 +18,7 @@ const PANEL_ANIMATION_TIME: float = 0.4
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if load_data != null:
+	if load_data is Globals.MainMenuLoadData:
 		pass # TODO: use load data
 	player.fade_in()
 

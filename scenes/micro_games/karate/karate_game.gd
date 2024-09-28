@@ -2,6 +2,7 @@ extends MicroGame
 
 
 const CANNON_DELAY := 0.3
+const BARREL_BEAT_DELAY = 1
 
 var _right_puncher = null
 var _left_puncher = null
@@ -56,10 +57,10 @@ func _play_note(note: Globals.NoteInfo):
 	var fire_time = _beats_to_seconds(note.b - note.s)
 	if fire_time <= 0:
 		push_warning("Cannot fire in time <= 0!")
-		fire_time = 0.1
+		fire_time = 0.5
 	
 	# Fire projectile
-	await cannon.fire(projectile, fire_time)
+	cannon.fire(projectile, fire_time)
 	note_played.emit()
 
 
@@ -71,7 +72,7 @@ func _create_projectile( note: Globals.NoteInfo ) -> Projectile:
 	var id = note.id
 	if id >= len(_projectile_scenes):
 		push_warning("Projectile with id: %d does not exist!" %id)
-		id = 0
+		id = Globals.PROJECTILES.ROCK
 
 	var projectile: Projectile = _projectile_scenes[id].instantiate()
 	projectile.destination_beat = note.b
@@ -79,32 +80,21 @@ func _create_projectile( note: Globals.NoteInfo ) -> Projectile:
 	return projectile
 
 
-
-
-
-func _on_right_puncher_hit_projectile( projectile: Projectile ) -> void:
-	_on_hit_projectile(projectile)
-
-func _on_left_puncher_hit_projectile( projectile: Projectile ) -> void:
-	_on_hit_projectile(projectile)
-
+## Called when player hits a projectile
 func _on_hit_projectile( projectile: Projectile) -> void:
 	projectile.on_hit()
 	note_hit.emit()
 	# if projectile was a barrel
-	if projectile.id == 1: _summon_from_barrel( projectile )
-		
+	if projectile.id == Globals.PROJECTILES.BARREL: _summon_from_barrel( projectile )
 
-func _on_right_puncher_touch_projectile( projectile: Projectile ) -> void:
-	_on_touch_projectile(projectile)
-
-func _on_left_puncher_touch_projectile( projectile: Projectile ) -> void:
-	_on_touch_projectile(projectile)
-
+## Called when player touches a projectile (not enough force)
 func _on_touch_projectile( projectile: Projectile ) -> void:
 	projectile.on_touch()
 	note_missed.emit()
 
+
+
+# Barrel
 
 func _calculate_impulse(projectile: Projectile, destination: Node3D, travel_time: float) -> Vector3:
 
@@ -116,13 +106,13 @@ func _calculate_impulse(projectile: Projectile, destination: Node3D, travel_time
 	return impulse
 
 func _summon_from_barrel( barrel: Projectile):
-	const BEAT_DELAY = 1
-	var travel_time = _beats_to_seconds(BEAT_DELAY)
+	
+	var travel_time = _beats_to_seconds(BARREL_BEAT_DELAY)
 
 	var projectile_scene: PackedScene = barrel.contained_projectile
 	var contained_proj: Projectile = projectile_scene.instantiate()
 
-	contained_proj.destination_beat = barrel.destination_beat + BEAT_DELAY
+	contained_proj.destination_beat = barrel.destination_beat + BARREL_BEAT_DELAY
 	contained_proj.position = barrel.position
 	contained_proj.position.y += 0.6
 
@@ -132,3 +122,20 @@ func _summon_from_barrel( barrel: Projectile):
 
 	contained_proj.apply_impulse(impulse)
 	contained_proj.apply_torque_impulse(torque)
+
+
+
+# Player inputs ===============================
+
+func _on_right_puncher_hit_projectile( projectile: Projectile ) -> void:
+	_on_hit_projectile(projectile)
+
+func _on_left_puncher_hit_projectile( projectile: Projectile ) -> void:
+	_on_hit_projectile(projectile)
+
+
+func _on_right_puncher_touch_projectile( projectile: Projectile ) -> void:
+	_on_touch_projectile(projectile)
+
+func _on_left_puncher_touch_projectile( projectile: Projectile ) -> void:
+	_on_touch_projectile(projectile)

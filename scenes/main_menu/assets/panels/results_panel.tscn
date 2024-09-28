@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsnad7ey4q3r5"]
+
+[ext_resource type="Script" path="res://scenes/main_menu/assets/panels/results_panel.gd" id="1_qxg3c"]
+
+[node name="ResultsPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_qxg3c")

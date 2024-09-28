@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7aqemlq6ug5y"]
+[gd_scene load_steps=8 format=3 uid="uid://c7aqemlq6ug5y"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu.gd" id="1_f0s41"]
 [ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_fsg25"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://decplkyoloi8h" path="res://scenes/main_menu/assets/main_menu_world.tscn" id="2_nny0w"]
 [ext_resource type="PackedScene" uid="uid://bbyygansk8my6" path="res://scenes/main_menu/assets/panels/custom_levels/custom_levels_panel.tscn" id="3_cklli"]
 [ext_resource type="PackedScene" uid="uid://bv4twd1uneke" path="res://scenes/main_menu/assets/panels/main_panel.tscn" id="4_5xjab"]
+[ext_resource type="PackedScene" uid="uid://bsnad7ey4q3r5" path="res://scenes/main_menu/assets/panels/results_panel.tscn" id="5_j4eln"]
 
 [node name="MainMenu" type="Node3D"]
 script = ExtResource("1_f0s41")
@@ -35,6 +36,19 @@ transparent_bg = true
 size = Vector2i(500, 300)
 
 [node name="MainPanel" parent="Panels/Main/SubViewport" instance=ExtResource("4_5xjab")]
+
+[node name="Results" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
+process_mode = 4
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 6.1092, -4)
+_ui_viewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="Panels/Results"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(700, 500)
+
+[node name="ResultsPanel" parent="Panels/Results/SubViewport" instance=ExtResource("5_j4eln")]
+modulate = Color(1, 1, 1, 0)
 
 [node name="World" parent="." instance=ExtResource("2_nny0w")]
 
