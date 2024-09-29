@@ -35,7 +35,7 @@ func _add_level_item_box( level: Level):
 
 
 func _load_levels() -> void:
-	var levels = Globals.get_levels_data()
+	var levels = Globals.get_levels_data(Globals.get_custom_levels_path())
 	for level in levels:
 		_add_level_item_box(level)
 

@@ -53,7 +53,11 @@ enum MOLE_TYPES{NORMAL, BLUE, YELLOW}
 
 # For level saving and loading ================================================================================
 
-const LEVELS_DIR = "res://levels/"
+func get_custom_levels_path() -> String:
+	if OS.has_feature("exported"):
+		return OS.get_executable_path().get_base_dir() + "/CustomLevels/"
+	return "res://custom_levels/"
+
 const SAVE_FILE_NAME = "save.dat"
 const AUDIO_FILE_NAME = "song.ogg"
 const LEVEL_IMAGE_NAME = "cover.jpg"
@@ -66,13 +70,13 @@ func is_legal_level_path(_level_path: String) -> bool:
 
 
 ## Gets array of levels from levels directory
-func get_levels_data() -> Array:
-	var folders = DirAccess.get_directories_at(LEVELS_DIR)
+func get_levels_data(levels_path: String) -> Array:
+	var folders = DirAccess.get_directories_at(levels_path)
 
 	var levels = []
 
 	for folder in folders:
-		var dir = LEVELS_DIR + folder
+		var dir = levels_path + folder
 		if not is_legal_level_path(dir): continue
 
 		# load level

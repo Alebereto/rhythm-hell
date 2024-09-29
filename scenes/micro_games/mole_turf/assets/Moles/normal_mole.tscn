@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://da7o118oq7iyt"]
 
-[ext_resource type="Script" path="res://scenes/micro_games/mole_turf/assets/Moles/normal_mole.gd" id="1_3b50b"]
+[ext_resource type="Script" path="res://scenes/micro_games/mole_turf/assets/moles/normal_mole.gd" id="1_3b50b"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36cb7"]
 albedo_color = Color(0.290196, 0.25098, 0.203922, 1)

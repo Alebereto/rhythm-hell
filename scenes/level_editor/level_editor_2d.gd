@@ -3,10 +3,6 @@ extends Node2D
 enum MENU {NONE, MAIN_MENU, LEVEL_EDITOR}
 
 
-@export_category("Prefrences")
-# Location to save song into
-@export_dir var levels_dir: String = "res://levels"
-
 
 @export_category("Refrences")
 @export_group("Menu")
@@ -89,7 +85,7 @@ func _save_level(level: Level) -> void:
 	var save_data_str = JSON.stringify(level.to_dictionary())
 	
 	# make directory for song
-	var save_dir = "%s/%s" %[levels_dir, level.name]
+	var save_dir = "%s%s" %[Globals.get_custom_levels_path(), level.name]
 
 	# check if save directory exists
 	if not DirAccess.dir_exists_absolute(save_dir):

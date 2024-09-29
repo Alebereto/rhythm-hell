@@ -11,9 +11,12 @@ config_version=5
 [application]
 
 config/name="Rhythm Hell"
+config/version="0.10"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+config/name.editor="Level Editor"
+run/main_scene.level_editor="res://scenes/level_editor/level_editor_2d.tscn"
 
 [autoload]
 
@@ -27,6 +30,10 @@ movie_writer/movie_file="C:/Users/albert/Desktop/mov.avi"
 
 import/blender/enabled=false
 import/fbx/enabled=false
+
+[global]
+
+level_editor=false
 
 [input]
 
@@ -86,3 +93,4 @@ openxr/enabled=true
 openxr/startup_alert=false
 openxr/extensions/eye_gaze_interaction=true
 shaders/enabled=true
+openxr/enabled.level_editor=false

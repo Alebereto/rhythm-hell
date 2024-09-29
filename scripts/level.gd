@@ -49,8 +49,7 @@ func _init(level_path = null):
 		# Load image texture
 		var image_path = level_path + "/" + Globals.LEVEL_IMAGE_NAME
 		if FileAccess.file_exists(image_path):
-			var image = Image.load_from_file(image_path)
-			texture = ImageTexture.create_from_image(image)
+			texture = load(image_path)
 		# Get song path
 		song_audio_path = "%s/%s" %[level_path, Globals.AUDIO_FILE_NAME]
 		# Load data

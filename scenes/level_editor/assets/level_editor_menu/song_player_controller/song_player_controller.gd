@@ -12,12 +12,8 @@ signal seeked(seconds: float)
 
 var _button_state_paused: bool
 
-@export_category("Customize")
-@export_file("*.png") var _play_icon: String
-@export_file("*.png") var _pause_icon: String
-
-var _play_texture: ImageTexture
-var _pause_texture: ImageTexture
+@export var _play_texture = preload("res://assets/icons/play.png")
+@export var _pause_texture = preload("res://assets/icons/pause.png")
 
 # Get refrences
 @onready var _song_name_label: Label = $VBoxContainer/SongName
@@ -29,7 +25,6 @@ var _pause_texture: ImageTexture
 
 
 func _ready():
-	_load_textures()
 	_set_button_state(true)
 
 
@@ -39,15 +34,6 @@ func _process(_delta):
 		var current_second = _song_player.current_raw_second
 
 		_update_visuals(current_second)
-
-
-
-func _load_textures() -> void:
-	var play_image = Image.load_from_file(_play_icon)
-	var pause_image = Image.load_from_file(_pause_icon)
-
-	_play_texture = ImageTexture.create_from_image(play_image)
-	_pause_texture = ImageTexture.create_from_image(pause_image)
 
 
 ## Updates song info with current seconds from song player

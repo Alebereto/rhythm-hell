@@ -56,7 +56,7 @@ initial_position = 1
 size = Vector2i(702, 329)
 ok_button_text = "Select Current Folder"
 file_mode = 2
-root_subfolder = "res://songs"
+access = 2
 script = ExtResource("7_ghtds")
 
 [node name="Alert" type="AcceptDialog" parent="Popups"]
