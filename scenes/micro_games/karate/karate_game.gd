@@ -59,9 +59,10 @@ func _play_note(note: Globals.NoteInfo):
 		push_warning("Cannot fire in time <= 0!")
 		fire_time = 0.5
 	
+	projectile.travel_time = fire_time
+	
 	# Fire projectile
 	cannon.fire(projectile, fire_time)
-	note_played.emit()
 
 
 func _get_note_delay( _note ): return CANNON_DELAY
@@ -75,22 +76,26 @@ func _create_projectile( note: Globals.NoteInfo ) -> Projectile:
 		id = Globals.PROJECTILES.ROCK
 
 	var projectile: Projectile = _projectile_scenes[id].instantiate()
-	projectile.destination_beat = note.b
 
 	return projectile
 
 
 ## Called when player hits a projectile
 func _on_hit_projectile( projectile: Projectile) -> void:
-	projectile.on_hit()
-	note_hit.emit()
-	# if projectile was a barrel
-	if projectile.id == Globals.PROJECTILES.BARREL: _summon_from_barrel( projectile )
+	var second_diff = projectile.get_destination_difference()
+	var late = false if second_diff <= hit_timeframe else true
+	var perfect = true if second_diff <= perfect_timeframe else false
+
+	projectile.on_hit(late, perfect)
+
+	if not late:
+		note_hit.emit(perfect)
+		# if projectile was a barrel
+		if projectile.id == Globals.PROJECTILES.BARREL: _summon_from_barrel( projectile )
 
 ## Called when player touches a projectile (not enough force)
 func _on_touch_projectile( projectile: Projectile ) -> void:
 	projectile.on_touch()
-	note_missed.emit()
 
 
 
@@ -112,7 +117,7 @@ func _summon_from_barrel( barrel: Projectile):
 	var projectile_scene: PackedScene = barrel.contained_projectile
 	var contained_proj: Projectile = projectile_scene.instantiate()
 
-	contained_proj.destination_beat = barrel.destination_beat + BARREL_BEAT_DELAY
+	contained_proj.travel_time = travel_time
 	contained_proj.position = barrel.position
 	contained_proj.position.y += 0.6
 

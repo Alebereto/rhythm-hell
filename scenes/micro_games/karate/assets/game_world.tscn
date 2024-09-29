@@ -25,12 +25,12 @@ radius = 7.5
 radial_steps = 23
 section_length = 0.1
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jsni0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_omv6a"]
 albedo_color = Color(0.537011, 0.537011, 0.537011, 1)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_sf1e4"]
-material = SubResource("StandardMaterial3D_jsni0")
-top_radius = 0.75
+[sub_resource type="CylinderMesh" id="CylinderMesh_to71d"]
+material = SubResource("StandardMaterial3D_omv6a")
+top_radius = 0.3
 bottom_radius = 0.75
 height = 0.2
 radial_segments = 10
@@ -60,7 +60,8 @@ mesh = SubResource("TubeTrailMesh_037og")
 
 [node name="SmallCircle" type="MeshInstance3D" parent="Node3D/Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0526347, 0)
-mesh = SubResource("CylinderMesh_sf1e4")
+mesh = SubResource("CylinderMesh_to71d")
+skeleton = NodePath("../../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)

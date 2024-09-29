@@ -4,12 +4,8 @@ class_name MicroGame extends Node3D
 Base class for micro games
 '''
 
-## Emitted when note is hit, gets note destination beat
-signal note_hit( dest_beat: float )
-## Emitted when a note has been played
-signal note_played
-## Emitted when a note was missed
-signal note_missed
+## Emitted when note is hit
+signal note_hit( perfect:bool )
 
 
 var _note_timers_root: Node
@@ -24,8 +20,8 @@ var _player: Player = null
 
 @export_group("Game settings")
 # seconds timeframe that note needs to be hit at
-@export_range(0,1) var hit_timeframe: float = 0.3
-@export_range(0,1) var perfect_timeframe: float = 0.1
+@export_range(0,1) var hit_timeframe: float = 0.1
+@export_range(0,1) var perfect_timeframe: float = 0.04
 
 @export_group("Configurations")
 # max seconds needed before start of note
