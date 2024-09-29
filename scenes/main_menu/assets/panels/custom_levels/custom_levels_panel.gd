@@ -22,11 +22,11 @@ func _ready():
 
 
 
-func _add_level_item_box( level: Level, texture):
+func _add_level_item_box( level: Level):
 	# init level item
 	var level_item = LEVEL_ITEM_SCENE.instantiate()
 
-	level_item.set_params( level, texture )
+	level_item.set_params( level )
 	_level_items_root.add_child(level_item)
 	# connect level item signals
 	level_item.hovered.connect(_on_hover)
@@ -35,14 +35,15 @@ func _add_level_item_box( level: Level, texture):
 
 
 func _load_levels() -> void:
-	var levels_data = Globals.get_levels_data()
-	for data in levels_data:
-		_add_level_item_box(data[0], data[1])
+	var levels = Globals.get_levels_data()
+	for level in levels:
+		_add_level_item_box(level)
 
 
 func _update_selected_level_panel_info( level_item ) -> void:
-	$Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/LevelImage.texture = level_item._texture
+	
 	var l = level_item.get_level()
+	$Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/LevelImage.texture = l.texture
 	$Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/BasicInfo/Name.text = l.name
 	$Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/BasicInfo/Type.text = Globals.MICRO_GAME_NAMES[l.micro_game_id]
 	$Main/Levels/SelectedLevel/VBoxContainer/LevelInfo/Time/Time.text = Globals.format_seconds(l.length)

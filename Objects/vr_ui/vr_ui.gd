@@ -1,6 +1,5 @@
 @tool
-extends Area3D
-class_name VRUI
+class_name VRUI extends Area3D
 
 ## Emit when hovering over certain buttons
 signal hovered
@@ -11,10 +10,11 @@ var _last_event_pos = null
 @onready var _collision: CollisionShape3D = $CollisionShape3D
 @onready var _sprite: Sprite3D = $Sprite3D
 
-@export var _ui_viewport: SubViewport:
+@export var _ui_viewport: SubViewport = null:
 	set(viewport):
 		_ui_viewport = viewport
 		if Engine.is_editor_hint():
+			if _sprite == null: return
 			_update_viewport()
 
 

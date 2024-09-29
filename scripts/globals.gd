@@ -49,7 +49,7 @@ enum MOLE_TYPES{NORMAL, BLUE, YELLOW}
 const LEVELS_DIR = "res://levels/"
 const SAVE_FILE_NAME = "save.dat"
 const AUDIO_FILE_NAME = "song.ogg"
-const IMAGE_NAME = "cover.jpg"
+const LEVEL_IMAGE_NAME = "cover.jpg"
 
 
 ## Gets path to level files, returns true if level is valid
@@ -58,11 +58,11 @@ func is_legal_level_path(_level_path: String) -> bool:
 	return true
 
 
-## Gets pairs of [level, texture] for every level in levels directory
+## Gets array of levels from levels directory
 func get_levels_data() -> Array:
 	var folders = DirAccess.get_directories_at(LEVELS_DIR)
 
-	var levels_data = []
+	var levels = []
 
 	for folder in folders:
 		var dir = LEVELS_DIR + folder
@@ -70,18 +70,10 @@ func get_levels_data() -> Array:
 
 		# load level
 		var level: Level = Level.new(dir)
-		# get texture
-		var texture
-		var image_path = dir + "/" + IMAGE_NAME
-		if FileAccess.file_exists(image_path):
-			var image = Image.load_from_file(image_path)
-			texture = ImageTexture.create_from_image(image)
-		else:
-			texture = GODOT_IMAGE
 
-		levels_data.append([level, texture])
+		levels.append(level)
 	
-	return levels_data
+	return levels
 
 
 

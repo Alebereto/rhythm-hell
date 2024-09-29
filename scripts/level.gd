@@ -35,15 +35,25 @@ var beat_count: float:
 # Path to song file
 var song_audio_path: String = ""
 
+# Level icon texture
+var texture = Globals.GODOT_IMAGE
+
 
 ## Constructor
 ##
 func _init(level_path = null):
 	
 	if level_path != null:
-		var data_path = "%s/%s" %[level_path, Globals.SAVE_FILE_NAME]
+		
+		# Load image texture
+		var image_path = level_path + "/" + Globals.LEVEL_IMAGE_NAME
+		if FileAccess.file_exists(image_path):
+			var image = Image.load_from_file(image_path)
+			texture = ImageTexture.create_from_image(image)
+		# Get song path
 		song_audio_path = "%s/%s" %[level_path, Globals.AUDIO_FILE_NAME]
-
+		# Load data
+		var data_path = "%s/%s" %[level_path, Globals.SAVE_FILE_NAME]
 		_get_data_from_file(data_path)
 
 
