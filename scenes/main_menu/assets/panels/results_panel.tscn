@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bsnad7ey4q3r5"]
+[gd_scene load_steps=13 format=3 uid="uid://bsnad7ey4q3r5"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/assets/panels/results_panel.gd" id="1_qxg3c"]
 [ext_resource type="Texture2D" uid="uid://dq87kfsd8c08u" path="res://icon.svg" id="2_or2uh"]
@@ -18,6 +18,13 @@ font_color = Color(0.75362, 0.758509, 0.76829, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_p5js6"]
 font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_4qswp"]
+font_size = 21
+font_color = Color(0.752941, 0.756863, 0.768627, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_r5ehk"]
+font_size = 31
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2yfy"]
 bg_color = Color(0.144343, 0.217038, 0.253359, 1)
@@ -58,22 +65,21 @@ script = ExtResource("1_qxg3c")
 
 [node name="Layout" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 13
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -225.0
-offset_top = -236.5
 offset_right = 225.0
-offset_bottom = 236.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 90
+theme_override_constants/separation = 25
 alignment = 1
 
 [node name="ClearStatus" type="Label" parent="Layout"]
 layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.3
 text = "Clear Status"
 label_settings = SubResource("LabelSettings_usrhe")
 horizontal_alignment = 1
@@ -81,6 +87,8 @@ horizontal_alignment = 1
 [node name="LevelInfo" type="HBoxContainer" parent="Layout"]
 custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.6
 mouse_filter = 2
 theme_override_constants/separation = 45
 
@@ -136,25 +144,63 @@ texture = ExtResource("3_uj4qt")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ClearStats" type="HBoxContainer" parent="Layout"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-
-[node name="ProgressBar" type="ProgressBar" parent="Layout/ClearStats"]
+[node name="ProgressBar" type="ProgressBar" parent="Layout"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 6
 max_value = 1.0
 show_percentage = false
 
+[node name="ClearStats" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_constants/separation = 30
+
+[node name="Hit" type="VBoxContainer" parent="Layout/ClearStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Layout/ClearStats/Hit"]
+layout_mode = 2
+text = "Hit Notes"
+label_settings = SubResource("LabelSettings_4qswp")
+horizontal_alignment = 1
+
+[node name="HitNotes" type="Label" parent="Layout/ClearStats/Hit"]
+layout_mode = 2
+text = "???/???"
+label_settings = SubResource("LabelSettings_r5ehk")
+horizontal_alignment = 1
+
+[node name="Perfect" type="VBoxContainer" parent="Layout/ClearStats"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Layout/ClearStats/Perfect"]
+layout_mode = 2
+text = "Perfect Notes"
+label_settings = SubResource("LabelSettings_4qswp")
+horizontal_alignment = 1
+
+[node name="PerfectNotes" type="Label" parent="Layout/ClearStats/Perfect"]
+layout_mode = 2
+text = "???/???"
+label_settings = SubResource("LabelSettings_r5ehk")
+horizontal_alignment = 1
+
 [node name="Buttons" type="HBoxContainer" parent="Layout"]
 layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
 theme_override_constants/separation = 30
 
 [node name="RestartButton" type="Button" parent="Layout/Buttons"]
-custom_minimum_size = Vector2(137.46, 0)
+custom_minimum_size = Vector2(140, 60)
 layout_mode = 2
 size_flags_horizontal = 6
+size_flags_vertical = 4
 focus_mode = 0
 theme_override_font_sizes/font_size = 31
 theme_override_styles/normal = SubResource("StyleBoxFlat_a2yfy")

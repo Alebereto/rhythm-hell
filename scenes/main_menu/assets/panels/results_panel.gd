@@ -11,11 +11,9 @@ var _level: Level
 func load( load_data: Globals.MainMenuLoadData ):
 	var results = load_data.get_results_dict()
 	_level = results["level"]
-	# TODO: update score info
-	var hit_notes = results["hit_notes"]
-	var perfect_notes = results["perfect_notes"]
-	print(hit_notes)
-	print(perfect_notes)
+	
+	# Update visuals
+	_set_score_info()
 	_set_clear_status(not results["aborted"])
 	_update_level_info()
 
@@ -30,7 +28,17 @@ func _set_clear_status(cleared: bool):
 	var clear = "Level Cleared" if cleared else "Aborted"
 	$Layout/ClearStatus.text = clear
 
-func _set_score_info(): pass
+func _set_score_info():
+	var hit_notes = _level.hit_notes
+	var perfect_notes = _level.perfect_notes
+	var total_notes = _level.get_total_notes()
+
+	$Layout/ClearStats/Hit/HitNotes.text = "%s/%s" %[hit_notes, total_notes]
+	$Layout/ClearStats/Perfect/PerfectNotes.text = "%s/%s" %[perfect_notes, total_notes]
+
+	var clear_value = _level.get_clear_value()
+	$Layout/ProgressBar.value = clear_value
+
 
 # Inputs =================================================
 

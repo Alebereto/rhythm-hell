@@ -46,6 +46,7 @@ func _load_state():
 		Globals.MENU_NAME.CUSTOM_LEVELS:
 			_set_custom_levels_panel_state(true, false)
 		Globals.MENU_NAME.RESULTS_SCREEN:
+			# TODO: save scores data
 			_results_control.load(load_data)
 			_set_results_screen_panel_state(true, false)
 
