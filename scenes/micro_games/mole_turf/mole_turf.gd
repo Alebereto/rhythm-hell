@@ -43,7 +43,7 @@ func _play_note( _note: Globals.NoteInfo ):
 	mole_hole.sprout(mole, sprout_time)
 
 
-func _create_mole(mole_scene: PackedScene):
+func _create_mole(mole_scene: PackedScene) -> Mole:
 	var mole = mole_scene.instantiate()
 	
 	return mole

@@ -1,10 +1,180 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsnad7ey4q3r5"]
+[gd_scene load_steps=11 format=3 uid="uid://bsnad7ey4q3r5"]
 
 [ext_resource type="Script" path="res://scenes/main_menu/assets/panels/results_panel.gd" id="1_qxg3c"]
+[ext_resource type="Texture2D" uid="uid://dq87kfsd8c08u" path="res://icon.svg" id="2_or2uh"]
+[ext_resource type="Texture2D" uid="uid://b8v1kn533a23x" path="res://assets/icons/clock.png" id="3_uj4qt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_usrhe"]
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_kpn4v"]
+font_size = 30
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 0.701961)
+
+[sub_resource type="LabelSettings" id="LabelSettings_i367b"]
+font_size = 18
+font_color = Color(0.75362, 0.758509, 0.76829, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_p5js6"]
+font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a2yfy"]
+bg_color = Color(0.144343, 0.217038, 0.253359, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tle4u"]
+bg_color = Color(0.131827, 0.104159, 1, 1)
+border_width_bottom = 5
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rtnk4"]
+bg_color = Color(0, 0.572549, 1, 1)
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_size = 5
 
 [node name="ResultsPanel" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_qxg3c")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -236.5
+offset_right = 225.0
+offset_bottom = 236.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 90
+alignment = 1
+
+[node name="ClearStatus" type="Label" parent="Layout"]
+layout_mode = 2
+text = "Clear Status"
+label_settings = SubResource("LabelSettings_usrhe")
+horizontal_alignment = 1
+
+[node name="LevelInfo" type="HBoxContainer" parent="Layout"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 45
+
+[node name="LevelImage" type="TextureRect" parent="Layout/LevelInfo"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("2_or2uh")
+expand_mode = 5
+
+[node name="BasicInfo" type="VBoxContainer" parent="Layout/LevelInfo"]
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="Name" type="Label" parent="Layout/LevelInfo/BasicInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Level Name"
+label_settings = SubResource("LabelSettings_kpn4v")
+vertical_alignment = 1
+
+[node name="Type" type="Label" parent="Layout/LevelInfo/BasicInfo"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "GameType"
+label_settings = SubResource("LabelSettings_i367b")
+
+[node name="TimeInfo" type="VBoxContainer" parent="Layout/LevelInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Time" type="Label" parent="Layout/LevelInfo/TimeInfo"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "01:23"
+label_settings = SubResource("LabelSettings_p5js6")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Clock" type="TextureRect" parent="Layout/LevelInfo/TimeInfo"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_uj4qt")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ClearStats" type="HBoxContainer" parent="Layout"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Layout/ClearStats"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+show_percentage = false
+
+[node name="Buttons" type="HBoxContainer" parent="Layout"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="RestartButton" type="Button" parent="Layout/Buttons"]
+custom_minimum_size = Vector2(137.46, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+focus_mode = 0
+theme_override_font_sizes/font_size = 31
+theme_override_styles/normal = SubResource("StyleBoxFlat_a2yfy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tle4u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rtnk4")
+text = "Restart"
+
+[node name="ContinueButton" type="Button" parent="Layout/Buttons"]
+custom_minimum_size = Vector2(130, 60)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+focus_mode = 0
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_a2yfy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tle4u")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rtnk4")
+text = "Continue"
+
+[connection signal="mouse_entered" from="Layout/Buttons/RestartButton" to="." method="_on_hover"]
+[connection signal="pressed" from="Layout/Buttons/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="mouse_entered" from="Layout/Buttons/ContinueButton" to="." method="_on_hover"]
+[connection signal="pressed" from="Layout/Buttons/ContinueButton" to="." method="_on_continue_button_pressed"]

@@ -13,9 +13,21 @@ script = ExtResource("1_f0s41")
 
 [node name="Panels" type="Node3D" parent="."]
 
+[node name="Main" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
+process_mode = 4
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -6.5, 1.5, -4)
+_ui_viewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="Panels/Main"]
+transparent_bg = true
+size = Vector2i(500, 300)
+
+[node name="MainPanel" parent="Panels/Main/SubViewport" instance=ExtResource("4_5xjab")]
+modulate = Color(1, 1, 1, 0)
+
 [node name="CustomLevels" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
 process_mode = 4
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6.5, 1.4385, -4)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6.5, 1.5, -4)
 _ui_viewport = NodePath("SubViewport")
 
 [node name="SubViewport" type="SubViewport" parent="Panels/CustomLevels"]
@@ -26,20 +38,9 @@ size = Vector2i(1000, 600)
 [node name="CustomLevelsPanel" parent="Panels/CustomLevels/SubViewport" instance=ExtResource("3_cklli")]
 modulate = Color(1, 1, 1, 0)
 
-[node name="Main" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 1.5, -4)
-_ui_viewport = NodePath("SubViewport")
-transparacy = 1.0
-
-[node name="SubViewport" type="SubViewport" parent="Panels/Main"]
-transparent_bg = true
-size = Vector2i(500, 300)
-
-[node name="MainPanel" parent="Panels/Main/SubViewport" instance=ExtResource("4_5xjab")]
-
 [node name="Results" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
 process_mode = 4
-transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 6.1092, -4)
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 7, -4)
 _ui_viewport = NodePath("SubViewport")
 
 [node name="SubViewport" type="SubViewport" parent="Panels/Results"]
@@ -54,9 +55,12 @@ modulate = Color(1, 1, 1, 0)
 
 [node name="Player" parent="." instance=ExtResource("2_fsg25")]
 
-[connection signal="back_pressed" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="." method="_on_custom_levels_panel_back_pressed"]
-[connection signal="hovered" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="Panels/CustomLevels" method="_on_hovered"]
-[connection signal="level_played" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="." method="_on_level_played"]
 [connection signal="custom_levels_pressed" from="Panels/Main/SubViewport/MainPanel" to="." method="_on_main_panel_custom_levels_pressed"]
 [connection signal="exit_pressed" from="Panels/Main/SubViewport/MainPanel" to="." method="_on_main_panel_exit_pressed"]
 [connection signal="hovered" from="Panels/Main/SubViewport/MainPanel" to="Panels/Main" method="_on_hovered"]
+[connection signal="back_pressed" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="." method="_on_custom_levels_panel_back_pressed"]
+[connection signal="hovered" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="Panels/CustomLevels" method="_on_hovered"]
+[connection signal="level_played" from="Panels/CustomLevels/SubViewport/CustomLevelsPanel" to="." method="_on_level_played"]
+[connection signal="continue_pressed" from="Panels/Results/SubViewport/ResultsPanel" to="." method="_on_results_panel_continue_pressed"]
+[connection signal="hovered" from="Panels/Results/SubViewport/ResultsPanel" to="Panels/Results" method="_on_hovered"]
+[connection signal="restart_pressed" from="Panels/Results/SubViewport/ResultsPanel" to="." method="_on_results_panel_restart_pressed"]

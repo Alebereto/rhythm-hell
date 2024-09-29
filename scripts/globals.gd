@@ -22,8 +22,15 @@ func format_seconds(seconds: float) -> String:
 
 enum MENU_NAME{MAIN, CUSTOM_LEVELS, RESULTS_SCREEN}
 class MainMenuLoadData:
-	var menu_name: MENU_NAME = MENU_NAME.MAIN
+	var _menu_name: Globals.MENU_NAME
+	var _results_dict
+
+	func _init(menu_name = Globals.MENU_NAME.MAIN, results_dict = null):
+		_menu_name = menu_name
+		_results_dict = results_dict
 	
+	func get_menu_name(): return _menu_name
+	func get_results_dict(): return _results_dict
 
 
 

@@ -22,19 +22,21 @@ top_radius = 2.0
 height = 0.5
 radial_segments = 14
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_wynrb"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_omv6a"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5t40u"]
 albedo_color = Color(0.537011, 0.537011, 0.537011, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_kap6a"]
-material = SubResource("StandardMaterial3D_omv6a")
+material = SubResource("StandardMaterial3D_5t40u")
 top_radius = 0.3
 bottom_radius = 0.75
 height = 0.2
 radial_segments = 10
 rings = 2
 cap_bottom = false
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4dt86"]
+height = 0.4
+radius = 2.0
 
 [node name="World" type="Node3D"]
 
@@ -47,15 +49,15 @@ transform = Transform3D(0.734062, 0.413362, -0.538781, 0, 0.793396, 0.608706, 0.
 [node name="Floor" type="StaticBody3D" parent="."]
 collision_layer = 33
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 mesh = SubResource("CylinderMesh_6mpui")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
-shape = SubResource("WorldBoundaryShape3D_wynrb")
-
-[node name="SmallCircle" type="MeshInstance3D" parent="."]
+[node name="SmallCircle" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0526347, 0)
 mesh = SubResource("CylinderMesh_kap6a")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+shape = SubResource("CylinderShape3D_4dt86")
