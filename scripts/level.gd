@@ -25,9 +25,6 @@ var micro_game_id: Globals.MICRO_GAMES = Globals.MICRO_GAMES.KARATE
 var items_dict = null
 
 
-
-var note_count: int:
-	get: return len(note_list)
 var beat_count: float:
 	get: return seconds_to_beats(length)
 
@@ -37,6 +34,10 @@ var song_audio_path: String = ""
 
 # Level icon texture
 var texture = Globals.GODOT_IMAGE
+
+
+var hit_notes = 0
+var perfect_notes = 0
 
 
 ## Constructor
@@ -103,6 +104,24 @@ func find_note_idx_after(second: float) -> int:
 		if beat > note_list[i]["s"]: return max(0, i-1)
 	return len(note_list)
 
+
+
+func get_total_notes() -> int:
+	var note_count = 0
+	for note in note_list:
+		var id = note.id
+		if micro_game_id == Globals.MICRO_GAMES.KARATE:
+			match id:
+				Globals.PROJECTILES.ROCK: note_count += 1
+				Globals.PROJECTILES.BARREL: note_count += 2	# TODO: check contained projectile recursively
+	return note_count
+
+
+func get_clear_value():
+	const PERFECT_RATIO = 0.3
+	var total_notes = get_total_notes()
+	if total_notes == 0: return 0
+	return (1-PERFECT_RATIO) * (hit_notes / float(total_notes)) + PERFECT_RATIO * (perfect_notes / float(total_notes))
 
 
 ## Functions for loading and saving level =======================================

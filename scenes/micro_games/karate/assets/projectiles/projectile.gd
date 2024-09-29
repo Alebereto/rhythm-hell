@@ -25,14 +25,18 @@ func on_touch() -> void:
 	active = false
 	bump()
 
+func poof() -> void:
+	queue_free()
+
 
 # moving functions ========
 
 func launch_forwards() -> void:
 	linear_velocity = Vector3(0,0,0)	# stop projectile
-	apply_impulse(Vector3(0,1,-10))		# launch forwards
+	apply_impulse(Vector3(0,1,-15))		# launch forwards
 
 func bump() -> void:
 	var y_impulse = linear_velocity.y * -1
 	var impulse = linear_velocity * -0.5 + Vector3(0,y_impulse,0)
 	apply_impulse(impulse)
+

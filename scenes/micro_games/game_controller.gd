@@ -29,9 +29,6 @@ var _micro_game: MicroGame = null
 # index of next note to be played from _level.note_list
 var _next_note_idx: int = 0
 
-# stats from level
-var _hit_notes: int = 0
-var _perfect_notes: int = 0
 
 # Some values
 func _is_paused(): return get_tree().paused
@@ -131,13 +128,13 @@ func _queue_note( note_info: Globals.NoteInfo ) -> void:
 
 ## Reset game stats
 func _reset_stats() -> void:
-	_hit_notes = 0
-	_perfect_notes = 0
+	_level.hit_notes = 0
+	_level.perfect_notes = 0
 
 ## Gets called when payer hits note
 func _on_note_hit(perfect: bool) -> void:
-	_hit_notes += 1
-	if perfect: _perfect_notes += 1
+	_level.hit_notes += 1
+	if perfect: _level.perfect_notes += 1
 
 
 
@@ -147,8 +144,6 @@ func _on_note_hit(perfect: bool) -> void:
 func _collect_game_data( aborted: bool ) -> Dictionary:
 	var data = {
 		"level": _level,
-		"hit_notes": _hit_notes,
-		"perfect_notes": _perfect_notes,
 		"aborted": aborted,}
 	return data
 

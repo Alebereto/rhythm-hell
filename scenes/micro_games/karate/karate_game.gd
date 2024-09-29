@@ -144,3 +144,10 @@ func _on_right_puncher_touch_projectile( projectile: Projectile ) -> void:
 
 func _on_left_puncher_touch_projectile( projectile: Projectile ) -> void:
 	_on_touch_projectile(projectile)
+
+
+# Death area ================================
+
+func _on_death_area_body_entered(body:Node3D):
+	if body is Projectile:
+		body.poof()

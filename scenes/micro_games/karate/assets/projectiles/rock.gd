@@ -15,3 +15,9 @@ func on_hit(late: bool, perfect: bool) -> void:
 	if not late:
 		_hit_sound.play()
 		launch_forwards()
+
+
+func poof():
+	$Model.visible = false
+	$PoofEffect.finished.connect(queue_free)
+	$PoofEffect.emitting = true
