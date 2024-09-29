@@ -1,6 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://decplkyoloi8h"]
+[gd_scene load_steps=9 format=3 uid="uid://decplkyoloi8h"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mxbxf"]
+sky_top_color = Color(0.545098, 0.294118, 0.270588, 1)
+sky_horizon_color = Color(0.729412, 0.368627, 0.196078, 1)
+ground_bottom_color = Color(0.530909, 0.254808, 0.12083, 1)
+ground_horizon_color = Color(0.729412, 0.368627, 0.196078, 1)
 
 [sub_resource type="Sky" id="Sky_b6air"]
 sky_material = SubResource("ProceduralSkyMaterial_mxbxf")
@@ -9,9 +13,30 @@ sky_material = SubResource("ProceduralSkyMaterial_mxbxf")
 background_mode = 2
 sky = SubResource("Sky_b6air")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_a4una"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sv384"]
+albedo_color = Color(0.633757, 0.633757, 0.633757, 1)
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_wynrb"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_6mpui"]
+material = SubResource("StandardMaterial3D_sv384")
+top_radius = 2.0
+height = 0.5
+radial_segments = 14
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5t40u"]
+albedo_color = Color(0.537011, 0.537011, 0.537011, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_kap6a"]
+material = SubResource("StandardMaterial3D_5t40u")
+top_radius = 0.3
+bottom_radius = 0.75
+height = 0.2
+radial_segments = 10
+rings = 2
+cap_bottom = false
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4dt86"]
+height = 0.4
+radius = 2.0
 
 [node name="World" type="Node3D"]
 
@@ -24,10 +49,15 @@ transform = Transform3D(0.734062, 0.413362, -0.538781, 0, 0.793396, 0.608706, 0.
 [node name="Floor" type="StaticBody3D" parent="."]
 collision_layer = 33
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, 0, 0)
-mesh = SubResource("PlaneMesh_a4una")
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("CylinderMesh_6mpui")
+
+[node name="SmallCircle" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0526347, 0)
+mesh = SubResource("CylinderMesh_kap6a")
+skeleton = NodePath("../../../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
-shape = SubResource("WorldBoundaryShape3D_wynrb")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+shape = SubResource("CylinderShape3D_4dt86")

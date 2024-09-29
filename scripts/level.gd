@@ -25,9 +25,6 @@ var micro_game_id: Globals.MICRO_GAMES = Globals.MICRO_GAMES.KARATE
 var items_dict = null
 
 
-
-var note_count: int:
-	get: return len(note_list)
 var beat_count: float:
 	get: return seconds_to_beats(length)
 
@@ -35,15 +32,29 @@ var beat_count: float:
 # Path to song file
 var song_audio_path: String = ""
 
+# Level icon texture
+var texture = Globals.GODOT_IMAGE
+
+
+var hit_notes = 0
+var perfect_notes = 0
+
 
 ## Constructor
 ##
 func _init(level_path = null):
 	
 	if level_path != null:
-		var data_path = "%s/%s" %[level_path, Globals.SAVE_FILE_NAME]
+		
+		# Load image texture
+		var image_path = level_path + "/" + Globals.LEVEL_IMAGE_NAME
+		if FileAccess.file_exists(image_path):
+			var image = Image.load_from_file(image_path)
+			texture = ImageTexture.create_from_image(image)
+		# Get song path
 		song_audio_path = "%s/%s" %[level_path, Globals.AUDIO_FILE_NAME]
-
+		# Load data
+		var data_path = "%s/%s" %[level_path, Globals.SAVE_FILE_NAME]
 		_get_data_from_file(data_path)
 
 
@@ -95,6 +106,24 @@ func find_note_idx_after(second: float) -> int:
 
 
 
+func get_total_notes() -> int:
+	var note_count = 0
+	for note in note_list:
+		var id = note.id
+		if micro_game_id == Globals.MICRO_GAMES.KARATE:
+			match id:
+				Globals.PROJECTILES.ROCK: note_count += 1
+				Globals.PROJECTILES.BARREL: note_count += 2	# TODO: check contained projectile recursively
+	return note_count
+
+
+func get_clear_value():
+	const PERFECT_RATIO = 0.3
+	var total_notes = get_total_notes()
+	if total_notes == 0: return 0
+	return (1-PERFECT_RATIO) * (hit_notes / float(total_notes)) + PERFECT_RATIO * (perfect_notes / float(total_notes))
+
+
 ## Functions for loading and saving level =======================================
 
 
@@ -120,6 +149,7 @@ func to_dictionary() -> Dictionary:
 
 	var dict := {
 		"name"			= name,
+		"micro_game_id"	= micro_game_id,
 		"length"		= length,
 		"initial_bpm"	= initial_bpm,
 		"song_offset"	= song_offset,
@@ -136,6 +166,7 @@ func _load_from_dictionary(dict: Dictionary) -> void:
 	initial_bpm 	= dict["initial_bpm"]
 	song_offset 	= dict["song_offset"]
 	items_dict		= dict["items_dict"]
+	micro_game_id	= dict["micro_game_id"]
 
 	# get note list
 	note_list = []

@@ -67,6 +67,7 @@ func set_wand_state(state: bool) -> void:
 func set_hand( hand_scene: PackedScene ):
 
 	# TODO: clear hand if already present ===
+	# TODO: maybe not clear but switch between hands
 
 	_hand = hand_scene.instantiate()
 	hand.color = _hand_color

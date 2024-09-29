@@ -7,11 +7,23 @@ extends Projectile
 @onready var _model: Node3D = $Model
 
 
-func on_hit() -> void:
+func _ready():
 	super()
 
+func _physics_process(delta):
+	super(delta)
+
+func on_hit(late: bool, perfect: bool) -> void:
+	super(late, perfect)
+
 	linear_velocity = Vector3(0,0,0)	# stop projectile
-	$CollisionShape3D.process_mode = Node.PROCESS_MODE_DISABLED
+	collision_layer = 0
+	collision_mask = 0
 	_break_sound.play()
 	_break_effect.emitting = true
 	_model.visible = false
+
+func poof():
+	$Model.visible = false
+	$PoofEffect.finished.connect(queue_free)
+	$PoofEffect.emitting = true

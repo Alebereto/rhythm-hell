@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line_settings/time_line_settings.gd" id="1_dpl24"]
 [ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line_settings/snap_beats.gd" id="1_x2jft"]
-[ext_resource type="Texture2D" uid="uid://7r81hmuyh6iv" path="res://images/refresh.png" id="3_2yxnh"]
-[ext_resource type="Texture2D" uid="uid://uomvoa4ev5vx" path="res://images/select.png" id="3_qktwh"]
-[ext_resource type="Texture2D" uid="uid://vygr63p5lj2i" path="res://images/delete.png" id="4_wev2s"]
-[ext_resource type="Texture2D" uid="uid://bcvhgm3okknvp" path="res://images/item.png" id="5_hkrhe"]
+[ext_resource type="Texture2D" uid="uid://7r81hmuyh6iv" path="res://assets/icons/refresh.png" id="3_2yxnh"]
+[ext_resource type="Texture2D" uid="uid://uomvoa4ev5vx" path="res://assets/icons/select.png" id="3_qktwh"]
+[ext_resource type="Texture2D" uid="uid://vygr63p5lj2i" path="res://assets/icons/delete.png" id="4_wev2s"]
+[ext_resource type="Texture2D" uid="uid://bcvhgm3okknvp" path="res://assets/icons/item.png" id="5_hkrhe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_di6fo"]
 content_margin_left = 10.0

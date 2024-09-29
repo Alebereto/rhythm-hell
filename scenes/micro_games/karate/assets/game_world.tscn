@@ -21,16 +21,25 @@ albedo_color = Color(0.741385, 0.741385, 0.741385, 1)
 
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_037og"]
 material = SubResource("StandardMaterial3D_g0lfs")
+radius = 7.5
 radial_steps = 23
+section_length = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_omv6a"]
 albedo_color = Color(0.537011, 0.537011, 0.537011, 1)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_sf1e4"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_to71d"]
 material = SubResource("StandardMaterial3D_omv6a")
+top_radius = 0.3
+bottom_radius = 0.75
+height = 0.2
+radial_segments = 10
+rings = 2
 cap_bottom = false
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_vj1tl"]
+height = 0.4
+radius = 7.5
 
 [node name="GameWorld" type="Node3D"]
 
@@ -41,17 +50,19 @@ environment = SubResource("Environment_j13s4")
 transform = Transform3D(0.734062, 0.413362, -0.538781, 0, 0.793396, 0.608706, 0.679083, -0.446828, 0.582402, -4.89282, 8.36911, 4.3431)
 
 [node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(15, 0, 0, 0, 0.5, 0, 0, 0, 15, 0, -0.5, 0)
 
 [node name="Floor" type="StaticBody3D" parent="Node3D"]
 collision_layer = 33
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/Floor"]
+[node name="FloorMesh" type="MeshInstance3D" parent="Node3D/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 mesh = SubResource("TubeTrailMesh_037og")
 
 [node name="SmallCircle" type="MeshInstance3D" parent="Node3D/Floor"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1, 0)
-mesh = SubResource("CylinderMesh_sf1e4")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0526347, 0)
+mesh = SubResource("CylinderMesh_to71d")
+skeleton = NodePath("../../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
 shape = SubResource("CylinderShape3D_vj1tl")

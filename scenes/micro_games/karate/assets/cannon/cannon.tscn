@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://bodnphfa0q5ds"]
 
 [ext_resource type="Script" path="res://scenes/micro_games/karate/assets/cannon/cannon.gd" id="1_tgywj"]
-[ext_resource type="AudioStream" uid="uid://dixcuu8lxfqmv" path="res://audio/sounds/shoot.wav" id="2_eolmd"]
+[ext_resource type="AudioStream" uid="uid://dixcuu8lxfqmv" path="res://assets/sounds/shoot.wav" id="2_eolmd"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e1qs4"]
 albedo_color = Color(0.446777, 0.446777, 0.446777, 1)

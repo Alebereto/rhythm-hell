@@ -18,28 +18,45 @@ func format_seconds(seconds: float) -> String:
 	return "%s:%s%s" % [str(minute), pad, str(second)]
 
 
+# For main menu ===============================================================================================
+
+enum MENU_NAME{MAIN, CUSTOM_LEVELS, RESULTS_SCREEN}
+class MainMenuLoadData:
+	var _menu_name: Globals.MENU_NAME
+	var _results_dict
+
+	func _init(menu_name = Globals.MENU_NAME.MAIN, results_dict = null):
+		_menu_name = menu_name
+		_results_dict = results_dict
+	
+	func get_menu_name(): return _menu_name
+	func get_results_dict(): return _results_dict
+
 
 
 # For micro games =============================================================================================
 
 # micro game indeces
-enum MICRO_GAMES{ REMIX=-1, KARATE=0 , SPACE_SHOOTER=1, }
-const MICRO_GAME_NAMES = ["Karate", "Space Shooter", "Remix"]
+enum MICRO_GAMES{ REMIX=-1, KARATE=0 , MOLE_TURF=1, }
+const MICRO_GAME_NAMES = ["Karate", "Mole Turf", "Remix"]
 
 # player enum
-enum HAND {PUNCHER}
+enum HAND {PUNCHER, HAMMER}
 
 # karate projectiles enum
 enum PROJECTILES{ROCK, BARREL}
 
+# mole turf moles
+enum MOLE_TYPES{NORMAL, BLUE, YELLOW}
 
 
-# for level saving and loading ================================================================================
+
+# For level saving and loading ================================================================================
 
 const LEVELS_DIR = "res://levels/"
 const SAVE_FILE_NAME = "save.dat"
 const AUDIO_FILE_NAME = "song.ogg"
-const IMAGE_NAME = "cover.jpg"
+const LEVEL_IMAGE_NAME = "cover.jpg"
 
 
 ## Gets path to level files, returns true if level is valid
@@ -48,11 +65,11 @@ func is_legal_level_path(_level_path: String) -> bool:
 	return true
 
 
-## Gets pairs of [level, texture] for every level in levels directory
+## Gets array of levels from levels directory
 func get_levels_data() -> Array:
 	var folders = DirAccess.get_directories_at(LEVELS_DIR)
 
-	var levels_data = []
+	var levels = []
 
 	for folder in folders:
 		var dir = LEVELS_DIR + folder
@@ -60,18 +77,10 @@ func get_levels_data() -> Array:
 
 		# load level
 		var level: Level = Level.new(dir)
-		# get texture
-		var texture
-		var image_path = dir + "/" + IMAGE_NAME
-		if FileAccess.file_exists(image_path):
-			var image = Image.load_from_file(image_path)
-			texture = ImageTexture.create_from_image(image)
-		else:
-			texture = GODOT_IMAGE
 
-		levels_data.append([level, texture])
+		levels.append(level)
 	
-	return levels_data
+	return levels
 
 
 

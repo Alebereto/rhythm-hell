@@ -1,9 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://t45m7h5u6o5k"]
+[gd_scene load_steps=9 format=3 uid="uid://t45m7h5u6o5k"]
 
 [ext_resource type="Script" path="res://scenes/micro_games/karate/assets/projectiles/rock.gd" id="1_0nw1h"]
-[ext_resource type="AudioStream" uid="uid://bye41mfof2em4" path="res://audio/sounds/hit.wav" id="2_xxiv1"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_462y0"]
+[ext_resource type="AudioStream" uid="uid://bye41mfof2em4" path="res://assets/sounds/hit.wav" id="2_xxiv1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2qc4y"]
 albedo_color = Color(0.585062, 0.585062, 0.585062, 1)
@@ -13,17 +11,51 @@ material = SubResource("StandardMaterial3D_2qc4y")
 radial_segments = 16
 rings = 3
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_462y0"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lxocg"]
+angle_max = 360.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 6.0
+initial_velocity_max = 8.0
+gravity = Vector3(0, 9, 0)
+linear_accel_min = -30.0
+linear_accel_max = -20.0
+scale_min = 0.2
+scale_max = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1isj5"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_wsta7"]
+material = SubResource("StandardMaterial3D_1isj5")
+radius = 0.2
+height = 0.4
+radial_segments = 4
+rings = 2
+
 [node name="Rock" type="RigidBody3D"]
 inertia = Vector3(1, 1, 1)
 script = ExtResource("1_0nw1h")
+
+[node name="Model" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("SphereMesh_doena")
+skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("SphereShape3D_462y0")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
-mesh = SubResource("SphereMesh_doena")
-skeleton = NodePath("")
-
 [node name="HitSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("2_xxiv1")
+
+[node name="PoofEffect" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 10
+lifetime = 0.1
+one_shot = true
+explosiveness = 0.97
+randomness = 0.15
+process_material = SubResource("ParticleProcessMaterial_lxocg")
+draw_pass_1 = SubResource("SphereMesh_wsta7")

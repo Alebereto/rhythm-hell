@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://css301rnh0cd7"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line/time_line_grid.gd" id="1_b8pkd"]
+[ext_resource type="PackedScene" uid="uid://b3r8huwskjklu" path="res://scenes/level_editor/assets/level_editor_menu/items/note_2d.tscn" id="2_43pa2"]
+
+[node name="TimeLineGrid" type="Node2D"]
+script = ExtResource("1_b8pkd")
+
+[node name="Anchor" type="Node2D" parent="."]
+
+[node name="Grid" type="Node2D" parent="Anchor"]
+
+[node name="GridLines" type="Node2D" parent="Anchor/Grid"]
+
+[node name="GridLayers" type="Node2D" parent="Anchor/Grid"]
+
+[node name="Items" type="Node2D" parent="Anchor"]
+z_index = 5
+
+[node name="Notes" type="Node2D" parent="Anchor/Items"]
+
+[node name="Events" type="Node2D" parent="Anchor/Items"]
+
+[node name="Markers" type="Node2D" parent="Anchor/Items"]
+
+[node name="IndicatorRoot" type="Node2D" parent="Anchor"]
+visible = false
+z_index = 10
+
+[node name="Note2d" parent="Anchor/IndicatorRoot" instance=ExtResource("2_43pa2")]
+
+[node name="TimeMarker" type="Node2D" parent="Anchor"]
+z_index = 15
+
+[node name="Polygon2D" type="Polygon2D" parent="Anchor/TimeMarker"]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-6, 0, 6, 0, 0, 12)

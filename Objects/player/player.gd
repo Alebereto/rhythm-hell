@@ -4,7 +4,9 @@ signal paused
 
 var height: float = 170
 
-const _HANDS: Array[PackedScene] = [preload("res://objects/player/hands/puncher.tscn")]
+# TODO: load and not preload???
+const _HANDS: Array[PackedScene] = [preload("res://objects/player/hands/puncher.tscn"),
+									preload("res://objects/player/hands/hammer.tscn")]
 
 
 # Controllers

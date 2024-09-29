@@ -4,7 +4,6 @@ signal item_picked( node )
 signal hovered
 
 var _level: Level = null
-var _texture = null
 
 func get_level()-> Level: return _level
 
@@ -18,9 +17,8 @@ func get_level()-> Level: return _level
 @onready var _level_length: Label = $LevelInfo/Time/Time
 
 
-func set_params(level, texture) -> void:
+func set_params(level) -> void:
 	_level = level
-	_texture = texture
 
 func _ready():
 	_update_level_info()
@@ -29,7 +27,7 @@ func _ready():
 func _update_level_info() -> void:
 	if _level == null: return
 
-	_level_image.texture = _texture
+	_level_image.texture = _level.texture
 	_level_name.text = _level.name
 	_game_type.text = Globals.MICRO_GAME_NAMES[_level.micro_game_id]
 	_level_length.text = Globals.format_seconds(_level.length)
