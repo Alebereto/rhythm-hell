@@ -45,6 +45,8 @@ mesh = SubResource("CylinderMesh_53wlh")
 skeleton = NodePath("../..")
 
 [node name="Black" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.223025, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
 mesh = SubResource("PlaneMesh_3pfnp")
 skeleton = NodePath("../..")
+
+[node name="MoleRoot" type="Node3D" parent="."]

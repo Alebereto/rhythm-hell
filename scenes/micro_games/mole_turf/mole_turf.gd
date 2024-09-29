@@ -22,6 +22,9 @@ func set_player(player: Player):
 	_right_hammer = player.set_right_hand( Globals.HAND.HAMMER )
 	_left_hammer = player.set_left_hand( Globals.HAND.HAMMER )
 
+	_right_hammer.mole_bonked.connect(_on_right_hammer_bonk_mole)
+	_left_hammer.mole_bonked.connect(_on_left_hammer_bonk_mole)
+
 ## Called by micro game when playing note
 func _play_note( _note: Globals.NoteInfo ):
 	# Get mole hole
@@ -50,5 +53,13 @@ func _create_mole(mole_scene: PackedScene) -> Mole:
 
 ## Called by micro_game to get the time needed before note.s
 func _get_note_delay( _note: Globals.NoteInfo ):
-	return 0
+	return Mole.CREATE_TIME
 
+
+# Inputs =====================================
+
+func _on_right_hammer_bonk_mole(mole: Mole):
+	pass
+
+func _on_left_hammer_bonk_mole(mole: Mole):
+	pass
