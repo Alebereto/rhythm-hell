@@ -2,7 +2,8 @@ class_name Player extends Node3D
 
 signal paused
 
-var height: float = 170
+var height: float = 1.70 # in meters
+func get_shoulder_height() -> float: return height * Globals.SHOULDER_RATIO
 
 # TODO: load and not preload???
 const _HANDS: Array[PackedScene] = [preload("res://objects/player/hands/puncher.tscn"),
@@ -43,6 +44,11 @@ func set_wands_state(state: bool):
 func stop_inputs() -> void:
 	right_controller.stop_inputs()
 	left_controller.stop_inputs()
+
+func enable_inputs() -> void:
+	right_controller.enable_inputs()
+	left_controller.enable_inputs()
+	right_controller.wand.laser_on()
 
 
 ## Fade out then call method

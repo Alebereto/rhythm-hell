@@ -2,6 +2,7 @@ extends Node
 
 const SECONDS_IN_MINUTE = 60
 const MILISECONDS_IN_SECOND = 1000000.0
+const SHOULDER_RATIO = 3/4.0
 
 # godot image
 const GODOT_IMAGE = preload("res://icon.svg")
@@ -40,6 +41,8 @@ class MainMenuLoadData:
 enum MICRO_GAMES{ REMIX=-1, KARATE=0 , MOLE_TURF=1, }
 const MICRO_GAME_NAMES = ["Karate", "Mole Turf", "Remix"]
 
+const HIDDEN_OBJECTS_GROUP_NAME = "hidden_in_menu"
+
 # player enum
 enum HAND {PUNCHER, HAMMER}
 
@@ -47,7 +50,7 @@ enum HAND {PUNCHER, HAMMER}
 enum PROJECTILES{ROCK, BARREL}
 
 # mole turf moles
-enum MOLE_TYPES{NORMAL, BLUE, YELLOW}
+enum MOLE_TYPES{NORMAL, FAST, SLOW}
 
 
 
@@ -86,6 +89,10 @@ func get_levels_data(levels_path: String) -> Array:
 	
 	return levels
 
+func load_external_image( image_path: String ):
+	var image = Image.load_from_file(image_path)
+	var texture = ImageTexture.create_from_image(image)
+	return texture
 
 
 # Data structures ========================================================================================

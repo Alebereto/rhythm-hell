@@ -4,6 +4,8 @@ class_name GameController extends Node3D
 Plays levels by interacting with micro games
 '''
 
+const LEVEL_DELAY = 1.5
+
 # Emitted when exiting level
 signal exit( exit_data: Globals.MainMenuLoadData )
 
@@ -47,7 +49,7 @@ func load_level(level: Level) -> void:
 	# Load micro game
 	await _load_micro_game( level.micro_game_id )
 
-	await _start_level(0, 1.5)
+	await _start_level(0, LEVEL_DELAY)
 	
 
 # Called when the node enters the scene tree for the first time.
@@ -101,6 +103,9 @@ func _load_micro_game( game_id: Globals.MICRO_GAMES ) -> void:
 
 ## Starts level from given time
 func _start_level(time: float = 0, delay: float = 1.5) -> void:
+	# reset state
+	_micro_game.on_reset()
+	_reset_stats()
 
 	# Wait before level start delay seconds
 	if delay > 0: await get_tree().create_timer(delay, false).timeout
@@ -112,8 +117,6 @@ func _start_level(time: float = 0, delay: float = 1.5) -> void:
 	if time == 0: _next_note_idx = 0
 	else: 		  _next_note_idx = _level.find_note_idx_after(time)
 
-	# reset stats
-	_reset_stats()
 
 	_song_player.play()
 
@@ -124,6 +127,11 @@ func _start_level(time: float = 0, delay: float = 1.5) -> void:
 func _queue_note( note_info: Globals.NoteInfo ) -> void:
 	_micro_game.add_note_to_queue(note_info)
 
+## Gets called when payer hits note
+func _on_note_hit(perfect: bool) -> void:
+	_level.hit_notes += 1
+	if perfect: _level.perfect_notes += 1
+
 
 
 ## Reset game stats
@@ -131,11 +139,14 @@ func _reset_stats() -> void:
 	_level.hit_notes = 0
 	_level.perfect_notes = 0
 
-## Gets called when payer hits note
-func _on_note_hit(perfect: bool) -> void:
-	_level.hit_notes += 1
-	if perfect: _level.perfect_notes += 1
+func _replay():
+	_ended = false
+	_show_menu(false)
+	_player.set_wands_state(false)
+	_player.fade_in()
+	_player.enable_inputs()
 
+	_start_level(0, LEVEL_DELAY)
 
 
 # Level end ======================
@@ -156,11 +167,11 @@ func _switch_to_main_menu( aborted: bool = false ) -> void:
 
 ## Called when level ends
 func _on_level_end() -> void:
-	const FADE_TIME = 0.7
+	const TIME_TO_FADE = 1
 	if _ended: return
 	_ended = true
 	_player.stop_inputs()
-	_player.fade_out( FADE_TIME, _switch_to_main_menu )
+	_player.fade_out( TIME_TO_FADE, _switch_to_main_menu )
 
 
 
@@ -186,12 +197,12 @@ func _show_menu(state: bool) -> void:
 	if state:
 		_menu_panel.process_mode = Node.PROCESS_MODE_INHERIT
 		_menu_panel.visible = true
-		for obj in get_tree().get_nodes_in_group("hidden_in_menu"): obj.visible = false
+		for obj in get_tree().get_nodes_in_group(Globals.HIDDEN_OBJECTS_GROUP_NAME): obj.visible = false
 			
 	else:
 		_menu_panel.process_mode = Node.PROCESS_MODE_DISABLED
 		_menu_panel.visible = false
-		for obj in get_tree().get_nodes_in_group("hidden_in_menu"): obj.visible = true
+		for obj in get_tree().get_nodes_in_group(Globals.HIDDEN_OBJECTS_GROUP_NAME): obj.visible = true
 
 
 
@@ -208,10 +219,14 @@ func _on_menu_resume_pressed():
 
 
 func _on_menu_exit_pressed():
+	_ended = true
 	_player.stop_inputs()
 	get_tree().paused = false
-	_player.fade_out( 0.5, _switch_to_main_menu.bind(true) )
+	_player.fade_out( 0.3, _switch_to_main_menu.bind(true) )
 
 
 func _on_menu_replay_pressed():
-	pass # TODO: replay level
+	_ended = true
+	_player.stop_inputs()
+	get_tree().paused = false
+	_player.fade_out( 0.3, _replay )

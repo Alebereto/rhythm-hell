@@ -50,18 +50,24 @@ func _get_note_delay( _note: Globals.NoteInfo ): return 0
 ## before note start, adds note to queue.
 func add_note_to_queue( note_info: Globals.NoteInfo ) -> void:
 	var wait_time: float = max_note_delay - _get_note_delay(note_info)
-	# make timer
-	var timer = Timer.new()
-	timer.autostart = true
-	timer.one_shot = true
-	timer.wait_time = wait_time
+	if wait_time <= 0: _play_note( note_info )
+	else:
+		# make timer
+		var timer = Timer.new()
+		timer.autostart = true
+		timer.one_shot = true
+		timer.wait_time = wait_time
 
-	timer.timeout.connect( _play_note.bind( note_info ) ) # call _play_note of note when timer ends
-	timer.timeout.connect((func(node): node.queue_free()).bind(timer)) # delete timer after timer ends
+		timer.timeout.connect( _play_note.bind( note_info ) ) # call _play_note of note when timer ends
+		timer.timeout.connect((func(node): node.queue_free()).bind(timer)) # delete timer after timer ends
 
-	_note_timers_root.add_child( timer )
+		_note_timers_root.add_child( timer )
 
 
+## Gets called when replaying level.
+## Should reset micro game to original state
+func on_reset() -> void:
+	_clear_note_queue()
 
 ## Called by game_controller when setting the player.
 ## Can override to set link player controls to game
@@ -69,6 +75,6 @@ func set_player(player: Player) -> void:
 	_player = player
 
 ## Clears all queued notes
-func clear_note_queue() -> void:
+func _clear_note_queue() -> void:
 	for timer in _note_timers_root.get_children():
 		timer.queue_free()
