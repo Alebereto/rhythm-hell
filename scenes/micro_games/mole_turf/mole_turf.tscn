@@ -26,7 +26,7 @@ cap_bottom = false
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_27lgm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_itlk3"]
-shading_mode = 0
+shading_mode = 2
 albedo_color = Color(0.247059, 0.607843, 0.0431373, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_uo8jq"]
@@ -52,10 +52,10 @@ rings = 2
 cap_bottom = false
 
 [node name="MoleTurf" type="Node3D"]
+process_mode = 1
 script = ExtResource("1_dvcqh")
-hit_timeframe = null
-perfect_timeframe = null
-max_note_delay = null
+hit_timeframe = 0.3
+max_note_delay = 0.1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_p5bsr")
@@ -91,13 +91,13 @@ skeleton = NodePath("../../..")
 [node name="MoleHoles" type="Node3D" parent="Objects"]
 
 [node name="Hole1" parent="Objects/MoleHoles" instance=ExtResource("3_eqoqx")]
-transform = Transform3D(0.564333, 0, 0.825547, 0, 1, 0, -0.825547, 0, 0.564333, -0.524002, 0, -0.675632)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.52, 0, -0.65)
 
 [node name="Hole2" parent="Objects/MoleHoles" instance=ExtResource("3_eqoqx")]
-transform = Transform3D(0.941406, 0, 0.337276, 0, 1, 0, -0.337276, 0, 0.941406, -0.228271, 0, -0.925272)
+transform = Transform3D(0.97437, 0, 0.224951, 0, 1, 0, -0.224951, 0, 0.97437, -0.2, 0, -0.92)
 
 [node name="Hole3" parent="Objects/MoleHoles" instance=ExtResource("3_eqoqx")]
-transform = Transform3D(0.948876, 0, -0.315649, 0, 1, 0, 0.315649, 0, 0.948876, 0.205027, 0, -0.925272)
+transform = Transform3D(0.97437, 0, -0.224951, 0, 1, 0, 0.224951, 0, 0.97437, 0.2, 0, -0.92)
 
 [node name="Hole4" parent="Objects/MoleHoles" instance=ExtResource("3_eqoqx")]
-transform = Transform3D(0.572818, 0, -0.819682, 0, 1, 0, 0.819682, 0, 0.572818, 0.526765, 0, -0.700569)
+transform = Transform3D(0.707106, 0, -0.707106, 0, 1, 0, 0.707106, 0, 0.707106, 0.52, 0, -0.65)

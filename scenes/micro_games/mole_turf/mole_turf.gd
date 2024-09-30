@@ -5,7 +5,9 @@ const MOLE_HOLE_COUNT = 4
 var _right_hammer = null
 var _left_hammer = null
 
-const MOLE_SCENES = [preload("res://scenes/micro_games/mole_turf/assets/moles/normal_mole.tscn")]
+const MOLE_SCENES = [preload("res://scenes/micro_games/mole_turf/assets/moles/normal_mole.tscn"),
+					 preload("res://scenes/micro_games/mole_turf/assets/moles/quick_mole.tscn"),
+					 preload("res://scenes/micro_games/mole_turf/assets/moles/slow_mole.tscn")]
 
 
 @onready var _mole_holes = [$Objects/MoleHoles/Hole1,
@@ -58,8 +60,8 @@ func _get_note_delay( _note: Globals.NoteInfo ):
 
 # Inputs =====================================
 
-func _on_right_hammer_bonk_mole(mole: Mole):
+func _on_right_hammer_bonk_mole(_mole: Mole):
 	pass
 
-func _on_left_hammer_bonk_mole(mole: Mole):
+func _on_left_hammer_bonk_mole(_mole: Mole):
 	pass

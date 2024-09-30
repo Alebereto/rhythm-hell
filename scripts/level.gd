@@ -49,7 +49,7 @@ func _init(level_path = null):
 		# Load image texture
 		var image_path = level_path + "/" + Globals.LEVEL_IMAGE_NAME
 		if FileAccess.file_exists(image_path):
-			texture = load(image_path)
+			texture = Globals.load_external_image(image_path)
 		# Get song path
 		song_audio_path = "%s/%s" %[level_path, Globals.AUDIO_FILE_NAME]
 		# Load data
@@ -109,10 +109,17 @@ func get_total_notes() -> int:
 	var note_count = 0
 	for note in note_list:
 		var id = note.id
-		if micro_game_id == Globals.MICRO_GAMES.KARATE:
-			match id:
-				Globals.PROJECTILES.ROCK: note_count += 1
-				Globals.PROJECTILES.BARREL: note_count += 2	# TODO: check contained projectile recursively
+		match micro_game_id:
+			Globals.MICRO_GAMES.KARATE:
+				match id:
+					Globals.PROJECTILES.ROCK: note_count += 1
+					Globals.PROJECTILES.BARREL: note_count += 2	# TODO: check contained projectile recursively
+			Globals.MICRO_GAMES.MOLE_TURF:
+				match id:
+					Globals.MOLE_TYPES.NORMAL: note_count += 1
+					Globals.MOLE_TYPES.FAST: note_count += 2
+					Globals.MOLE_TYPES.SLOW: note_count += 3
+			
 	return note_count
 
 

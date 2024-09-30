@@ -6,9 +6,9 @@ Summons moles
 
 var player_height: float # needed to determine sprout height
 func _get_init_mole_height(): return $Model/Black.position.y
-func _get_mole_peak_height(): return 1.03
+var mole_peak_height = 1.03
 
-var _active_tween
+var _active_tween: Tween = null
 
 @onready var _mole_root = $MoleRoot
 
@@ -23,5 +23,12 @@ func sprout(mole: Mole, time: float):
 	_active_tween = create_tween()
 	_active_tween.tween_property(mole, "position:y", _get_init_mole_height(), Mole.CREATE_TIME)
 	# call method to activate mole
-	_active_tween.tween_property(mole, "position:y", _get_mole_peak_height(), Mole.RISE_TIME).set_delay(time - Mole.RISE_TIME)
+	_active_tween.tween_property(mole, "position:y", mole_peak_height, Mole.RISE_TIME).set_delay(time - Mole.RISE_TIME)
 	_active_tween.tween_property(mole, "position:y", -1, Mole.LOWER_TIME).set_delay(Mole.UP_TIME)
+
+func kill_active_mole():
+	if _active_tween != null:
+		_active_tween.kill()
+		_active_tween = null
+	for child in _mole_root.get_children():
+		child.queue_free()

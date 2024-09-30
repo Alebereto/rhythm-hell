@@ -18,5 +18,5 @@ func _is_bonking_speed() -> bool:
 
 # Inputs ======================
 
-func _on_body_entered(body):
+func _on_body_entered(_body):
 	pass

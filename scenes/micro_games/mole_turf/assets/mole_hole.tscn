@@ -10,15 +10,15 @@ material = SubResource("StandardMaterial3D_l5r15")
 inner_radius = 0.15
 outer_radius = 0.25
 rings = 8
-ring_segments = 5
+ring_segments = 10
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_53wlh"]
 material = SubResource("StandardMaterial3D_l5r15")
-top_radius = 0.245
+top_radius = 0.24
 bottom_radius = 0.365
-height = 0.1
+height = 0.135
 radial_segments = 8
-rings = 2
+rings = 10
 cap_bottom = false
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qhb2k"]
@@ -49,4 +49,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
 mesh = SubResource("PlaneMesh_3pfnp")
 skeleton = NodePath("../..")
 
-[node name="MoleRoot" type="Node3D" parent="."]
+[node name="MoleRoot" type="Node3D" parent="." groups=["hidden_in_menu"]]
