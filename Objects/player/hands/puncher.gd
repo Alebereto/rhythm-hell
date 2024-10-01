@@ -52,5 +52,7 @@ func _is_hitting_speed() -> bool:
 func _on_body_entered( body ):
 	if (body is Projectile):
 		if not body.active: return
-		if _is_hitting_speed(): projectile_hit.emit( body )
+		if _is_hitting_speed():
+			projectile_hit.emit( body )
+			vibrate.emit()
 		else: 					projectile_touched.emit( body )
