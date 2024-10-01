@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://bye41mfof2em4"
-path="res://.godot/imported/hit.wav-b122da9ae3f69dfbe7a6d1bf9e1b423e.sample"
+uid="uid://bj8gv2xfqr31p"
+path="res://.godot/imported/miss.wav-40fa9751e18c5b8fbd060e94ff097648.sample"
 
 [deps]
 
-source_file="res://assets/sounds/hit.wav"
-dest_files=["res://.godot/imported/hit.wav-b122da9ae3f69dfbe7a6d1bf9e1b423e.sample"]
+source_file="res://assets/sounds/karate/miss.wav"
+dest_files=["res://.godot/imported/miss.wav-40fa9751e18c5b8fbd060e94ff097648.sample"]
 
 [params]
 
