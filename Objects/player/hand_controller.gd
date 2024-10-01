@@ -70,6 +70,7 @@ func set_hand( hand_scene: PackedScene ):
 	# TODO: maybe not clear but switch between hands
 
 	_hand = hand_scene.instantiate()
+	hand.vibrate.connect(vibrate)
 	hand.color = _hand_color
 	add_child(hand)
 

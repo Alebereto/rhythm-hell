@@ -16,8 +16,8 @@ config/tags=PackedStringArray("3d")
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
-config/name.editor="Level Editor"
 run/main_scene.level_editor="res://scenes/level_editor/level_editor_2d.tscn"
+config/name.level_editor="Level Editor"
 
 [autoload]
 

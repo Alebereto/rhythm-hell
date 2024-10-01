@@ -2,6 +2,7 @@ extends Area3D
 
 signal projectile_hit( projectile: Projectile )
 signal projectile_touched( projectile: Projectile )
+signal vibrate
 
 const forwards = Vector3(0,0,-1)
 const max_positions: int = 10

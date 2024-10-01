@@ -1,6 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cxbdhv8osj41u"]
+[gd_scene load_steps=15 format=3 uid="uid://cxbdhv8osj41u"]
 
 [ext_resource type="Script" path="res://scenes/micro_games/mole_turf/assets/moles/quick_mole.gd" id="1_xj06y"]
+[ext_resource type="AudioStream" uid="uid://lrontpnsevrk" path="res://assets/sounds/mole/mole_bonk.wav" id="2_4e2ke"]
+[ext_resource type="AudioStream" uid="uid://by1ww0d63hehb" path="res://assets/sounds/mole/mole_bonk_perfect.wav" id="3_f7fsi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36cb7"]
 albedo_color = Color(3.08037e-06, 0, 0.832349, 1)
@@ -122,3 +124,9 @@ skeleton = NodePath("../..")
 [node name="HitCollision" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115589, 0)
 shape = SubResource("SphereShape3D_6omco")
+
+[node name="BonkSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_4e2ke")
+
+[node name="BonkPerfectSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_f7fsi")

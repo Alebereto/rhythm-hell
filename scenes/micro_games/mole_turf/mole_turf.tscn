@@ -54,7 +54,6 @@ cap_bottom = false
 [node name="MoleTurf" type="Node3D"]
 process_mode = 1
 script = ExtResource("1_dvcqh")
-hit_timeframe = 0.3
 max_note_delay = 0.1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
