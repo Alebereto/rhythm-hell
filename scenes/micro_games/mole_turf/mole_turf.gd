@@ -67,12 +67,15 @@ func on_reset() -> void:
 
 
 ## Called when hammer bonks active mole
-func _on_hammer_bonk_mole( mole: Mole ):
+func _on_hammer_bonk_mole( hammer, mole: Mole ):
 	var dest_difference = mole.get_destination_difference()
 	if dest_difference > hit_timeframe:
 		mole.on_tap()
 	else:
 		var perfect = true if dest_difference <= perfect_timeframe else false
+		if perfect: hammer.play_bonk_perfect_sound()
+		else: hammer.play_bonk_sound()
+		hammer.vibrate.emit()
 		note_hit.emit(perfect)
 		mole.on_bonk(perfect)
 
@@ -82,14 +85,14 @@ func _on_hammer_tap_mole(mole: Mole):
 
 # Inputs =====================================
 
-func _on_right_hammer_bonked_mole(mole: Mole):
-	_on_hammer_bonk_mole(mole)
+func _on_right_hammer_bonked_mole(hammer, mole: Mole):
+	_on_hammer_bonk_mole(hammer, mole)
 
-func _on_left_hammer_bonked_mole(mole: Mole):
-	_on_hammer_bonk_mole(mole)
+func _on_left_hammer_bonked_mole(hammer, mole: Mole):
+	_on_hammer_bonk_mole(hammer, mole)
 
-func _on_right_hammer_tapped_mole(mole: Mole):
+func _on_right_hammer_tapped_mole(_hammer, mole: Mole):
 	_on_hammer_tap_mole(mole)
 
-func _on_left_hammer_tapped_mole(mole: Mole):
+func _on_left_hammer_tapped_mole(_hammer, mole: Mole):
 	_on_hammer_tap_mole(mole)

@@ -1,8 +1,11 @@
 extends Node3D
 
-signal mole_bonked( mole: Mole )
-signal mole_tapped( mole: Mole )
+signal mole_bonked( hammer, mole: Mole )
+signal mole_tapped( hammer, mole: Mole )
 signal vibrate
+
+@onready var _bonk_sound: AudioStreamPlayer3D = $BonkSound
+@onready var _bonk_perfect_sound: AudioStreamPlayer3D = $BonkPerfectSound
 
 var color: Color = Color.WHITE
 
@@ -36,6 +39,10 @@ func _is_bonking_speed() -> bool:
 
 	return mag >= _bonk_threshold
 
+
+func play_bonk_sound() -> void: _bonk_sound.play()
+func play_bonk_perfect_sound() -> void: _bonk_perfect_sound.play()
+
 # Inputs ======================
 
 func _on_area_entered(area: Area3D):
@@ -43,7 +50,6 @@ func _on_area_entered(area: Area3D):
 
 	if parent is Mole and parent.is_active():
 		if _is_bonking_speed():
-			mole_bonked.emit(parent)
-			vibrate.emit()
+			mole_bonked.emit(self, parent)
 		else:
-			mole_tapped.emit(parent)
+			mole_tapped.emit(self, parent)
