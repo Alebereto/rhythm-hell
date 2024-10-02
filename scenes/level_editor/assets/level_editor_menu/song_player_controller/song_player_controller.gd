@@ -12,8 +12,8 @@ signal seeked(seconds: float)
 
 var _button_state_paused: bool
 
-@export var _play_texture = preload("res://assets/icons/play.png")
-@export var _pause_texture = preload("res://assets/icons/pause.png")
+var _play_texture = preload("res://assets/icons/play.png")
+var _pause_texture = preload("res://assets/icons/pause.png")
 
 # Get refrences
 @onready var _song_name_label: Label = $VBoxContainer/SongName
@@ -26,6 +26,12 @@ var _button_state_paused: bool
 
 func _ready():
 	_set_button_state(true)
+
+
+## Gets called when loading level editor menu
+func load_level(level: Level):
+	_set_button_state(true)
+	_init_info(level.name, level.length)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -47,12 +53,6 @@ func _init_info(song_name: String, song_length: float) -> void:
 	_song_name_label.text = song_name
 	_end_time_label.text = Globals.format_seconds(song_length)
 	_song_scroller.max_value = song_length
-
-
-
-## Gets called when loading level editor menu
-func load_level(level: Level):
-	_init_info(level.name, level.length)
 
 
 func on_time_marker_moved(second: float) -> void:

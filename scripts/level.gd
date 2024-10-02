@@ -5,7 +5,7 @@ Contains level information
 '''
 
 # Level name
-var name: String = ""
+var name: String = "My Level"
 # Level length in seconds. if set to null, level editor will pick length to be song length
 var length = null
 
@@ -179,3 +179,10 @@ func _load_from_dictionary(dict: Dictionary) -> void:
 	for note_dict in dict["note_list"]:
 		var note_info: Globals.NoteInfo = Globals.NoteInfo.new(note_dict)
 		note_list.append(note_info)
+
+
+func create_copy() -> Level:
+	var copied_level = Level.new()
+	copied_level._load_from_dictionary(to_dictionary())
+	copied_level.song_audio_path = song_audio_path
+	return copied_level

@@ -38,7 +38,7 @@ class MainMenuLoadData:
 # For micro games =============================================================================================
 
 # micro game indeces
-enum MICRO_GAMES{ REMIX=-1, KARATE=0 , MOLE_TURF=1, }
+enum MICRO_GAMES{ KARATE , MOLE_TURF, REMIX}
 const MICRO_GAME_NAMES = ["Karate", "Mole Turf", "Remix"]
 
 const HIDDEN_OBJECTS_GROUP_NAME = "hidden_in_menu"
@@ -58,8 +58,8 @@ enum MOLE_TYPES{NORMAL, FAST, SLOW}
 
 func get_custom_levels_path() -> String:
 	if OS.has_feature("exported"):
-		return OS.get_executable_path().get_base_dir() + "/CustomLevels/"
-	return "res://custom_levels/"
+		return OS.get_executable_path().get_base_dir() + "/CustomLevels"
+	return "res://custom_levels"
 
 const SAVE_FILE_NAME = "save.dat"
 const AUDIO_FILE_NAME = "song.ogg"
@@ -68,8 +68,12 @@ const LEVEL_IMAGE_NAME = "cover.jpg"
 
 ## Gets path to level files, returns true if level is valid
 func is_legal_level_path(_level_path: String) -> bool:
-	# check if dat and ogg files exist in directory ================
-	return true
+	# check if dat and ogg files exist in directory
+	if FileAccess.file_exists(_level_path + "/" + SAVE_FILE_NAME) and \
+	   FileAccess.file_exists(_level_path + "/" + AUDIO_FILE_NAME):
+		return true
+	# TODO: check if files are valid
+	return false
 
 
 ## Gets array of levels from levels directory

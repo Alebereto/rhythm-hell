@@ -21,6 +21,11 @@ func load_level(level: Level) -> void:
 	_on_total_beats_changed(level.beat_count)
 	_time_line_grid.load_level(level)
 
+func unload():
+	_time_line_grid.unload()
+
+
+
 func _on_total_beats_changed(beats: float) -> void:
 	_time_line_scroller.max_value = beats
 

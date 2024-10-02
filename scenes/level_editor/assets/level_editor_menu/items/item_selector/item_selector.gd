@@ -20,11 +20,18 @@ var current_menu: MENUS:
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	_set_default_items()
+func _ready(): pass
+
+func clear_items():
+	_notes = []
+	_notes_item_list.clear()
+	_events = []
+	_events_item_list.clear()
+	_markers = []
+	_markers_item_list.clear()
 
 
-func _set_default_items() -> void:
+func add_default_items() -> void:
 	var note_info = Globals.NoteInfo.new()
 	add_item(note_info)
 
@@ -98,7 +105,7 @@ func remove_item(idx: int, menu_id: MENUS) -> void:
 			if idx >= len(_markers): return
 			_markers.remove_at(idx)
 			_markers_item_list.remove_item(idx)
-	
+
 
 
 ## Change visuals to deselect all items

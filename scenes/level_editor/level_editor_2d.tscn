@@ -1,17 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1ok7lmbjs72v"]
+[gd_scene load_steps=7 format=3 uid="uid://b1ok7lmbjs72v"]
 
 [ext_resource type="Script" path="res://scenes/level_editor/level_editor_2d.gd" id="1_ybeed"]
 [ext_resource type="PackedScene" uid="uid://cibxduf6bp4mj" path="res://scenes/level_editor/assets/header_tabs/header_tabs.tscn" id="3_boiw0"]
 [ext_resource type="PackedScene" uid="uid://4fqa7yi4u60p" path="res://scenes/level_editor/assets/level_editor_menu/level_editor_menu.tscn" id="4_rew7b"]
+[ext_resource type="PackedScene" uid="uid://8kyidd20kocp" path="res://scenes/level_editor/assets/level_settings/level_settings.tscn" id="5_c5hcs"]
 [ext_resource type="PackedScene" uid="uid://0xoroomsvefc" path="res://scenes/level_editor/assets/main_menu/main_menu.tscn" id="6_dhvna"]
 [ext_resource type="Script" path="res://scenes/level_editor/assets/popups/load_dir_popup.gd" id="7_ghtds"]
 
-[node name="LevelEditor" type="Node2D" node_paths=PackedStringArray("_level_editor_menu", "_main_menu", "_load_dir_popup", "_bad_path_popup")]
+[node name="LevelEditor" type="Node2D"]
 script = ExtResource("1_ybeed")
-_level_editor_menu = NodePath("Camera2D/GUI/Background/MainLayout/LevelEditorMenu")
-_main_menu = NodePath("Camera2D/GUI/Background/MainLayout/MainMenu")
-_load_dir_popup = NodePath("Popups/LoadDir")
-_bad_path_popup = NodePath("Popups/Alert")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(576.025, 324.045)
@@ -39,14 +36,17 @@ theme_override_constants/separation = 10
 [node name="HeaderTabs" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("3_boiw0")]
 layout_mode = 2
 
-[node name="LevelEditorMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("4_rew7b")]
+[node name="MainMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("6_dhvna")]
 layout_mode = 2
 
-[node name="MainMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("6_dhvna")]
+[node name="LevelSettings" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("5_c5hcs")]
 visible = false
 layout_mode = 2
-_audio_source = "C:/Users/albert/Documents/Godot games/rhythm-hell/assets/music/groovy-ambient-funk-201745.ogg"
-_initial_bpm = 120
+size_flags_vertical = 3
+
+[node name="LevelEditorMenu" parent="Camera2D/GUI/Background/MainLayout" instance=ExtResource("4_rew7b")]
+visible = false
+layout_mode = 2
 
 [node name="Popups" type="Node" parent="."]
 
@@ -60,12 +60,19 @@ access = 2
 script = ExtResource("7_ghtds")
 
 [node name="Alert" type="AcceptDialog" parent="Popups"]
+initial_position = 2
+dialog_text = "Invalid level path."
 
-[connection signal="load_level" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_load_level"]
+[connection signal="level_settings" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_level_settings"]
+[connection signal="loaded_level" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_load_level"]
 [connection signal="new_level" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_new_level"]
+[connection signal="quit" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_quit"]
 [connection signal="redo" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_redo"]
-[connection signal="save_level" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_save_level"]
+[connection signal="saved_level" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_save_level"]
 [connection signal="undo" from="Camera2D/GUI/Background/MainLayout/HeaderTabs" to="." method="_on_header_tabs_undo"]
-[connection signal="save_level" from="Camera2D/GUI/Background/MainLayout/LevelEditorMenu" to="." method="_on_level_editor_menu_save_level"]
 [connection signal="load_level_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_load_level_requested"]
 [connection signal="new_level_requested" from="Camera2D/GUI/Background/MainLayout/MainMenu" to="." method="_on_main_menu_new_level_requested"]
+[connection signal="confirmed" from="Camera2D/GUI/Background/MainLayout/LevelSettings" to="." method="_on_level_settings_confirmed"]
+[connection signal="exit" from="Camera2D/GUI/Background/MainLayout/LevelSettings" to="." method="_on_level_settings_exit"]
+[connection signal="save_level" from="Camera2D/GUI/Background/MainLayout/LevelEditorMenu" to="." method="_on_level_editor_menu_save_level"]
+[connection signal="set_header_states" from="Camera2D/GUI/Background/MainLayout/LevelEditorMenu" to="." method="_on_level_editor_menu_set_header_states"]
