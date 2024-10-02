@@ -3,10 +3,14 @@ extends MarginContainer
 const ACTIONS_REMEMBERED = 10
 
 signal save_level(level: Level)
+signal set_header_states( save: bool, undo: bool, redo: bool, level_settings: bool )
 
 
 # true if all changes were saved. TODO: use for unsaved changes popup
-var saved = false
+var saved = false:
+	set(value):
+		saved = value
+		_update_header_states()
 
 
 var _level: Level
@@ -45,7 +49,11 @@ func load_level(level: Level) -> bool:
 
 ## Called when unloading level editor menu
 func unload() -> void:
+	_update_level_data()
 	_is_focused = false
+
+	_items_menu.unload()
+	_time_line.unload()
 
 	_clear_action_memory()
 	_level = null
@@ -78,12 +86,14 @@ func _on_action_taken( action: Globals.EditorAction ):
 func _undo():
 	if _previous_actions.size() <= 0: return
 
-	var last_action: Globals.EditorAction = _previous_actions.pop()
+	var last_action: Globals.EditorAction = _previous_actions.pop()	# get last action
 	var _inverse_last_action = last_action.get_inverse_action()
 	_inverse_last_action.remember = false # maybe add this line to get_inverse_action()
 
 	_take_action( _inverse_last_action )
 	_undone_actions.push(last_action)
+
+	_update_header_states()
 	
 ## Redo last undone action
 func _redo():
@@ -94,11 +104,13 @@ func _redo():
 	_take_action(redo_action)
 	_previous_actions.push(redo_action)
 
+	_update_header_states()
+
 
 func _clear_action_memory():
 	_previous_actions.clear()
 	_undone_actions.clear()
-
+	_update_header_states()
 
 
 
@@ -110,9 +122,18 @@ func _update_level_data() -> void:
 
 
 
+func _update_header_states():
+
+	var save_state = not saved
+	var undo_state = true if _previous_actions.size() > 0 else false
+	var redo_state = true if _undone_actions.size() > 0 else false
+	var level_settings = true
+
+	set_header_states.emit(save_state, undo_state, redo_state, level_settings)
 
 
-# Input signals ==================================================
+
+# Input signals =====================================================================================
 
 # Items menu inputs ========
 

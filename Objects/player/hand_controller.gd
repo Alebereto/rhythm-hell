@@ -66,10 +66,11 @@ func set_wand_state(state: bool) -> void:
 ## Instantiates and adds hand to controller
 func set_hand( hand_scene: PackedScene ):
 
-	# TODO: clear hand if already present ===
+	if _hand != null: _hand.queue_free()
 	# TODO: maybe not clear but switch between hands
 
 	_hand = hand_scene.instantiate()
+	hand.vibrate.connect(vibrate)
 	hand.color = _hand_color
 	add_child(hand)
 
@@ -85,6 +86,9 @@ func vibrate() -> void:
 func stop_inputs():
 	_inputs_active = false
 	if _using_wand: _wand.laser_off()
+
+func enable_inputs():
+	_inputs_active = true
 
 
 

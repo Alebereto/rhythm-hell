@@ -5,7 +5,7 @@ Contains level information
 '''
 
 # Level name
-var name: String = ""
+var name: String = "My Level"
 # Level length in seconds. if set to null, level editor will pick length to be song length
 var length = null
 
@@ -49,8 +49,7 @@ func _init(level_path = null):
 		# Load image texture
 		var image_path = level_path + "/" + Globals.LEVEL_IMAGE_NAME
 		if FileAccess.file_exists(image_path):
-			var image = Image.load_from_file(image_path)
-			texture = ImageTexture.create_from_image(image)
+			texture = Globals.load_external_image(image_path)
 		# Get song path
 		song_audio_path = "%s/%s" %[level_path, Globals.AUDIO_FILE_NAME]
 		# Load data
@@ -110,10 +109,17 @@ func get_total_notes() -> int:
 	var note_count = 0
 	for note in note_list:
 		var id = note.id
-		if micro_game_id == Globals.MICRO_GAMES.KARATE:
-			match id:
-				Globals.PROJECTILES.ROCK: note_count += 1
-				Globals.PROJECTILES.BARREL: note_count += 2	# TODO: check contained projectile recursively
+		match micro_game_id:
+			Globals.MICRO_GAMES.KARATE:
+				match id:
+					Globals.PROJECTILES.ROCK: note_count += 1
+					Globals.PROJECTILES.BARREL: note_count += 2	# TODO: check contained projectile recursively
+			Globals.MICRO_GAMES.MOLE_TURF:
+				match id:
+					Globals.MOLE_TYPES.NORMAL: note_count += 1
+					Globals.MOLE_TYPES.FAST: note_count += 2
+					Globals.MOLE_TYPES.SLOW: note_count += 3
+			
 	return note_count
 
 
@@ -173,3 +179,10 @@ func _load_from_dictionary(dict: Dictionary) -> void:
 	for note_dict in dict["note_list"]:
 		var note_info: Globals.NoteInfo = Globals.NoteInfo.new(note_dict)
 		note_list.append(note_info)
+
+
+func create_copy() -> Level:
+	var copied_level = Level.new()
+	copied_level._load_from_dictionary(to_dictionary())
+	copied_level.song_audio_path = song_audio_path
+	return copied_level

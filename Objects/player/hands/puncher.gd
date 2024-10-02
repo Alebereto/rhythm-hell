@@ -2,6 +2,7 @@ extends Area3D
 
 signal projectile_hit( projectile: Projectile )
 signal projectile_touched( projectile: Projectile )
+signal vibrate
 
 const forwards = Vector3(0,0,-1)
 const max_positions: int = 10
@@ -51,5 +52,7 @@ func _is_hitting_speed() -> bool:
 func _on_body_entered( body ):
 	if (body is Projectile):
 		if not body.active: return
-		if _is_hitting_speed(): projectile_hit.emit( body )
+		if _is_hitting_speed():
+			projectile_hit.emit( body )
+			vibrate.emit()
 		else: 					projectile_touched.emit( body )

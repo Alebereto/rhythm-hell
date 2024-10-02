@@ -73,6 +73,11 @@ func load_level(level: Level):
 	_load_items_from_level(level)
 
 
+func unload():
+	_remove_all_items()
+	_undraw_grid()
+
+
 
 func _set_initial_values() -> void:
 	_init_time_marker()
@@ -89,6 +94,24 @@ func _load_items_from_level(level: Level) -> void:
 		place_item(placing_note)
 
 	# TODO: load other items
+
+
+
+func _remove_all_items() -> void:
+	for note in $Anchor/Items/Notes.get_children():
+		note.queue_free()
+	for event in $Anchor/Items/Events.get_children():
+		event.queue_free()
+	for marker in $Anchor/Items/Markers.get_children():
+		marker.queue_free()
+
+func _undraw_grid() -> void:
+	for n in _grid_lines.get_children():
+		n.queue_free()
+	for n in _grid_layers.get_children():
+		n.queue_free()
+	# TODO: undraw time marker line
+	
 
 
 

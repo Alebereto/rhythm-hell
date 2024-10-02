@@ -31,48 +31,19 @@ theme_override_constants/margin_bottom = 50
 script = ExtResource("1_r6td2")
 
 [node name="Panel" type="PanelContainer" parent="."]
-custom_minimum_size = Vector2(500, 350)
+custom_minimum_size = Vector2(500, 130)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_nas6u")
 
-[node name="Contents" type="VBoxContainer" parent="Panel"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="LevelSettings" type="HFlowContainer" parent="Panel/Contents"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/h_separation = 15
-theme_override_constants/v_separation = 15
-
-[node name="Name" type="HBoxContainer" parent="Panel/Contents/LevelSettings"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Panel/Contents/LevelSettings/Name"]
-layout_mode = 2
-text = "Level Name:"
-
-[node name="TextEdit" type="TextEdit" parent="Panel/Contents/LevelSettings/Name"]
-custom_minimum_size = Vector2(140, 30)
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
-placeholder_text = "My Level"
-scroll_fit_content_height = true
-
-[node name="HSeparator" type="HSeparator" parent="Panel/Contents"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="MenuButtons" type="HBoxContainer" parent="Panel/Contents"]
+[node name="MenuButtons" type="HBoxContainer" parent="Panel"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 theme_override_constants/separation = 50
 
-[node name="LoadLevelButton" type="Button" parent="Panel/Contents/MenuButtons"]
+[node name="LoadLevelButton" type="Button" parent="Panel/MenuButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
@@ -80,7 +51,7 @@ text = "Load Level"
 icon = ExtResource("2_kweht")
 expand_icon = true
 
-[node name="NewLevelButton" type="Button" parent="Panel/Contents/MenuButtons"]
+[node name="NewLevelButton" type="Button" parent="Panel/MenuButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
@@ -88,8 +59,5 @@ text = "Create New Level"
 icon = ExtResource("3_7di5x")
 expand_icon = true
 
-[node name="FileDialog" type="FileDialog" parent="."]
-size = Vector2i(392, 159)
-
-[connection signal="pressed" from="Panel/Contents/MenuButtons/LoadLevelButton" to="." method="_on_load_level_button_pressed"]
-[connection signal="pressed" from="Panel/Contents/MenuButtons/NewLevelButton" to="." method="_on_new_level_button_pressed"]
+[connection signal="pressed" from="Panel/MenuButtons/LoadLevelButton" to="." method="_on_load_level_button_pressed"]
+[connection signal="pressed" from="Panel/MenuButtons/NewLevelButton" to="." method="_on_new_level_button_pressed"]

@@ -1,15 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://da7o118oq7iyt"]
+[gd_scene load_steps=15 format=3 uid="uid://cxbdhv8osj41u"]
 
-[ext_resource type="Script" path="res://scenes/micro_games/mole_turf/assets/moles/normal_mole.gd" id="1_3b50b"]
-[ext_resource type="AudioStream" uid="uid://d1nw36x3ld5wb" path="res://assets/sounds/mole/mole_creep.wav" id="2_bq3mc"]
-[ext_resource type="AudioStream" uid="uid://5q5dwlmu24g7" path="res://assets/sounds/mole/mole_rise.wav" id="3_rp7c7"]
+[ext_resource type="Script" path="res://scenes/micro_games/mole_turf/assets/moles/quick_mole.gd" id="1_xj06y"]
+[ext_resource type="AudioStream" uid="uid://d1nw36x3ld5wb" path="res://assets/sounds/mole/mole_creep.wav" id="2_m2l4n"]
+[ext_resource type="AudioStream" uid="uid://5q5dwlmu24g7" path="res://assets/sounds/mole/mole_rise.wav" id="3_jt5yc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36cb7"]
-albedo_color = Color(0.290196, 0.25098, 0.203922, 1)
+albedo_color = Color(3.08037e-06, 0, 0.832349, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_r4whm"]
 material = SubResource("StandardMaterial3D_36cb7")
-radius = 0.1
+radius = 0.075
 height = 1.3
 radial_segments = 8
 rings = 4
@@ -53,13 +53,13 @@ rings = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_6sdgu"]
 material = SubResource("StandardMaterial3D_7imr3")
-size = Vector3(0.05, 0.01, 0.005)
+size = Vector3(0.08, 0.01, 0.005)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6omco"]
 radius = 0.13
 
-[node name="NormalMole" type="Node3D"]
-script = ExtResource("1_3b50b")
+[node name="QuickMole" type="Node3D"]
+script = ExtResource("1_xj06y")
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.663268, 0)
@@ -70,57 +70,56 @@ mesh = SubResource("CapsuleMesh_r4whm")
 skeleton = NodePath("../../..")
 
 [node name="Nose" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76637, 0.124453)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76637, 0.118741)
 mesh = SubResource("SphereMesh_j2tw1")
 skeleton = NodePath("../..")
 
 [node name="NoseBase" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1.1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.758994, 0.0974059)
+transform = Transform3D(1.1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.758994, 0.0916939)
 mesh = SubResource("CapsuleMesh_pvb4k")
 skeleton = NodePath("../Nose")
 
 [node name="Hand" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.085, 0.689773, 0.075)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 0.69, 0.05)
 mesh = SubResource("SphereMesh_06y7e")
 skeleton = NodePath("../..")
 
 [node name="Hand2" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085, 0.689773, 0.075)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 0.69, 0.05)
 mesh = SubResource("SphereMesh_06y7e")
 skeleton = NodePath("../..")
 
 [node name="Eye" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.033, 0.8, 0.088)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.033, 0.8, 0.0615742)
 mesh = SubResource("SphereMesh_7nngp")
 skeleton = NodePath("../..")
 
 [node name="Eye2" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.033, 0.8, 0.088)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.033, 0.8, 0.0615742)
 mesh = SubResource("SphereMesh_7nngp")
 skeleton = NodePath("../..")
 
 [node name="Whisker" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0.990268, 0.139173, 0, -0.139173, 0.990268, 0, 0, 0, 1, -0.045, 0.768, 0.093)
+transform = Transform3D(0.990268, 0.139173, 0, -0.139173, 0.990268, 0, 0, 0, 1, -0.045, 0.768, 0.0743571)
 mesh = SubResource("BoxMesh_6sdgu")
 skeleton = NodePath("../..")
 
 [node name="Whisker3" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.045, 0.745, 0.093)
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.045, 0.745, 0.0743571)
 mesh = SubResource("BoxMesh_6sdgu")
 skeleton = NodePath("../..")
 
 [node name="Whisker4" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.045, 0.745, 0.093)
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.045, 0.745, 0.0743571)
 mesh = SubResource("BoxMesh_6sdgu")
 skeleton = NodePath("../..")
 
 [node name="Whisker2" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(0.990268, -0.139173, 0, 0.139173, 0.990268, 0, 0, 0, 1, 0.045, 0.768, 0.093)
+transform = Transform3D(0.990268, -0.139173, 0, 0.139173, 0.990268, 0, 0, 0, 1, 0.045, 0.768, 0.0743571)
 mesh = SubResource("BoxMesh_6sdgu")
 skeleton = NodePath("../..")
 
 [node name="Area3D" type="Area3D" parent="."]
-monitoring = false
 
 [node name="HitCollision" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115589, 0)
@@ -128,8 +127,13 @@ shape = SubResource("SphereShape3D_6omco")
 
 [node name="CreepSound" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0854514, 0)
-stream = ExtResource("2_bq3mc")
+stream = ExtResource("2_m2l4n")
+volume_db = 30.0
+max_db = 5.0
+pitch_scale = 1.5
 
 [node name="RiseSound" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0854514, 0)
-stream = ExtResource("3_rp7c7")
+stream = ExtResource("3_jt5yc")
+volume_db = 30.0
+pitch_scale = 1.5

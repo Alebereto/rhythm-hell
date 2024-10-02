@@ -1,6 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bpe54ordgimbo"]
+[gd_scene load_steps=10 format=3 uid="uid://bpe54ordgimbo"]
 
 [ext_resource type="Script" path="res://objects/player/hands/hammer.gd" id="1_feg3e"]
+[ext_resource type="AudioStream" uid="uid://lrontpnsevrk" path="res://assets/sounds/mole/mole_bonk.wav" id="2_a4ftl"]
+[ext_resource type="AudioStream" uid="uid://by1ww0d63hehb" path="res://assets/sounds/mole/mole_bonk_perfect.wav" id="3_8i221"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n6qex"]
 albedo_color = Color(0.0588235, 0.623529, 0, 1)
@@ -53,9 +55,20 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.0
 mesh = SubResource("CylinderMesh_2dism")
 
 [node name="Area3D" type="Area3D" parent="Model"]
+monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Model/Area3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.05, 0)
 shape = SubResource("CylinderShape3D_ja144")
 
-[connection signal="body_entered" from="Model/Area3D" to="." method="_on_body_entered"]
+[node name="BonkSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0508275, 2.22174e-09)
+stream = ExtResource("2_a4ftl")
+volume_db = 30.0
+
+[node name="BonkPerfectSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0508275, 2.22174e-09)
+stream = ExtResource("3_8i221")
+volume_db = 40.0
+
+[connection signal="area_entered" from="Model/Area3D" to="." method="_on_area_entered"]

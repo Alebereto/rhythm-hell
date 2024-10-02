@@ -12,12 +12,8 @@ signal seeked(seconds: float)
 
 var _button_state_paused: bool
 
-@export_category("Customize")
-@export_file("*.png") var _play_icon: String
-@export_file("*.png") var _pause_icon: String
-
-var _play_texture: ImageTexture
-var _pause_texture: ImageTexture
+var _play_texture = preload("res://assets/icons/play.png")
+var _pause_texture = preload("res://assets/icons/pause.png")
 
 # Get refrences
 @onready var _song_name_label: Label = $VBoxContainer/SongName
@@ -29,8 +25,13 @@ var _pause_texture: ImageTexture
 
 
 func _ready():
-	_load_textures()
 	_set_button_state(true)
+
+
+## Gets called when loading level editor menu
+func load_level(level: Level):
+	_set_button_state(true)
+	_init_info(level.name, level.length)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,15 +40,6 @@ func _process(_delta):
 		var current_second = _song_player.current_raw_second
 
 		_update_visuals(current_second)
-
-
-
-func _load_textures() -> void:
-	var play_image = Image.load_from_file(_play_icon)
-	var pause_image = Image.load_from_file(_pause_icon)
-
-	_play_texture = ImageTexture.create_from_image(play_image)
-	_pause_texture = ImageTexture.create_from_image(pause_image)
 
 
 ## Updates song info with current seconds from song player
@@ -61,12 +53,6 @@ func _init_info(song_name: String, song_length: float) -> void:
 	_song_name_label.text = song_name
 	_end_time_label.text = Globals.format_seconds(song_length)
 	_song_scroller.max_value = song_length
-
-
-
-## Gets called when loading level editor menu
-func load_level(level: Level):
-	_init_info(level.name, level.length)
 
 
 func on_time_marker_moved(second: float) -> void:

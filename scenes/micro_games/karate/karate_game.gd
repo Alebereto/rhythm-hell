@@ -23,9 +23,6 @@ var _gravity_vector: Vector3 = ProjectSettings.get_setting("physics/3d/default_g
 const _projectile_scenes: Array[PackedScene] = [preload("res://scenes/micro_games/karate/assets/projectiles/rock.tscn"),
 												preload("res://scenes/micro_games/karate/assets/projectiles/barrel.tscn")]
 
-# Sounds
-var HitSound = preload("res://assets/sounds/hit.wav")
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,6 +30,9 @@ func _ready():
 
 func set_player(player: Player) -> void:
 	super(player)
+
+	# Update game according to player height
+	_target.position.y = player.get_shoulder_height()
 
 	# Set player hands and get refrences to them
 	_right_puncher = player.set_right_hand( Globals.HAND.PUNCHER )
@@ -64,6 +64,11 @@ func _play_note(note: Globals.NoteInfo):
 	# Fire projectile
 	cannon.fire(projectile, fire_time)
 
+func on_reset():
+	super()
+	# Destroy all projectiles
+	for child in _projectiles_root.get_children():
+		child.queue_free()
 
 func _get_note_delay( _note ): return CANNON_DELAY
 

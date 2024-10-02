@@ -2,6 +2,7 @@ extends Node
 
 const SECONDS_IN_MINUTE = 60
 const MILISECONDS_IN_SECOND = 1000000.0
+const SHOULDER_RATIO = 3/4.0
 
 # godot image
 const GODOT_IMAGE = preload("res://icon.svg")
@@ -37,8 +38,10 @@ class MainMenuLoadData:
 # For micro games =============================================================================================
 
 # micro game indeces
-enum MICRO_GAMES{ REMIX=-1, KARATE=0 , MOLE_TURF=1, }
+enum MICRO_GAMES{ KARATE , MOLE_TURF, REMIX}
 const MICRO_GAME_NAMES = ["Karate", "Mole Turf", "Remix"]
+
+const HIDDEN_OBJECTS_GROUP_NAME = "hidden_in_menu"
 
 # player enum
 enum HAND {PUNCHER, HAMMER}
@@ -47,13 +50,17 @@ enum HAND {PUNCHER, HAMMER}
 enum PROJECTILES{ROCK, BARREL}
 
 # mole turf moles
-enum MOLE_TYPES{NORMAL, BLUE, YELLOW}
+enum MOLE_TYPES{NORMAL, FAST, SLOW}
 
 
 
 # For level saving and loading ================================================================================
 
-const LEVELS_DIR = "res://levels/"
+func get_custom_levels_path() -> String:
+	if OS.has_feature("exported"):
+		return OS.get_executable_path().get_base_dir() + "/CustomLevels"
+	return "res://custom_levels"
+
 const SAVE_FILE_NAME = "save.dat"
 const AUDIO_FILE_NAME = "song.ogg"
 const LEVEL_IMAGE_NAME = "cover.jpg"
@@ -61,18 +68,22 @@ const LEVEL_IMAGE_NAME = "cover.jpg"
 
 ## Gets path to level files, returns true if level is valid
 func is_legal_level_path(_level_path: String) -> bool:
-	# check if dat and ogg files exist in directory ================
-	return true
+	# check if dat and ogg files exist in directory
+	if FileAccess.file_exists(_level_path + "/" + SAVE_FILE_NAME) and \
+	   FileAccess.file_exists(_level_path + "/" + AUDIO_FILE_NAME):
+		return true
+	# TODO: check if files are valid
+	return false
 
 
 ## Gets array of levels from levels directory
-func get_levels_data() -> Array:
-	var folders = DirAccess.get_directories_at(LEVELS_DIR)
+func get_levels_data(levels_path: String) -> Array:
+	var folders = DirAccess.get_directories_at(levels_path)
 
 	var levels = []
 
 	for folder in folders:
-		var dir = LEVELS_DIR + folder
+		var dir = levels_path +"/"+ folder
 		if not is_legal_level_path(dir): continue
 
 		# load level
@@ -82,6 +93,10 @@ func get_levels_data() -> Array:
 	
 	return levels
 
+func load_external_image( image_path: String ):
+	var image = Image.load_from_file(image_path)
+	var texture = ImageTexture.create_from_image(image)
+	return texture
 
 
 # Data structures ========================================================================================

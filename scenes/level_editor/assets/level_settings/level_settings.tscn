@@ -1,0 +1,179 @@
+[gd_scene load_steps=6 format=3 uid="uid://8kyidd20kocp"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_settings/level_settings.gd" id="1_igxt4"]
+[ext_resource type="Texture2D" uid="uid://cvrks0hfmnt45" path="res://assets/icons/back.png" id="2_11kug"]
+[ext_resource type="Texture2D" uid="uid://bkrtvmeepvvge" path="res://assets/icons/file.png" id="2_df7go"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mx47d"]
+content_margin_left = 30.0
+content_margin_top = 30.0
+content_margin_right = 30.0
+content_margin_bottom = 30.0
+bg_color = Color(0.286275, 0.294118, 0.352941, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+shadow_color = Color(0, 0, 0, 0.447059)
+shadow_size = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_yjfjd"]
+font_size = 21
+
+[node name="LevelSettings" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+script = ExtResource("1_igxt4")
+
+[node name="Panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(500, 350)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_mx47d")
+
+[node name="Contents" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Panel/Contents"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_yjfjd")
+horizontal_alignment = 1
+
+[node name="HSeparator1" type="HSeparator" parent="Panel/Contents"]
+layout_mode = 2
+
+[node name="LevelSettings" type="HFlowContainer" parent="Panel/Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+
+[node name="Name" type="HBoxContainer" parent="Panel/Contents/LevelSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Contents/LevelSettings/Name"]
+layout_mode = 2
+text = "Name:"
+
+[node name="LevelName" type="LineEdit" parent="Panel/Contents/LevelSettings/Name"]
+custom_minimum_size = Vector2(120, 30)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+placeholder_text = "My Level"
+
+[node name="SongSource" type="HBoxContainer" parent="Panel/Contents/LevelSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Contents/LevelSettings/SongSource"]
+layout_mode = 2
+text = "Song Source:"
+
+[node name="SongPath" type="LineEdit" parent="Panel/Contents/LevelSettings/SongSource"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+editable = false
+context_menu_enabled = false
+clear_button_enabled = true
+
+[node name="PickSong" type="Button" parent="Panel/Contents/LevelSettings/SongSource"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+icon = ExtResource("2_df7go")
+expand_icon = true
+
+[node name="Length" type="HBoxContainer" parent="Panel/Contents/LevelSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Contents/LevelSettings/Length"]
+layout_mode = 2
+text = "Level Length:"
+
+[node name="LevelLength" type="SpinBox" parent="Panel/Contents/LevelSettings/Length"]
+layout_mode = 2
+max_value = 100000.0
+alignment = 1
+update_on_text_changed = true
+
+[node name="BPM" type="HBoxContainer" parent="Panel/Contents/LevelSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Contents/LevelSettings/BPM"]
+layout_mode = 2
+text = "BPM:"
+
+[node name="LevelBPM" type="SpinBox" parent="Panel/Contents/LevelSettings/BPM"]
+layout_mode = 2
+min_value = 1.0
+max_value = 400.0
+value = 120.0
+alignment = 1
+update_on_text_changed = true
+
+[node name="Type" type="HBoxContainer" parent="Panel/Contents/LevelSettings"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Contents/LevelSettings/Type"]
+layout_mode = 2
+text = "Game Type:"
+
+[node name="GameType" type="OptionButton" parent="Panel/Contents/LevelSettings/Type"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="Panel/Contents"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MenuButtons" type="HBoxContainer" parent="Panel/Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+theme_override_constants/separation = 50
+
+[node name="BackButton" type="Button" parent="Panel/Contents/MenuButtons"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 6
+focus_mode = 0
+icon = ExtResource("2_11kug")
+expand_icon = true
+
+[node name="ConfirmButton" type="Button" parent="Panel/Contents/MenuButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 20.0
+focus_mode = 0
+disabled = true
+text = "Confirm"
+expand_icon = true
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(500, 300)
+ok_button_text = "Open"
+dialog_hide_on_ok = true
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.ogg; Song")
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+initial_position = 2
+size = Vector2i(150, 100)
+dialog_text = "Invalid song"
+
+[connection signal="text_changed" from="Panel/Contents/LevelSettings/Name/LevelName" to="." method="_on_level_name_text_changed"]
+[connection signal="pressed" from="Panel/Contents/LevelSettings/SongSource/PickSong" to="." method="_on_pick_song_pressed"]
+[connection signal="value_changed" from="Panel/Contents/LevelSettings/Length/LevelLength" to="." method="_on_level_length_value_changed"]
+[connection signal="value_changed" from="Panel/Contents/LevelSettings/BPM/LevelBPM" to="." method="_on_level_bpm_value_changed"]
+[connection signal="item_selected" from="Panel/Contents/LevelSettings/Type/GameType" to="." method="_on_game_type_item_selected"]
+[connection signal="pressed" from="Panel/Contents/MenuButtons/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="Panel/Contents/MenuButtons/ConfirmButton" to="." method="_on_confirm_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
