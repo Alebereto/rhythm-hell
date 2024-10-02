@@ -83,7 +83,7 @@ func get_levels_data(levels_path: String) -> Array:
 	var levels = []
 
 	for folder in folders:
-		var dir = levels_path + folder
+		var dir = levels_path +"/"+ folder
 		if not is_legal_level_path(dir): continue
 
 		# load level
