@@ -19,6 +19,7 @@ const PANEL_ANIMATION_TIME: float = 0.4
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if not load_data is Globals.MainMenuLoadData: load_data = Globals.MainMenuLoadData.new()
+	_hide_all_panels()
 	_load_state()
 	player.fade_in()
 
@@ -97,6 +98,11 @@ func _set_results_screen_panel_state(panel_visible: bool, do_tween = true):
 
 	_set_panel_state(_results_screen_panel, panel_visible, do_tween, pos)
 
+
+func _hide_all_panels():
+	_set_main_menu_panel_state(false, false)
+	_set_custom_levels_panel_state(false, false)
+	_set_results_screen_panel_state(false, false)
 
 # Input methods ========================================
 

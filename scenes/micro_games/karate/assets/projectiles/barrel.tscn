@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://c5ior2m1uhfoe"]
+[gd_scene load_steps=20 format=3 uid="uid://c5ior2m1uhfoe"]
 
 [ext_resource type="Script" path="res://scenes/micro_games/karate/assets/projectiles/barrel.gd" id="1_x4etx"]
 [ext_resource type="PackedScene" uid="uid://t45m7h5u6o5k" path="res://scenes/micro_games/karate/assets/projectiles/rock.tscn" id="2_4koe4"]
 [ext_resource type="AudioStream" uid="uid://b720pthe6yr2k" path="res://assets/sounds/karate/break.wav" id="2_v7sw5"]
+[ext_resource type="AudioStream" uid="uid://bj8gv2xfqr31p" path="res://assets/sounds/karate/miss.wav" id="4_v5fvu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qs8jx"]
 albedo_color = Color(0.337255, 0.156863, 0, 1)
@@ -97,7 +98,6 @@ rings = 2
 inertia = Vector3(1, 1, 1)
 script = ExtResource("1_x4etx")
 contained_projectile = ExtResource("2_4koe4")
-id = 1
 
 [node name="Model" type="Node3D" parent="."]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
@@ -127,7 +127,24 @@ mesh = SubResource("TubeTrailMesh_777tt")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_whlya")
 
-[node name="BreakEffect" type="GPUParticles3D" parent="."]
+[node name="Sounds" type="Node3D" parent="."]
+
+[node name="BreakSound" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("2_v7sw5")
+
+[node name="BreakPerfectSound" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("2_v7sw5")
+pitch_scale = 1.5
+
+[node name="MissSound" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("4_v5fvu")
+volume_db = 40.0
+unit_size = 23.78
+max_db = 6.0
+
+[node name="Effects" type="Node3D" parent="."]
+
+[node name="BreakEffect" type="GPUParticles3D" parent="Effects"]
 emitting = false
 amount = 10
 lifetime = 0.5
@@ -137,10 +154,7 @@ randomness = 0.2
 process_material = SubResource("ParticleProcessMaterial_c4ope")
 draw_pass_1 = SubResource("BoxMesh_1twd7")
 
-[node name="BreakSound" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("2_v7sw5")
-
-[node name="PoofEffect" type="GPUParticles3D" parent="."]
+[node name="PoofEffect" type="GPUParticles3D" parent="Effects"]
 emitting = false
 amount = 10
 lifetime = 0.09

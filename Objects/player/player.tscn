@@ -63,10 +63,13 @@ tracker = &"left_hand"
 _hand_color = Color(1, 0, 0, 1)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+process_mode = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 shape = SubResource("CapsuleShape3D_w3nc8")
 
+[connection signal="menu_button_pressed" from="RightController" to="." method="_on_menu_button_pressed"]
 [connection signal="trigger_pressed" from="RightController" to="." method="_on_right_trigger_pressed"]
+[connection signal="menu_button_pressed" from="LeftController" to="." method="_on_menu_button_pressed"]
 [connection signal="trigger_pressed" from="LeftController" to="." method="_on_left_trigger_pressed"]

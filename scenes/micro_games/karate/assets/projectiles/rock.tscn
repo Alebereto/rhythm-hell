@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://t45m7h5u6o5k"]
+[gd_scene load_steps=10 format=3 uid="uid://t45m7h5u6o5k"]
 
 [ext_resource type="Script" path="res://scenes/micro_games/karate/assets/projectiles/rock.gd" id="1_0nw1h"]
 [ext_resource type="AudioStream" uid="uid://bye41mfof2em4" path="res://assets/sounds/karate/hit.wav" id="2_xxiv1"]
+[ext_resource type="AudioStream" uid="uid://bj8gv2xfqr31p" path="res://assets/sounds/karate/miss.wav" id="3_g5rdc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2qc4y"]
 albedo_color = Color(0.585062, 0.585062, 0.585062, 1)
@@ -47,10 +48,24 @@ skeleton = NodePath("")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("SphereShape3D_462y0")
 
-[node name="HitSound" type="AudioStreamPlayer3D" parent="."]
+[node name="Sounds" type="Node3D" parent="."]
+
+[node name="HitSound" type="AudioStreamPlayer3D" parent="Sounds"]
 stream = ExtResource("2_xxiv1")
 
-[node name="PoofEffect" type="GPUParticles3D" parent="."]
+[node name="HitPerfectSound" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("2_xxiv1")
+pitch_scale = 1.5
+
+[node name="MissSound" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("3_g5rdc")
+volume_db = 40.0
+unit_size = 30.67
+max_db = 6.0
+
+[node name="Effects" type="Node3D" parent="."]
+
+[node name="PoofEffect" type="GPUParticles3D" parent="Effects"]
 emitting = false
 amount = 10
 lifetime = 0.1

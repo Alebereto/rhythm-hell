@@ -14,6 +14,8 @@ _projectiles_root = NodePath("Objects/Projectiles")
 _target = NodePath("Objects/Target")
 _right_cannon = NodePath("Objects/RightCannon")
 _left_cannon = NodePath("Objects/LeftCannon")
+hit_timeframe = 0.8
+perfect_timeframe = 0.03
 max_note_delay = 0.8
 
 [node name="Camera3D" type="Camera3D" parent="."]

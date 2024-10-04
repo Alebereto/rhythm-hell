@@ -1,13 +1,10 @@
-extends Node3D
+extends Hand
 
 signal mole_bonked( hammer, mole: Mole )
 signal mole_tapped( hammer, mole: Mole )
-signal vibrate
 
 @onready var _bonk_sound: AudioStreamPlayer3D = $BonkSound
 @onready var _bonk_perfect_sound: AudioStreamPlayer3D = $BonkPerfectSound
-
-var color: Color = Color.WHITE
 
 const _downwards = Vector3(0,-1,0)
 const _max_positions: int = 10
