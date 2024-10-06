@@ -13,7 +13,9 @@ var saved = false:
 		_update_header_states()
 
 
-var _level: Level
+# The level that is currently being edited
+var _edited_level: Level
+func get_edited_level() -> Level: return _edited_level
 
 # true if level editor menu is shown
 var _is_focused: bool = false
@@ -30,9 +32,9 @@ var _undone_actions = Globals.Stack.new(ACTIONS_REMEMBERED)
 
 
 
-## Loads level, reutrns true if successful
-func load_level(level: Level) -> bool:
-	_level = level
+## Loads level to level editor
+func load_level(level: Level):
+	_edited_level = level
 	
 	# load audio file to song player
 	_song_player.load_song(level.song_audio_path)
@@ -45,24 +47,23 @@ func load_level(level: Level) -> bool:
 	_time_line.load_level(level)
 	
 	_is_focused = true
-	return true
 
 ## Called when unloading level editor menu
 func unload() -> void:
-	_update_level_data()
+	update_level_data()
 	_is_focused = false
 
 	_items_menu.unload()
 	_time_line.unload()
 
 	_clear_action_memory()
-	_level = null
+	_edited_level = null
 
 ## Sends current level infromation to save_level signal
 func save() -> void:
-	_update_level_data()
+	update_level_data()
 	saved = true
-	save_level.emit(_level)
+	save_level.emit(_edited_level)
 
 
 
@@ -83,7 +84,7 @@ func _on_action_taken( action: Globals.EditorAction ):
 
 
 ## Undo last action
-func _undo():
+func undo():
 	if _previous_actions.size() <= 0: return
 
 	var last_action: Globals.EditorAction = _previous_actions.pop()	# get last action
@@ -96,7 +97,7 @@ func _undo():
 	_update_header_states()
 	
 ## Redo last undone action
-func _redo():
+func redo():
 	if _undone_actions.size() <= 0: return
 
 	var redo_action = _undone_actions.pop()
@@ -115,10 +116,10 @@ func _clear_action_memory():
 
 
 # Updates level data with information that is not immediatley saved
-func _update_level_data() -> void:
+func update_level_data() -> void:
 	# Ordered list of notes (by start beat)
-	_time_line.generate_dynamic_data(_level)
-	_items_menu.generate_dynamic_data(_level)
+	_time_line.generate_dynamic_data(_edited_level)
+	_items_menu.generate_dynamic_data(_edited_level)
 
 
 
@@ -196,8 +197,8 @@ func _input(event):
 		if event.is_action_pressed("level_editor_set_item_tool"):
 			_time_line_settings.change_tool_to(Globals.TOOL.ITEM)
 
-		if event.is_action_pressed("level_editor_undo"): _undo()
-		if event.is_action_pressed("level_editor_redo"): _redo()
+		if event.is_action_pressed("level_editor_undo"): undo()
+		if event.is_action_pressed("level_editor_redo"): redo()
 
 		if event.is_action_pressed("level_editor_save"):
 			save()

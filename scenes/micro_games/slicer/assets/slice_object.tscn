@@ -1,0 +1,103 @@
+[gd_scene load_steps=13 format=3 uid="uid://cltgw167l8taj"]
+
+[ext_resource type="Script" path="res://scenes/micro_games/slicer/assets/slice_object.gd" id="1_s67w7"]
+[ext_resource type="AudioStream" uid="uid://xvctoxnvp01g" path="res://assets/sounds/slicer/spawn.wav" id="2_ogwif"]
+[ext_resource type="AudioStream" uid="uid://bye41mfof2em4" path="res://assets/sounds/karate/hit.wav" id="3_wgyxp"]
+[ext_resource type="AudioStream" uid="uid://b7jx5wg3exi0t" path="res://assets/sounds/slicer/break.wav" id="4_kwjhk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_61dyx"]
+resource_local_to_scene = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_mvw3n"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_61dyx")
+radius = 0.2
+height = 0.4
+radial_segments = 10
+rings = 10
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qh8ib"]
+radius = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_1e0nv"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_61dyx")
+radius = 0.2
+height = 0.2
+radial_segments = 10
+rings = 18
+is_hemisphere = true
+
+[sub_resource type="Curve" id="Curve_mxsn1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.81875, 0.615385), -1.03069, -1.03069, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_s2n2e"]
+curve = SubResource("Curve_mxsn1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lymbu"]
+angle_max = 360.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 0.8
+initial_velocity_max = 1.3
+gravity = Vector3(0, -4, 0)
+scale_min = 0.8
+scale_curve = SubResource("CurveTexture_s2n2e")
+scale_over_velocity_min = 0.5
+scale_over_velocity_max = 1.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_uptx8"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_61dyx")
+radius = 0.1
+height = 0.2
+radial_segments = 5
+rings = 2
+
+[node name="SliceObject" type="AnimatableBody3D"]
+script = ExtResource("1_s67w7")
+
+[node name="Model" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = SubResource("SphereMesh_mvw3n")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_qh8ib")
+
+[node name="Sounds" type="Node3D" parent="."]
+
+[node name="SpawnSound" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("2_ogwif")
+
+[node name="SliceSound" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("3_wgyxp")
+
+[node name="SliceSoundPerfect" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("3_wgyxp")
+pitch_scale = 1.5
+
+[node name="BreakSound" type="AudioStreamPlayer3D" parent="Sounds"]
+stream = ExtResource("4_kwjhk")
+
+[node name="SlicedModel" type="Node3D" parent="."]
+visible = false
+
+[node name="UpSlice" type="MeshInstance3D" parent="SlicedModel"]
+mesh = SubResource("SphereMesh_1e0nv")
+skeleton = NodePath("../..")
+
+[node name="DownSlice" type="MeshInstance3D" parent="SlicedModel"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("SphereMesh_1e0nv")
+skeleton = NodePath("../..")
+
+[node name="BreakEffect" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 10
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.97
+randomness = 0.15
+process_material = SubResource("ParticleProcessMaterial_lymbu")
+draw_pass_1 = SubResource("SphereMesh_uptx8")

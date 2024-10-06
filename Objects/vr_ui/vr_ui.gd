@@ -13,6 +13,7 @@ var _last_event_pos = null
 @export var _ui_viewport: SubViewport = null:
 	set(viewport):
 		_ui_viewport = viewport
+		_ui_viewport.size_changed.connect(_update_viewport)
 		if Engine.is_editor_hint():
 			if _sprite == null: return
 			_update_viewport()
@@ -35,17 +36,14 @@ var _last_event_pos = null
 func _ready():
 	_update_viewport()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
-
 func _update_viewport():
+	if not _ui_viewport: return
 	_sprite.texture = _ui_viewport.get_texture()
 
 	var size = Vector2(_ui_viewport.size) * _sprite.pixel_size
 	_collision.shape.size.x = size.x
 	_collision.shape.size.y = size.y
+
 
 
 ## Converts global position of the ray intersection to point on viewport in pixels
@@ -90,6 +88,14 @@ func _create_mouse_motion_event(viewport_point: Vector2, clicking: bool) -> void
 	_ui_viewport.push_input(ev)
 
 
+
+## Called when pointer hovers over buttons
+func _on_hovered():
+	hovered.emit()
+
+
+# Called by wand ===========================
+
 ## Called by wand when it stops pointing at ui
 func on_ray_leave() -> void:
 	var p = Vector2(-1,-1)
@@ -107,8 +113,3 @@ func on_ray_movement(cast_point: Vector3, clicking: bool) -> void:
 func on_ray_button(cast_point: Vector3, click: bool) -> void:
 	var viewport_point: Vector2 = _intersect_to_pixels(cast_point)
 	_create_mouse_click_event(viewport_point, click)
-
-
-## Called when pointer hovers over buttons
-func _on_hovered():
-	hovered.emit()

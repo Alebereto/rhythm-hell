@@ -20,13 +20,20 @@ enum EDIT_BUTTON_ID{UNDO, REDO, LEVEL_SETTINGS}
 
 
 func _ready():
+	_init_popup_menus()
+
+func _init_popup_menus():
 	var file_tab_popup: PopupMenu = _file_tab.get_popup() # get popup
 	file_tab_popup.id_pressed.connect(_on_file_popup_pressed) # connect id pressed signal
 	# set icon widths for file menu
 	for i in range(file_tab_popup.item_count):
-		file_tab_popup.set_item_icon_max_width(file_tab_popup.get_item_index(i), 30)
+		file_tab_popup.set_item_icon_max_width(i, 30)
 
-	_edit_tab.get_popup().id_pressed.connect(_on_edit_popup_pressed)
+	var edit_tab_popup: PopupMenu = _edit_tab.get_popup()
+	edit_tab_popup.id_pressed.connect(_on_edit_popup_pressed)
+	# set icon widths for edit menu
+	for i in range(edit_tab_popup.item_count):
+		edit_tab_popup.set_item_icon_max_width(i, 30)
 
 
 func set_file_menu_states(new_state: bool, load_state: bool, save_state: bool, quit_state: bool = true):

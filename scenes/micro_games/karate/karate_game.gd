@@ -85,6 +85,7 @@ func _create_projectile( note: Globals.NoteInfo ) -> Projectile:
 	return projectile
 
 
+
 ## Called when player hits a projectile
 func _on_hit_projectile( projectile: Projectile) -> void:
 	var second_diff = projectile.get_destination_difference()

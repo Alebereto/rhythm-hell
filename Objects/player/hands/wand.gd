@@ -1,24 +1,22 @@
-extends Node3D
+class_name Wand extends Node3D
 
 
 signal vibrate
-
 
 # Max length that the laser and ray cast gets to
 @export_range(0,32) var max_laser_length: float = 16
 
 
 # True if wand is emitting laser
-var _using_laser = false
-var using_laser: bool:
-	get: return _using_laser
+var _using_laser: bool = false
+func is_using_laser() -> bool: return _using_laser
 
 # Refrence to vr menu that wand is pointing at
 var _focused_menu = null
 
 # True if user is holding the menu click button
 var _clicking: bool:
-	get: return get_parent().clicking
+	get: return get_parent().is_clicking()
 
 
 
@@ -44,11 +42,13 @@ func _process(_delta):
 func _handle_laser():
 	# update colliding object
 	var collider = _laser.get_collider()
-	if collider != _focused_menu:
+	if (collider is VRUI or collider == null) and collider != _focused_menu:
 		# entering menu
 		if collider is VRUI and _focused_menu == null: _focus(collider)
 		# leaving menu
-		if collider == null and _focused_menu is VRUI: unfocus()
+		elif collider == null and _focused_menu is VRUI: unfocus()
+		# switching between menus
+		else: unfocus(collider)
 
 	# Update laser length and handle pointing at vr menu
 	if _laser.is_colliding():
@@ -57,8 +57,7 @@ func _handle_laser():
 		var d = _laser.global_position.distance_to(cast_point)
 		_set_laser_length(d)
 
-		if _focused_menu is VRUI:
-			_focused_menu.on_ray_movement(cast_point, _clicking)
+		if _focused_menu is VRUI: _focused_menu.on_ray_movement(cast_point, _clicking)
 	else:
 		_set_laser_length(max_laser_length)
 
@@ -76,21 +75,20 @@ func _on_hover_item() -> void:
 
 ## Called when focusing on a menu
 func _focus(menu: VRUI) -> void:
-	# connect hover signal
-	menu.hovered.connect(_on_hover_item)
-
+	menu.hovered.connect(_on_hover_item) # connect hover signal
 	_focused_menu = menu
 
 
 
 ## Called when unfocusing from a menu
-func unfocus() -> void:
+func unfocus(refocus: VRUI = null) -> void:
 	if _focused_menu is VRUI:
 		_focused_menu.on_ray_leave()
 		# disconnect hover signal
 		if _focused_menu.hovered.is_connected(_on_hover_item): _focused_menu.hovered.disconnect(_on_hover_item)
-
 	_focused_menu = null
+
+	if refocus != null: _focus(refocus)
 
 
 func set_color(color: Color) -> void:

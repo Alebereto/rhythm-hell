@@ -1,0 +1,87 @@
+[gd_scene load_steps=11 format=3 uid="uid://dmu7n4wwop2pg"]
+
+[ext_resource type="Script" path="res://objects/player/hands/sword.gd" id="1_344w4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k014v"]
+resource_local_to_scene = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_x6b75"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_k014v")
+size = Vector3(0.01, 0.035, 0.6)
+
+[sub_resource type="PrismMesh" id="PrismMesh_q8rym"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_k014v")
+size = Vector3(0.01, 0.005, 0.6)
+
+[sub_resource type="PrismMesh" id="PrismMesh_cdoyi"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_k014v")
+size = Vector3(0.01, 0.005, 0.055)
+
+[sub_resource type="PrismMesh" id="PrismMesh_7ufks"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_k014v")
+left_to_right = 0.0
+size = Vector3(0.035, 0.04, 0.01)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qs6f6"]
+albedo_color = Color(0.187176, 0.187176, 0.187176, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vv8yn"]
+material = SubResource("StandardMaterial3D_qs6f6")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.14
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_v0phj"]
+material = SubResource("StandardMaterial3D_qs6f6")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.01
+radial_segments = 10
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tbmmg"]
+size = Vector3(0.015, 0.05, 0.6)
+
+[node name="Sword" type="Node3D"]
+script = ExtResource("1_344w4")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Blade" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.000307095, -0.31)
+mesh = SubResource("BoxMesh_x6b75")
+skeleton = NodePath("../..")
+
+[node name="Sharp" type="MeshInstance3D" parent="Model/Blade"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, -0.02, 0)
+mesh = SubResource("PrismMesh_q8rym")
+
+[node name="SharpPeak" type="MeshInstance3D" parent="Model/Blade"]
+transform = Transform3D(1, 0, 0, 0, -0.747044, 0.664774, 0, -0.664774, -0.747044, 0, -0.00240869, -0.320977)
+mesh = SubResource("PrismMesh_cdoyi")
+
+[node name="Peak" type="MeshInstance3D" parent="Model/Blade"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 0, -0.32)
+layers = 17
+mesh = SubResource("PrismMesh_7ufks")
+
+[node name="Handle" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -2, 0, 1, -8.74228e-08, 0, 0, 0.07)
+mesh = SubResource("CylinderMesh_vv8yn")
+skeleton = NodePath("../..")
+
+[node name="Guard" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(0.75, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.005)
+mesh = SubResource("CylinderMesh_v0phj")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00305655, -0.312723)
+shape = SubResource("BoxShape3D_tbmmg")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

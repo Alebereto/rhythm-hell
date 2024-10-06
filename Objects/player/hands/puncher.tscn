@@ -2,18 +2,6 @@
 
 [ext_resource type="Script" path="res://objects/player/hands/puncher.gd" id="1_gi6i5"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_puxrm"]
-resource_local_to_scene = true
-albedo_color = Color(0, 1, 0, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_tdfns"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_puxrm")
-radius = 0.03
-height = 0.06
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_vnj8g"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k014v"]
 resource_local_to_scene = true
 
@@ -28,8 +16,39 @@ resource_local_to_scene = true
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_gwwkc")
 
-[node name="Puncher" type="Area3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_vnj8g"]
+radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_puxrm"]
+resource_local_to_scene = true
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_tdfns"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_puxrm")
+radius = 0.03
+height = 0.06
+
+[node name="Puncher" type="Node3D"]
 script = ExtResource("1_gi6i5")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Cube" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+mesh = SubResource("BoxMesh_v26kk")
+skeleton = NodePath("../..")
+
+[node name="Rod" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.1, 0, 0, 0.1)
+mesh = SubResource("BoxMesh_tfsx7")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+shape = SubResource("SphereShape3D_vnj8g")
 
 [node name="MagnitudeDisplay" type="Node3D" parent="."]
 visible = false
@@ -37,23 +56,11 @@ visible = false
 [node name="FlagIndicator" type="MeshInstance3D" parent="MagnitudeDisplay"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0940685, 0)
 mesh = SubResource("SphereMesh_tdfns")
-skeleton = NodePath("../..")
+skeleton = NodePath("../../Area3D")
 
 [node name="MagnitudeLabel" type="Label3D" parent="MagnitudeDisplay"]
 transform = Transform3D(0.21, 0, 0, 0, 0.19754, 0.0712591, 0, -0.0712591, 0.19754, 0, 0.0734151, 0.0366005)
 double_sided = false
 text = "0.000"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-shape = SubResource("SphereShape3D_vnj8g")
-
-[node name="Cube" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
-mesh = SubResource("BoxMesh_v26kk")
-skeleton = NodePath("../..")
-
-[node name="Rod" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.1, 0, 0, 0.1)
-mesh = SubResource("BoxMesh_tfsx7")
-skeleton = NodePath("../..")
+[connection signal="body_entered" from="Area3D" to="." method="_on_body_entered"]

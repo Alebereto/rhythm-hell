@@ -14,21 +14,20 @@ script = ExtResource("1_f0s41")
 [node name="Panels" type="Node3D" parent="."]
 
 [node name="Main" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
-process_mode = 4
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -6.5, 1.5, -4)
 _ui_viewport = NodePath("SubViewport")
+transparacy = 1.0
 
 [node name="SubViewport" type="SubViewport" parent="Panels/Main"]
 transparent_bg = true
-size = Vector2i(500, 300)
+size = Vector2i(400, 300)
 
 [node name="MainPanel" parent="Panels/Main/SubViewport" instance=ExtResource("4_5xjab")]
-modulate = Color(1, 1, 1, 0)
 
 [node name="CustomLevels" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
-process_mode = 4
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6.5, 1.5, -4)
 _ui_viewport = NodePath("SubViewport")
+transparacy = 1.0
 
 [node name="SubViewport" type="SubViewport" parent="Panels/CustomLevels"]
 disable_3d = true
@@ -36,20 +35,18 @@ transparent_bg = true
 size = Vector2i(1000, 600)
 
 [node name="CustomLevelsPanel" parent="Panels/CustomLevels/SubViewport" instance=ExtResource("3_cklli")]
-modulate = Color(1, 1, 1, 0)
 
 [node name="Results" parent="Panels" node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("2_hxakq")]
-process_mode = 4
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 7, -4)
 _ui_viewport = NodePath("SubViewport")
+transparacy = 1.0
 
 [node name="SubViewport" type="SubViewport" parent="Panels/Results"]
 disable_3d = true
 transparent_bg = true
-size = Vector2i(700, 500)
+size = Vector2i(555, 500)
 
 [node name="ResultsPanel" parent="Panels/Results/SubViewport" instance=ExtResource("5_j4eln")]
-modulate = Color(1, 1, 1, 0)
 
 [node name="World" parent="." instance=ExtResource("2_nny0w")]
 

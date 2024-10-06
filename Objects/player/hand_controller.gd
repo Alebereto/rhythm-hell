@@ -7,28 +7,24 @@ signal menu_button_pressed
 
 # Color of hand
 @export_color_no_alpha var _hand_color: Color = Color.WHITE
+func get_hand_color() -> Color: return _hand_color
+
 # Wand
-@onready var _wand = $Wand
+@onready var _wand: Wand = $Wand
+var _using_wand = true # true if using wand
 
-
-# true if using wand
-var _using_wand = true
 # ref to current hand
-var _hand = null
+var _hand: Hand = null
 
 # true if controller emits inputs
 var _inputs_active = true
 
 # Getters
-var is_using_wand:
-	get: return _using_wand
-var hand:
-	get: return _hand
-var wand:
-	get: return _wand
+func is_using_wand(): return _using_wand
+func get_hand(): return _hand
+func get_wand(): return _wand
 # true if controller is currently clicking
-var clicking: bool:
-	get: return is_button_pressed("trigger")
+func is_clicking(): return is_button_pressed("trigger")
 
 
 
@@ -70,9 +66,9 @@ func set_hand( hand_scene: PackedScene ):
 	# TODO: maybe not clear but switch between hands
 
 	_hand = hand_scene.instantiate()
-	hand.vibrate.connect(vibrate)
-	hand.color = _hand_color
-	add_child(hand)
+	_hand.vibrate.connect(vibrate)
+	_hand.color = _hand_color
+	add_child(_hand)
 
 	if _using_wand: set_wand_state(false)
 

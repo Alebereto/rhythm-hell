@@ -11,7 +11,8 @@ signal exit( exit_data: Globals.MainMenuLoadData )
 
 # TODO: load depending on which games are present in level
 const MICRO_GAME_SCENES = [ preload("res://scenes/micro_games/karate/karate.tscn"),
-							preload("res://scenes/micro_games/mole_turf/mole_turf.tscn") ]
+							preload("res://scenes/micro_games/mole_turf/mole_turf.tscn"),
+							preload("res://scenes/micro_games/slicer/slicer.tscn")]
 
 # Get Player reference
 @onready var _player: Player = $Player

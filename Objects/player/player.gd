@@ -7,7 +7,8 @@ func get_shoulder_height() -> float: return height * Globals.SHOULDER_RATIO
 
 # TODO: load and not preload???
 const _HANDS: Array[PackedScene] = [preload("res://objects/player/hands/puncher.tscn"),
-									preload("res://objects/player/hands/hammer.tscn")]
+									preload("res://objects/player/hands/hammer.tscn"),
+									preload("res://objects/player/hands/sword.tscn")]
 
 
 # Controllers
@@ -22,18 +23,15 @@ const FADE_DURATION: float = 1.0
 
 
 func _ready():
-	right_controller.menu_button_pressed.connect(_on_pause)
-	left_controller.menu_button_pressed.connect(_on_pause)
-
-	right_controller.wand.laser_on()
+	right_controller.get_wand().laser_on()
 
 
 
-func set_right_hand( hand: int ):
-	return right_controller.set_hand( _HANDS[hand] )
+func set_right_hand( hand_id: Globals.HAND ):
+	return right_controller.set_hand( _HANDS[hand_id] )
 
-func set_left_hand( hand: int ):
-	return left_controller.set_hand( _HANDS[hand] )
+func set_left_hand( hand_id: Globals.HAND ):
+	return left_controller.set_hand( _HANDS[hand_id] )
 
 
 func set_wands_state(state: bool):
@@ -48,7 +46,8 @@ func stop_inputs() -> void:
 func enable_inputs() -> void:
 	right_controller.enable_inputs()
 	left_controller.enable_inputs()
-	right_controller.wand.laser_on()
+	
+	right_controller.get_wand().laser_on()
 
 
 ## Fade out then call method
@@ -68,17 +67,17 @@ func fade_in(delay: float = 0.0, method = null) -> void:
 
 # Inputs ===========================================
 
-func _on_pause() -> void:
+func _on_menu_button_pressed() -> void:
 	paused.emit()
 
 func _on_right_trigger_pressed() -> void:
 
-	if not right_controller.wand.using_laser:
-		left_controller.wand.laser_off()
-		right_controller.wand.laser_on()
+	if not right_controller.get_wand().is_using_laser():
+		left_controller.get_wand().laser_off()
+		right_controller.get_wand().laser_on()
 
 func _on_left_trigger_pressed() -> void:
 
-	if not left_controller.wand.using_laser:
-		right_controller.wand.laser_off()
-		left_controller.wand.laser_on()
+	if not left_controller.get_wand().is_using_laser():
+		right_controller.get_wand().laser_off()
+		left_controller.get_wand().laser_on()

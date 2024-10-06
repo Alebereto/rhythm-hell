@@ -32,22 +32,22 @@ func set_player(player: Player):
 		mole_hole.update_mole_peak(player.get_shoulder_height())
 
 ## Called by micro game when playing note
-func _play_note( _note: Globals.NoteInfo ):
+func _play_note( note: Globals.NoteInfo ):
 	# Get mole hole
-	var hole_idx = _note.layer - 1
+	var hole_idx = note.layer - 1
 	if hole_idx >= _mole_holes.size():
 		push_warning("Invalid Mole Hole")
 		hole_idx = 0
 	var mole_hole = _mole_holes[hole_idx]
 	
 	# Get mole id
-	var mole_id = _note.id
+	var mole_id = note.id
 	if mole_id >= len(MOLE_SCENES):
 		push_warning("Invalid mole id")
 		mole_id = Globals.MOLE_TYPES.NORMAL
 
 	var mole = _create_mole(mole_id)
-	var sprout_time = _beats_to_seconds(_note.b - _note.s)
+	var sprout_time = _beats_to_seconds(note.b - note.s)
 
 	mole_hole.sprout(mole, sprout_time)
 

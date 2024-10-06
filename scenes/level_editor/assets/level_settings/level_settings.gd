@@ -1,13 +1,13 @@
 extends MarginContainer
 
-signal exit( editing_level: bool, level: Level )
+signal exit( level: Level )
 signal confirmed( level: Level )
 
 # editing level
 var level: Level
-var init_level_copy: Level
+var current_level_copy: Level
 # true if settings were accessed from level editor
-var _editing_level: bool = true
+var _new_level: bool = true
 
 @onready var _title: Label = $Panel/Contents/Title
 
@@ -32,18 +32,27 @@ func _ready():
 	_init_game_types_panel()
 
 
-func load(editing_level: bool, loaded_level: Level):
-	init_level_copy = loaded_level.create_copy()
-	level = loaded_level
-	_editing_level = editing_level
-
-	if editing_level:
-		_title.text = "Edit Level Settings"
-		_confirm_button.disabled = false
-	else:
+## new_level is true if making a new level,
+## current_level is the level that is currently being edited, or null if it does not exist.
+func load(new_level: bool = true, current_level: Level= null) -> void:
+	_new_level = new_level
+	if new_level:
+		current_level_copy = current_level
+		level = Level.new()
 		_title.text = "Create New Level"
 		_confirm_button.disabled = true
+	else:
+		assert(current_level != null)
+		current_level_copy = current_level.create_copy()
+		level = current_level
+		_title.text = "Edit Level Settings"
+		_confirm_button.disabled = false
+	
+	_init_level_info()
 
+
+## Uses current level to set initial values for the settings
+func _init_level_info():
 	_name_line_edit.text = level.name
 	_song_file_line_edit.text = level.song_audio_path
 	if level.length is float:
@@ -52,6 +61,7 @@ func load(editing_level: bool, loaded_level: Level):
 	_game_type.select(level.micro_game_id)
 
 
+## Returns true if the current info can create a valid level
 func _is_valid_info() -> bool:
 	if not level: return false
 	if level.song_audio_path == "": return false
@@ -61,6 +71,8 @@ func _is_valid_info() -> bool:
 	return true
 
 
+## Called when a value has changed,
+## verifies if confirm should be disabled
 func _on_values_changed() -> void:
 	if _is_valid_info():
 		_confirm_button.disabled = false
@@ -68,6 +80,7 @@ func _on_values_changed() -> void:
 		_confirm_button.disabled = true
 
 
+## Adds micro games to game type dropdown list
 func _init_game_types_panel() -> void:
 	for i in range(len(Globals.MICRO_GAME_NAMES)):
 		var game_name = Globals.MICRO_GAME_NAMES[i]
@@ -79,7 +92,7 @@ func _init_game_types_panel() -> void:
 
 func _on_back_button_pressed():
 	# TODO: maybe ask confirmation?
-	exit.emit(_editing_level, init_level_copy)
+	exit.emit(current_level_copy)
 
 
 func _on_confirm_button_pressed():
