@@ -9,5 +9,5 @@ signal vibrate
 var color: Color = Color.WHITE
 
 
-func set_color( _clr: Color ) -> void: pass
+func set_color() -> void: pass
 

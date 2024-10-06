@@ -38,13 +38,13 @@ class MainMenuLoadData:
 # For micro games =============================================================================================
 
 # micro game indeces
-enum MICRO_GAMES{ KARATE , MOLE_TURF, REMIX}
-const MICRO_GAME_NAMES = ["Karate", "Mole Turf", "Remix"]
+enum MICRO_GAMES{ KARATE , MOLE_TURF, SLICER, REMIX}
+const MICRO_GAME_NAMES = ["Karate", "Mole Turf", "Slicer", "Remix"]
 
 const HIDDEN_OBJECTS_GROUP_NAME = "hidden_in_menu"
 
 # player enum
-enum HAND {PUNCHER, HAMMER}
+enum HAND {PUNCHER, HAMMER, SWORD}
 
 # karate projectiles enum
 enum PROJECTILES{ROCK, BARREL}

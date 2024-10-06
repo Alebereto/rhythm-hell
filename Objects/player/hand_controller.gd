@@ -7,6 +7,7 @@ signal menu_button_pressed
 
 # Color of hand
 @export_color_no_alpha var _hand_color: Color = Color.WHITE
+func get_hand_color() -> Color: return _hand_color
 
 # Wand
 @onready var _wand: Wand = $Wand

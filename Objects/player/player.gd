@@ -7,7 +7,8 @@ func get_shoulder_height() -> float: return height * Globals.SHOULDER_RATIO
 
 # TODO: load and not preload???
 const _HANDS: Array[PackedScene] = [preload("res://objects/player/hands/puncher.tscn"),
-									preload("res://objects/player/hands/hammer.tscn")]
+									preload("res://objects/player/hands/hammer.tscn"),
+									preload("res://objects/player/hands/sword.tscn")]
 
 
 # Controllers

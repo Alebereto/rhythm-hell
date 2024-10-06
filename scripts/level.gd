@@ -119,6 +119,10 @@ func get_total_notes() -> int:
 					Globals.MOLE_TYPES.NORMAL: note_count += 1
 					Globals.MOLE_TYPES.FAST: note_count += 2
 					Globals.MOLE_TYPES.SLOW: note_count += 3
+			Globals.MICRO_GAMES.SLICER:
+				match id:
+					2: note_count += 2
+					_: note_count += 1
 			
 	return note_count
 

@@ -24,7 +24,7 @@ func _ready():
 	if _display_mag: _mag_display.visible = true
 	else:			 _mag_display.visible = false
 
-	set_color(color)
+	set_color()
 
 # Called every physics frame.
 func _physics_process(_delta):
@@ -38,9 +38,9 @@ func _physics_process(_delta):
 
 
 
-func set_color( clr: Color ) -> void:
-	$Model/Cube.get_active_material(0).albedo_color = clr
-	$Model/Rod.get_active_material(0).albedo_color = clr
+func set_color() -> void:
+	$Model/Cube.get_active_material(0).albedo_color = color
+	$Model/Rod.get_active_material(0).albedo_color = color
 
 
 ## Checks if puncher is currently fast enough to punch an object
