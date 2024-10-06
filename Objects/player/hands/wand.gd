@@ -42,7 +42,7 @@ func _process(_delta):
 func _handle_laser():
 	# update colliding object
 	var collider = _laser.get_collider()
-	if collider != _focused_menu:
+	if (collider is VRUI or collider == null) and collider != _focused_menu:
 		# entering menu
 		if collider is VRUI and _focused_menu == null: _focus(collider)
 		# leaving menu
