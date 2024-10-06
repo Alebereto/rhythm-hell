@@ -1,6 +1,6 @@
 extends Node2D
 
-enum MENU {NONE, MAIN_MENU, LEVEL_EDITOR, LEVEL_SETTINGS}
+enum EditorMenu {NONE, MAIN_MENU, LEVEL_EDITOR, LEVEL_SETTINGS}
 
 
 # Menus
@@ -14,7 +14,7 @@ enum MENU {NONE, MAIN_MENU, LEVEL_EDITOR, LEVEL_SETTINGS}
 @onready var _bad_path_popup: AcceptDialog = $Popups/Alert
 
 
-var _current_menu: MENU = MENU.NONE
+var _current_menu: EditorMenu = EditorMenu.NONE
 
 
 
@@ -26,33 +26,39 @@ func _ready():
 
 ## Load the main menu
 func _load_main_menu() -> void:
+	if _current_menu == EditorMenu.LEVEL_EDITOR:
+		_level_editor_menu.unload()
 
 	_header_tabs.set_edit_menu_states(false, false, false)
 	_header_tabs.set_file_menu_states(true, true, false)
-	_show_menu(MENU.MAIN_MENU)
+	_show_menu(EditorMenu.MAIN_MENU)
 
 ## Load the level editor with given level (can fail)
 func _load_level_editor_menu(level: Level) -> void:
 
-	var success = _level_editor_menu.load_level(level)
-	if not success: return
+	if _current_menu == EditorMenu.LEVEL_EDITOR:
+		_level_editor_menu.unload()
+	_level_editor_menu.load_level(level)
 
 	_header_tabs.set_edit_menu_states(false, false, true)
 	_header_tabs.set_file_menu_states(true, true, true)
-	_show_menu(MENU.LEVEL_EDITOR)
+	_show_menu(EditorMenu.LEVEL_EDITOR)
 
 ## Load the level settings menu
-func _load_level_settings_menu(editing_level: bool, level: Level) -> void:
-	_level_settings_menu.load(editing_level, level)
+func _load_level_settings_menu(new_level: bool, current_level: Level) -> void:
+	if _current_menu == EditorMenu.LEVEL_EDITOR:
+		_level_editor_menu.unload()
+
+	_level_settings_menu.load(new_level, current_level)
 
 	_header_tabs.set_edit_menu_states(false, false, false)
 	_header_tabs.set_file_menu_states(false, true, false)
-	_show_menu(MENU.LEVEL_SETTINGS)
+	_show_menu(EditorMenu.LEVEL_SETTINGS)
 
 
 
 ## Shows menu with given id
-func _show_menu(id: MENU) -> void:
+func _show_menu(id: EditorMenu) -> void:
 	# Hide all menus
 	_main_menu.visible = false
 	_level_editor_menu.visible = false
@@ -60,9 +66,9 @@ func _show_menu(id: MENU) -> void:
 
 	_current_menu = id
 	match id:
-		MENU.MAIN_MENU: _main_menu.visible = true
-		MENU.LEVEL_EDITOR: _level_editor_menu.visible = true
-		MENU.LEVEL_SETTINGS: _level_settings_menu.visible = true
+		EditorMenu.MAIN_MENU: _main_menu.visible = true
+		EditorMenu.LEVEL_EDITOR: _level_editor_menu.visible = true
+		EditorMenu.LEVEL_SETTINGS: _level_settings_menu.visible = true
 
 
 
@@ -123,8 +129,6 @@ func _on_save_requested(level: Level) -> void:
 func _load_level_from_dir() -> void:
 	var level: Level = await _get_level_from_user()
 	if level == null: return
-	if _current_menu == MENU.LEVEL_EDITOR:
-		_level_editor_menu.unload()
 	_load_level_editor_menu(level)
 
 
@@ -133,7 +137,7 @@ func _load_level_from_dir() -> void:
 # main menu =========================
 
 func _on_main_menu_new_level_requested():
-	_load_level_settings_menu(false, Level.new())
+	_load_level_settings_menu(true, null)
 
 
 func _on_main_menu_load_level_requested():
@@ -155,29 +159,35 @@ func _on_level_editor_menu_set_header_states(save_state: bool, undo_state: bool,
 
 
 func _on_header_tabs_save_level():
-	_level_editor_menu.save()
+	if _current_menu == EditorMenu.LEVEL_EDITOR: _level_editor_menu.save()
 
 
 func _on_header_tabs_new_level():
-	# TODO: make work
-	pass # Replace with function body.
+	var lvl = null
+	if _current_menu == EditorMenu.LEVEL_EDITOR:
+		_level_editor_menu.update_level_data()
+		lvl = _level_editor_menu.get_edited_level()
+	_load_level_settings_menu(true, lvl)
 
 func _on_header_tabs_load_level():
 	_load_level_from_dir()
 
 
 func _on_header_tabs_redo():
-	_level_editor_menu._redo()
+	if _current_menu == EditorMenu.LEVEL_EDITOR:
+		_level_editor_menu.redo()
 
 
 func _on_header_tabs_undo():
-	_level_editor_menu._undo()
+	if _current_menu == EditorMenu.LEVEL_EDITOR:
+		_level_editor_menu.undo()
 
 
 func _on_header_tabs_level_settings():
-	_level_editor_menu._update_level_data()
-	_load_level_settings_menu(true, _level_editor_menu._level)
-	_level_editor_menu.unload()
+	if _current_menu != EditorMenu.LEVEL_EDITOR: return
+
+	_level_editor_menu.update_level_data()
+	_load_level_settings_menu(false, _level_editor_menu.get_edited_level())
 
 
 func _on_header_tabs_quit():
@@ -193,7 +203,6 @@ func _on_level_settings_confirmed(level:Level):
 	_load_level_editor_menu(level)
 
 
-func _on_level_settings_exit(editing_level:bool, level: Level = null):
-	if editing_level: _load_level_editor_menu(level)
-	else: _load_main_menu()
-
+func _on_level_settings_exit(level: Level= null):
+	if level == null: _load_main_menu()
+	else: _load_level_editor_menu(level)
