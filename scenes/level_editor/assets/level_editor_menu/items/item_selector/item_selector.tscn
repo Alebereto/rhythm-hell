@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c32ax83ybum6y"]
+[gd_scene load_steps=11 format=3 uid="uid://c32ax83ybum6y"]
 
 [ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/items/item_selector/item_selector.gd" id="1_2n2gi"]
 
@@ -52,6 +52,8 @@ corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ce40t"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_exto0"]
+
 [node name="ItemSelector" type="TabContainer"]
 custom_minimum_size = Vector2(250, 100)
 anchors_preset = 8
@@ -89,16 +91,30 @@ fixed_icon_size = Vector2i(20, 20)
 [node name="Events" type="ItemList" parent="."]
 visible = false
 layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 4
+theme_override_constants/icon_margin = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_s30gt")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ce40t")
 allow_reselect = true
+max_columns = 6
+fixed_icon_size = Vector2i(20, 20)
 
 [node name="Markers" type="ItemList" parent="."]
 visible = false
 layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 4
+theme_override_constants/icon_margin = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_s30gt")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_exto0")
 allow_reselect = true
+max_columns = 6
+fixed_icon_size = Vector2i(20, 20)
 
 [connection signal="item_clicked" from="Notes" to="." method="_on_notes_item_clicked"]
 [connection signal="item_selected" from="Notes" to="." method="_on_notes_item_selected"]
+[connection signal="item_clicked" from="Events" to="." method="_on_events_item_clicked"]
 [connection signal="item_selected" from="Events" to="." method="_on_events_item_selected"]
+[connection signal="item_clicked" from="Markers" to="." method="_on_markers_item_clicked"]
 [connection signal="item_selected" from="Markers" to="." method="_on_markers_item_selected"]

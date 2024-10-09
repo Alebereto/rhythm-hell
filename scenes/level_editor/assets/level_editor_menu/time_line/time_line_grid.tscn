@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://css301rnh0cd7"]
+[gd_scene load_steps=6 format=3 uid="uid://css301rnh0cd7"]
 
 [ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/time_line/time_line_grid.gd" id="1_b8pkd"]
-[ext_resource type="PackedScene" uid="uid://b3r8huwskjklu" path="res://scenes/level_editor/assets/level_editor_menu/items/note_2d.tscn" id="2_43pa2"]
+[ext_resource type="PackedScene" uid="uid://b3r8huwskjklu" path="res://scenes/level_editor/assets/level_editor_menu/items/item_objects/note_2d.tscn" id="2_6hijd"]
+[ext_resource type="PackedScene" uid="uid://c6gqotobi2d0w" path="res://scenes/level_editor/assets/level_editor_menu/items/item_objects/event_2d.tscn" id="3_noa0m"]
+[ext_resource type="PackedScene" uid="uid://b7bdsl8yrsonh" path="res://scenes/level_editor/assets/level_editor_menu/items/item_objects/marker_2d.tscn" id="4_ypb45"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_3wwim"]
+b = Vector2(0, 20)
 
 [node name="TimeLineGrid" type="Node2D"]
 script = ExtResource("1_b8pkd")
@@ -27,11 +32,28 @@ z_index = 5
 visible = false
 z_index = 10
 
-[node name="Note2d" parent="Anchor/IndicatorRoot" instance=ExtResource("2_43pa2")]
+[node name="Note2D" parent="Anchor/IndicatorRoot" instance=ExtResource("2_6hijd")]
+visible = false
+
+[node name="Event2D" parent="Anchor/IndicatorRoot" instance=ExtResource("3_noa0m")]
+visible = false
+
+[node name="Marker2D" parent="Anchor/IndicatorRoot" instance=ExtResource("4_ypb45")]
+visible = false
 
 [node name="TimeMarker" type="Node2D" parent="Anchor"]
 z_index = 15
 
-[node name="Polygon2D" type="Polygon2D" parent="Anchor/TimeMarker"]
+[node name="Arrow" type="Polygon2D" parent="Anchor/TimeMarker"]
 color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(-6, 0, 6, 0, 0, 12)
+
+[node name="Line" type="Line2D" parent="Anchor/TimeMarker"]
+points = PackedVector2Array(0, 0, 0, 20)
+width = 3.0
+default_color = Color(1, 0, 0, 0.631373)
+
+[node name="Area2D" type="Area2D" parent="Anchor/TimeMarker"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Anchor/TimeMarker/Area2D"]
+shape = SubResource("SegmentShape2D_3wwim")

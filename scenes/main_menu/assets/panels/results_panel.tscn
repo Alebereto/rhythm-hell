@@ -206,6 +206,7 @@ theme_override_font_sizes/font_size = 31
 theme_override_styles/normal = SubResource("StyleBoxFlat_a2yfy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_tle4u")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_rtnk4")
+action_mode = 0
 text = "Restart"
 
 [node name="ContinueButton" type="Button" parent="Layout/Buttons"]
@@ -218,6 +219,7 @@ theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_a2yfy")
 theme_override_styles/hover = SubResource("StyleBoxFlat_tle4u")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_rtnk4")
+action_mode = 0
 text = "Continue"
 
 [connection signal="mouse_entered" from="Layout/Buttons/RestartButton" to="." method="_on_hover"]

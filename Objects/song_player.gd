@@ -45,7 +45,7 @@ func load_song( audio_path: String, song_len=null ) -> void:
 
 
 
-## Used to play song from given time
+## Used to play song from current time
 func play() -> void:
 	if (not _has_song) or _playing: return
 

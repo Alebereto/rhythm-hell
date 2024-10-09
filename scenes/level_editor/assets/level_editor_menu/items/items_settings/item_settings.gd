@@ -5,15 +5,15 @@ signal item_settings_saved(item_info: Globals.ItemInfo)
 
 
 # Settings windows
-@onready var _note_settings = $NoteSettings
-@onready var _event_settings = $EventSettings
-@onready var _marker_settings = $MarkerSettings
+@onready var _note_settings: HFlowContainer = $NoteSettings
+@onready var _event_settings: HFlowContainer = $EventSettings
+@onready var _marker_settings: HFlowContainer = $MarkerSettings
 
 
 ## Sets item settings and shows them
-func set_item_display(item: Globals.ItemInfo) -> void:
-	_set_settings_from_item(item)
-	_change_to_window(item)
+func set_item_display(item_info: Globals.ItemInfo) -> void:
+	_set_settings_from_item(item_info)
+	_change_to_window(item_info)
 
 
 func _change_to_window(item_info: Globals.ItemInfo) -> void:

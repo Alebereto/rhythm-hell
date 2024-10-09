@@ -92,34 +92,35 @@ func _load_micro_game( game_id: Globals.MICRO_GAMES ) -> void:
 
 	# load micro game
 	_micro_game = MICRO_GAME_SCENES[ game_id ].instantiate()
+	# Connect signals
+	_micro_game.note_hit.connect( _on_note_hit )
+	# Init values
+	_micro_game.bpm = _level.initial_bpm
+
 	add_child( _micro_game )
 	if not _micro_game.is_node_ready(): await _micro_game.ready
 
-	# Connect signals
-	_micro_game.note_hit.connect( _on_note_hit )
-
 	# set player refrence and init some attributes in micro game
 	_micro_game.set_player(_player)
-	_micro_game.bpm = _level.initial_bpm
+	
 
 ## Starts level from given time
 func _start_level(time: float = 0, delay: float = 1.5) -> void:
+	# set initial stats for level
+	_song_player.seek(time)
+	
 	# reset state
 	_micro_game.on_reset()
 	_reset_stats()
 
-	# Wait before level start delay seconds
-	if delay > 0: await get_tree().create_timer(delay, false).timeout
-
-	# set initial stats for level
-	_song_player.seek(time)
-
 	# find next note index
 	if time == 0: _next_note_idx = 0
-	else: 		  _next_note_idx = _level.find_note_idx_after(time)
+	else: 		  _next_note_idx = _level.find_next_note_idx(time)
 
-
-	_song_player.play()
+	# Wait before level start 'delay' seconds
+	if delay > 0: await get_tree().create_timer(delay, false).timeout
+	# if statement is for desync problems
+	if not _song_player.is_playing(): _song_player.play()
 
 
 
