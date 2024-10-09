@@ -265,9 +265,8 @@ func _create_item(item_info: Globals.ItemInfo) -> Item2D:
 	return item
 
 
-func _is_legal_placement(_time_pos: Vector2) -> bool:
-	# TODO: check if other items are placed in same beat
-	#		check if start beat is before start of song
+func _is_legal_placement(time_pos: Vector2) -> bool:
+	if get_items_at_global(_anchor.to_global(time_pos)).size() > 0: return false
 	return true
 
 
