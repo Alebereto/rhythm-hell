@@ -4,6 +4,8 @@ extends MicroGame
 const CANNON_DELAY := 0.3
 const BARREL_BEAT_DELAY = 1
 
+const SHOULDER_OFFSET: float = 0.08
+
 var _right_puncher = null
 var _left_puncher = null
 
@@ -32,7 +34,7 @@ func set_player(player: Player) -> void:
 	super(player)
 
 	# Update game according to player height
-	_target.position.y = player.get_shoulder_height()
+	_target.position.y = player.get_shoulder_height() + SHOULDER_OFFSET
 
 	# Set player hands and get refrences to them
 	_right_puncher = player.set_right_hand( Globals.HAND.PUNCHER )
@@ -47,22 +49,23 @@ func set_player(player: Player) -> void:
 
 
 func _play_note(note: Globals.NoteInfo):
-
-	var cannon = _left_cannon if note.rotated else _right_cannon # get cannon
-
-	# Create projectile
-	var projectile: Projectile = _create_projectile( note )
-
+	# get cannon
+	var cannon = _left_cannon if note.rotated else _right_cannon
 	# Get fire time
 	var fire_time = _beats_to_seconds(note.b - note.s)
+
+	# Check if valid fire time
 	if fire_time <= 0:
 		push_warning("Cannot fire in time <= 0!")
 		fire_time = 0.5
-	
+
+	# Create projectile
+	var projectile: Projectile = _create_projectile( note )
 	projectile.travel_time = fire_time
 	
 	# Fire projectile
 	cannon.fire(projectile, fire_time)
+
 
 func on_reset():
 	super()

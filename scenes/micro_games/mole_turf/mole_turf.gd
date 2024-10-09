@@ -7,14 +7,22 @@ const MOLE_SCENES = [preload("res://scenes/micro_games/mole_turf/assets/moles/no
 					 preload("res://scenes/micro_games/mole_turf/assets/moles/quick_mole.tscn"),
 					 preload("res://scenes/micro_games/mole_turf/assets/moles/slow_mole.tscn")]
 
+enum EventID{ SKY_CHANGE=0 }
 
 @onready var _mole_holes = [$Objects/MoleHoles/Hole1,
 							$Objects/MoleHoles/Hole2,
 							$Objects/MoleHoles/Hole3,
 							$Objects/MoleHoles/Hole4]
 
+
+var sky_tween: Tween
+@onready var _sky_material: ProceduralSkyMaterial = $Objects/World/WorldEnvironment.environment.sky.sky_material
+@export_color_no_alpha var _init_sky_color: Color = Color.WHITE
+
+
 func _ready():
 	super()
+	_sky_material.sky_top_color = _init_sky_color
 
 func set_player(player: Player):
 	super(player)
@@ -35,22 +43,33 @@ func set_player(player: Player):
 func _play_note( note: Globals.NoteInfo ):
 	# Get mole hole
 	var hole_idx = note.layer - 1
+	# Get mole id
+	var mole_id = note.id
+
+	# Check if info is valid
 	if hole_idx >= _mole_holes.size():
 		push_warning("Invalid Mole Hole")
 		hole_idx = 0
-	var mole_hole = _mole_holes[hole_idx]
-	
-	# Get mole id
-	var mole_id = note.id
 	if mole_id >= len(MOLE_SCENES):
 		push_warning("Invalid mole id")
 		mole_id = Globals.MOLE_TYPES.NORMAL
 
 	var mole = _create_mole(mole_id)
 	var sprout_time = _beats_to_seconds(note.b - note.s)
+	var mole_hole = _mole_holes[hole_idx]
 
 	mole_hole.sprout(mole, sprout_time)
 
+func _start_event( event_info: Globals.EventInfo):
+	match event_info.id:
+		EventID.SKY_CHANGE:  _change_sky(event_info)
+		
+
+func _change_sky( event: Globals.EventInfo ) -> void:
+	if sky_tween and sky_tween.is_running(): sky_tween.kill()
+	sky_tween = create_tween()
+
+	sky_tween.tween_property(_sky_material, "sky_top_color", event.color, event.delay)
 
 func _create_mole(mole_id) -> Mole:
 	var mole = MOLE_SCENES[mole_id].instantiate()
@@ -64,6 +83,8 @@ func on_reset() -> void:
 	super()
 	for mole_hole in _mole_holes:
 		mole_hole.kill_active_mole()
+	
+	_sky_material.sky_top_color = _init_sky_color
 
 
 ## Called when hammer bonks active mole
