@@ -29,8 +29,11 @@ var _ended: bool = false
 var _level: Level
 # micro game scene reference
 var _micro_game: MicroGame = null
+
 # index of next note to be played from _level.note_list
 var _next_note_idx: int = 0
+# index of next event to be played from _level.event_list
+var _next_event_idx: int = 0
 
 
 # Some values
@@ -64,6 +67,7 @@ func _ready():
 func _physics_process(_delta):
 	if not _is_paused() and not _ended:
 		_check_next_note()
+		_check_next_event()
 		_check_song_end()
 
 
@@ -80,6 +84,18 @@ func _check_next_note() -> void:
 			_queue_note(next_note)
 			_next_note_idx += 1
 
+func _check_next_event() -> void:
+	# if next note is available
+	if  _next_event_idx < _level.event_list.size():
+		
+		var next_event: Globals.EventInfo = _level.event_list[_next_event_idx] # get next event
+		var start_event_time: float = _level.beats_to_seconds(next_event.s) - _micro_game.max_event_delay
+
+		# if current second is greater or equal to the start second of the next note, queue it
+		if _get_current_second() >= start_event_time:
+			_queue_event(next_event)
+			_next_event_idx += 1
+
 func _check_song_end() -> void:
 	if _get_current_second() >= _level.length: _on_level_end()
 
@@ -92,34 +108,35 @@ func _load_micro_game( game_id: Globals.MICRO_GAMES ) -> void:
 
 	# load micro game
 	_micro_game = MICRO_GAME_SCENES[ game_id ].instantiate()
+	# Connect signals
+	_micro_game.note_hit.connect( _on_note_hit )
+	# Init values
+	_micro_game.bpm = _level.initial_bpm
+
 	add_child( _micro_game )
 	if not _micro_game.is_node_ready(): await _micro_game.ready
 
-	# Connect signals
-	_micro_game.note_hit.connect( _on_note_hit )
-
 	# set player refrence and init some attributes in micro game
 	_micro_game.set_player(_player)
-	_micro_game.bpm = _level.initial_bpm
+	
 
 ## Starts level from given time
 func _start_level(time: float = 0, delay: float = 1.5) -> void:
+	# set initial stats for level
+	_song_player.seek(time)
+	
 	# reset state
 	_micro_game.on_reset()
 	_reset_stats()
 
-	# Wait before level start delay seconds
-	if delay > 0: await get_tree().create_timer(delay, false).timeout
-
-	# set initial stats for level
-	_song_player.seek(time)
-
 	# find next note index
 	if time == 0: _next_note_idx = 0
-	else: 		  _next_note_idx = _level.find_note_idx_after(time)
+	else: 		  _next_note_idx = _level.find_next_note_idx(time)
 
-
-	_song_player.play()
+	# Wait before level start 'delay' seconds
+	if delay > 0: await get_tree().create_timer(delay, false).timeout
+	# if statement is for desync problems
+	if not _song_player.is_playing(): _song_player.play()
 
 
 
@@ -127,6 +144,10 @@ func _start_level(time: float = 0, delay: float = 1.5) -> void:
 ## Adds next note to queue
 func _queue_note( note_info: Globals.NoteInfo ) -> void:
 	_micro_game.add_note_to_queue(note_info)
+
+## Adds next event to queue
+func _queue_event(event_info: Globals.EventInfo) -> void:
+	_micro_game.add_event_to_queue(event_info)
 
 ## Gets called when payer hits note
 func _on_note_hit(perfect: bool) -> void:

@@ -31,7 +31,7 @@ func _set_clear_status(cleared: bool):
 func _set_score_info():
 	var hit_notes = _level.hit_notes
 	var perfect_notes = _level.perfect_notes
-	var total_notes = _level.get_total_notes()
+	var total_notes = _level.get_note_hit_count()
 
 	$Layout/ClearStats/Hit/HitNotes.text = "%s/%s" %[hit_notes, total_notes]
 	$Layout/ClearStats/Perfect/PerfectNotes.text = "%s/%s" %[perfect_notes, total_notes]

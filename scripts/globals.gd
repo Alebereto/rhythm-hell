@@ -8,7 +8,6 @@ const SHOULDER_RATIO = 3/4.0
 const GODOT_IMAGE = preload("res://icon.svg")
 
 
-
 ## Gets seconds, returns string of clock display MM:SS
 func format_seconds(seconds: float) -> String:
 	var minute = floor(seconds / float(SECONDS_IN_MINUTE))
@@ -22,17 +21,17 @@ func format_seconds(seconds: float) -> String:
 # For main menu ===============================================================================================
 
 enum MENU_NAME{MAIN, CUSTOM_LEVELS, RESULTS_SCREEN}
+
 class MainMenuLoadData:
-	var _menu_name: Globals.MENU_NAME
+	var _menu_name: MENU_NAME
 	var _results_dict
 
-	func _init(menu_name = Globals.MENU_NAME.MAIN, results_dict = null):
+	func _init(menu_name = MENU_NAME.MAIN, results_dict = null):
 		_menu_name = menu_name
 		_results_dict = results_dict
 	
 	func get_menu_name(): return _menu_name
 	func get_results_dict(): return _results_dict
-
 
 
 # For micro games =============================================================================================
@@ -93,10 +92,31 @@ func get_levels_data(levels_path: String) -> Array:
 	
 	return levels
 
-func load_external_image( image_path: String ):
+## Gets path to image, returns ImageTexture of image in path
+func load_external_image( image_path: String ) -> ImageTexture:
 	var image = Image.load_from_file(image_path)
 	var texture = ImageTexture.create_from_image(image)
 	return texture
+
+
+## Gets NoteInfo and the game it is in, returns how many note hits it creates
+func get_note_hits_count(note_info: NoteInfo, game_id: MICRO_GAMES) -> int:
+	var id = note_info.id
+	match game_id:
+		MICRO_GAMES.KARATE:
+			match id:
+				PROJECTILES.ROCK: return 1
+				PROJECTILES.BARREL: return 2	# TODO: check contained projectile recursively
+		MICRO_GAMES.MOLE_TURF:
+			match id:
+				MOLE_TYPES.NORMAL: return 1
+				MOLE_TYPES.FAST: return 2
+				MOLE_TYPES.SLOW: return 3
+		MICRO_GAMES.SLICER:
+			match id:
+				2: return 2	# id = 2 is two objects spawned in the same column
+				_: return 1
+	return 1
 
 
 # Data structures ========================================================================================
@@ -159,12 +179,11 @@ class ItemInfo:
 	var name: String = DEFAULT_ITEM_NAME
 	var color: Color = Color.WHITE
 	var b: float = 0
-
-	func _init():
-		pass
 	
-	# override
-	func get_info_dict() -> Dictionary: return {}
+	# override these functions
+	func get_item_dict() -> Dictionary: return {}
+	func set_from_dict(_item_dict: Dictionary) -> void: pass
+
 
 class NoteInfo extends ItemInfo:
 	
@@ -174,21 +193,15 @@ class NoteInfo extends ItemInfo:
 	var layer: int = 1
 	var rotated: bool = true
 
-	var custom_data: Dictionary = {}
-
 	var s: float = 0
 
 	func _init(note= null):
 		# load data from other note
-		if note is NoteInfo:
-			set_from_dict(note.get_info_dict())
-
-		# load data from save file
-		if note is Dictionary:
-			set_from_dict(note)
+		if note is NoteInfo:  set_from_dict(note.get_item_dict())
+		elif note is Dictionary:  set_from_dict(note)
 
 
-	func get_info_dict() -> Dictionary:
+	func get_item_dict() -> Dictionary:
 		var note_data = {
 			"name": name,
 			"delay": delay,
@@ -196,39 +209,81 @@ class NoteInfo extends ItemInfo:
 			"layer": layer,
 			"color": color.to_html(),
 			"rotated": rotated,
-			"custom_data": custom_data,
 			"b": b,
 			"s": s,
 		}
 		return note_data
 
-	func set_from_dict(item: Dictionary):
+	func set_from_dict(item_dict: Dictionary) -> void:
 		
-		name = item["name"]
-		delay = item["delay"]
-		id = item["id"]
-		layer = item["layer"]
-		color = Color(item["color"])
-		rotated = item["rotated"]
-		custom_data = item["custom_data"]
-		b = item["b"]
-		s = item["s"]
-
+		name = item_dict["name"]
+		delay = item_dict["delay"]
+		id = item_dict["id"]
+		layer = item_dict["layer"]
+		color = Color(item_dict["color"])
+		rotated = item_dict["rotated"]
+		b = item_dict["b"]
+		s = item_dict["s"]
 
 class EventInfo extends ItemInfo:
-	func _init():
-		pass
+
+	var id: int = 0
+	var delay: float = 0
+	var value: float = 0
+	var layer: int = 1
+	var s: float = 0
+
+	func _init(event= null):
+		if event is EventInfo:  set_from_dict(event.get_item_dict())
+		elif event is Dictionary:  set_from_dict(event)
+
+	func get_item_dict() -> Dictionary:
+		var event_data = {
+			"name": name,
+			"delay": delay,
+			"value": value,
+			"id": id,
+			"layer": layer,
+			"color": color.to_html(),
+			"b": b,
+			"s": s,
+		}
+		return event_data
 	
-
+	func set_from_dict(item_dict: Dictionary) -> void:
+		name = item_dict["name"]
+		id = item_dict["id"]
+		delay = item_dict["delay"]
+		value = item_dict["value"]
+		layer = item_dict["layer"]
+		color = Color(item_dict["color"])
+		b = item_dict["b"]
+		s = item_dict["s"]
+	
 class MarkerInfo extends ItemInfo:
-	func _init():
-		pass
+	func _init(marker= null):
+		if marker is MarkerInfo:  set_from_dict(marker.get_item_dict())
+		elif marker is Dictionary:  set_from_dict(marker)
+	
+	func get_item_dict() -> Dictionary:
+		var marker_data = {
+			"name": name,
+			"color": color.to_html(),
+			"b": b,
+		}
+		return marker_data
+	
+	func set_from_dict(item_dict: Dictionary) -> void:
+		name = item_dict["name"]
+		color = Color(item_dict["color"])
+		b = item_dict["b"]
 
 
-func items_to_dicts(items: Array) -> Array[Dictionary]:
+## Gets list of ItemInfo, returns list of their dictionaries
+func items_to_dicts(item_infos: Array) -> Array[Dictionary]:
 	var dict_arr: Array[Dictionary] = []
-	for item: Globals.ItemInfo in items:
-		dict_arr.append(item.get_info_dict())
+	for item_info in item_infos:
+		dict_arr.append(item_info.get_item_dict())
 	return dict_arr
 
 func dicts_to_items(dicts: Array, type: ITEM_TYPE):
@@ -236,9 +291,9 @@ func dicts_to_items(dicts: Array, type: ITEM_TYPE):
 	for dict in dicts:
 		var item
 		match type:
-			ITEM_TYPE.NOTE: item = Globals.NoteInfo.new(dict)
-			# ITEM_TYPE.EVENT: item = Globals.EventInfo.new(dict)
-			# ITEM_TYPE.MARKER: item = Globals.MarkerInfo.new(dict)
+			ITEM_TYPE.NOTE: item = NoteInfo.new(dict)
+			ITEM_TYPE.EVENT: item = EventInfo.new(dict)
+			ITEM_TYPE.MARKER: item = MarkerInfo.new(dict)
 		items_arr.append(item)
 	return items_arr
 
@@ -247,8 +302,8 @@ func clone_item_info(item_info: ItemInfo) -> ItemInfo:
 	var cloned_item_info = null
 	
 	if item_info is NoteInfo: 		cloned_item_info = NoteInfo.new(item_info)
-	# elif item_info is EventInfo: 	cloned_item_info = EventInfo.new(item_info)
-	# elif item_info is MarkerInfo: 	cloned_item_info = MarkerInfo.new(item_info)
+	elif item_info is EventInfo: 	cloned_item_info = EventInfo.new(item_info)
+	elif item_info is MarkerInfo: 	cloned_item_info = MarkerInfo.new(item_info)
 
 	return cloned_item_info
 
@@ -256,7 +311,7 @@ func clone_item_info(item_info: ItemInfo) -> ItemInfo:
 # Actions =-=-=-=-=-=
 
 class EditorAction:
-	var remember = true
+	var remember = true	# if true, action will be recorded for undoing
 
 	func _init(): pass
 	

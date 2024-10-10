@@ -17,8 +17,7 @@ var _current_tool: Globals.TOOL
 
 ## Called when loading level
 func load_level(level: Level) -> void:
-	
-	_on_total_beats_changed(level.beat_count)
+	_on_total_beats_changed(level.get_beat_count())
 	_time_line_grid.load_level(level)
 
 func unload():
@@ -27,12 +26,25 @@ func unload():
 
 
 func _on_total_beats_changed(beats: float) -> void:
+	# TODO: change
 	_time_line_scroller.max_value = beats
+
+func _on_bar_gap_change(value: float) -> void:
+	# TODO: do more?
+	_time_line_grid.bar_gap = value
+
+## Called when window gets resized
+func on_window_resize() -> void:
+	# TODO: update scroll stuff 
+	pass
 
 
 ## update data that was dynamically created in level editor
 func generate_dynamic_data(level: Level) -> void:
+	# TODO: maybe update items?
 	level.note_list = _time_line_grid.generate_note_list()
+	level.event_list = _time_line_grid.generate_event_list()
+	level.marker_list = _time_line_grid.generate_marker_list()
 
 
 ## Called to take actions
@@ -54,7 +66,7 @@ func take_action(action: Globals.EditorAction ):
 ## Sets current tool to given tool
 func set_tool(t: Globals.TOOL) -> void:
 	_current_tool = t
-	_time_line_grid.show_indicator_item(false)
+	_time_line_grid.set_indicator_visibility(false)
 
 	var cursor = CURSOR_ARROW
 	match t:
@@ -62,13 +74,12 @@ func set_tool(t: Globals.TOOL) -> void:
 		Globals.TOOL.DELETE: cursor = CURSOR_CROSS
 		Globals.TOOL.ITEM:
 			cursor = CURSOR_POINTING_HAND
-			if _mouse_in_timeline(): _time_line_grid.show_indicator_item(true)
+			if _mouse_in_timeline(): _time_line_grid.set_indicator_visibility(true)
 
 	_time_line_box.mouse_default_cursor_shape = cursor
 
 ## Sets current selected item to given item
-func set_item(item_info: Globals.ItemInfo) -> void:
-	_time_line_grid.set_indicator_item(item_info)
+func set_item(item_info: Globals.ItemInfo) -> void:  _time_line_grid.set_indicator_item_info(item_info)
 
 
 
@@ -88,8 +99,7 @@ func _place_item_action( item_info: Globals.ItemInfo ):
 ## takes a DeleteItem action for items found at global_pos
 func _delete_at_pos(global_pos: Vector2) -> void:
 	var items = _time_line_grid.get_items_at_global(global_pos)
-	for item in items:
-		_delete_item_action(item.get_data())
+	for item: Item2D in items:  _delete_item_action(item.get_info())
 
 
 
@@ -102,12 +112,10 @@ func _mouse_in_timeline() -> bool:
 
 
 ## Called when changing snap beats value
-func set_snap_beats(value: float) -> void:
-	_time_line_grid.snap_beats = value
+func set_snap_beats(value: float) -> void:  _time_line_grid.snap_beats = value
 
 ## Called when song player time changes
-func on_song_player_value_changed(second: float) -> void:
-	_time_line_grid.move_time_marker(second)
+func on_song_player_value_changed(second: float) -> void:  _time_line_grid.on_time_change(second)
 
 
 
@@ -168,11 +176,11 @@ func _on_time_line_box_gui_input(event):
 
 func _on_time_line_box_mouse_entered():
 	if _current_tool == Globals.TOOL.ITEM:
-		_time_line_grid.show_indicator_item(true)
+		_time_line_grid.set_indicator_visibility(true)
 
 
 func _on_time_line_box_mouse_exited():
-	_time_line_grid.show_indicator_item(false)
+	_time_line_grid.set_indicator_visibility(false)
 
 
 ## Called when mouse interacts with time bar panel

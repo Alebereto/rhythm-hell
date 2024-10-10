@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3r8huwskjklu"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/items/item_objects/note_2d.gd" id="1_xgahs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wqdow"]
+size = Vector2(15, 15)
+
+[node name="Note2D" type="Node2D"]
+script = ExtResource("1_xgahs")
+
+[node name="NotePolygon" type="Polygon2D" parent="."]
+rotation = 0.785398
+polygon = PackedVector2Array(-5, -5, 5, -5, 5, 5, -5, 5)
+
+[node name="Connector" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 4.0
+
+[node name="StartPolygon" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -5, 5, 0, 0, 5, -5, 0)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+input_pickable = false
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_wqdow")

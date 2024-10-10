@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2xx53majwtcl"
-path="res://.godot/imported/cover.jpg-d695ecc2ef8b9dd04a923406e65d200f.ctex"
+uid="uid://bxjpbta78r1en"
+path="res://.godot/imported/cover.jpg-04c738a7d396aa9a668209e1f13dd68c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://custom_levels/My Level/cover.jpg"
-dest_files=["res://.godot/imported/cover.jpg-d695ecc2ef8b9dd04a923406e65d200f.ctex"]
+source_file="res://custom_levels/Test/cover.jpg"
+dest_files=["res://.godot/imported/cover.jpg-04c738a7d396aa9a668209e1f13dd68c.ctex"]
 
 [params]
 

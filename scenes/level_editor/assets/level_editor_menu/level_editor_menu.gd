@@ -31,6 +31,9 @@ var _undone_actions = Globals.Stack.new(ACTIONS_REMEMBERED)
 @onready var _time_line: VBoxContainer = $Panels/TimeLine
 
 
+func _ready():
+	get_tree().get_root().size_changed.connect(_on_window_resize)
+
 
 ## Loads level to level editor
 func load_level(level: Level):
@@ -115,14 +118,14 @@ func _clear_action_memory():
 
 
 
-# Updates level data with information that is not immediatley saved
+## Updates level data with information that is not immediatley saved
 func update_level_data() -> void:
 	# Ordered list of notes (by start beat)
 	_time_line.generate_dynamic_data(_edited_level)
 	_items_menu.generate_dynamic_data(_edited_level)
 
 
-
+## Updates disabled states in header according to current values
 func _update_header_states():
 
 	var save_state = not saved
@@ -134,12 +137,15 @@ func _update_header_states():
 
 
 
+func _on_window_resize():
+	_time_line.on_window_resize()
+
 # Input signals =====================================================================================
 
 # Items menu inputs ========
 
-func _on_items_menu_item_switched(item: Globals.ItemInfo) -> void:
-	_time_line.set_item(item)
+func _on_items_menu_item_switched(item_info: Globals.ItemInfo) -> void:
+	_time_line.set_item(item_info)
 	_time_line_settings.change_tool_to(Globals.TOOL.ITEM)	# emits tool changed signal
 
 

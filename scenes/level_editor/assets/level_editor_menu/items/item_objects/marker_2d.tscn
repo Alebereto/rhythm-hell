@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7bdsl8yrsonh"]
+
+[ext_resource type="Script" path="res://scenes/level_editor/assets/level_editor_menu/items/item_objects/marker_2d.gd" id="1_sfxvf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qq5k6"]
+size = Vector2(12, 15)
+
+[node name="Marker2D" type="Node2D"]
+script = ExtResource("1_sfxvf")
+
+[node name="MarkerPolygon" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-5, 0, 5, 0, 5, 7, 0, 13, -5, 7)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_qq5k6")

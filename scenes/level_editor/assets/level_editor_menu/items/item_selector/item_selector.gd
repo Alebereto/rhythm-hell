@@ -1,16 +1,20 @@
 extends TabContainer
 
-signal item_selected(item: Globals.ItemInfo)
+signal item_selected(item_info: Globals.ItemInfo)
 
-const ITEM_TEXTURES = [preload("res://assets/icons/item.png"), null, null]
-const UNROTATED_NOTE_TEXTURE = preload("res://assets/icons/square.png")
 enum MENUS{NOTES, EVENTS, MARKERS}
+const ITEM_TEXTURES = [preload("res://assets/icons/item.png"),
+					   preload("res://assets/icons/event.png"),
+					   preload("res://assets/icons/marker.png")]
+const UNROTATED_NOTE_TEXTURE = preload("res://assets/icons/square.png")
 
+
+# Item lists
 @onready var _notes_item_list: ItemList = $Notes
 @onready var _events_item_list: ItemList = $Events
 @onready var _markers_item_list: ItemList = $Markers
 
-
+# ItemInfo arrays
 var _notes: Array[Globals.NoteInfo] = []
 var _events: Array[Globals.EventInfo] = []
 var _markers: Array[Globals.MarkerInfo] = []
@@ -18,9 +22,6 @@ var _markers: Array[Globals.MarkerInfo] = []
 var current_menu: MENUS:
 	get: return current_tab as MENUS
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready(): pass
 
 func clear_items():
 	_notes = []
@@ -32,10 +33,9 @@ func clear_items():
 
 
 func add_default_items() -> void:
-	var note_info = Globals.NoteInfo.new()
-	add_item(note_info)
-
-	# TODO: add default other items
+	add_item(Globals.NoteInfo.new())
+	add_item(Globals.EventInfo.new())
+	add_item(Globals.MarkerInfo.new())
 
 func _select_item(item_info: Globals.ItemInfo) -> void:
 	item_selected.emit(item_info)
@@ -78,6 +78,7 @@ func add_item(item_info: Globals.ItemInfo) -> void:
 		return
 	
 	var arr_idx: int = _find_item_in(item_arr, copied_item.name)
+
 	# if default item is present and current item has name default, return
 	if arr_idx == 0 and len(item_arr) > 0: return
 	# if item is not in array
@@ -143,20 +144,28 @@ func set_from_items_dict(items_dict: Dictionary) -> void:
 
 # Input signals ========================
 
-func _on_notes_item_selected(index):
+## Called when note has been selected
+func _on_notes_item_selected(index: int) -> void:
 	_select_item(_notes[index])
 
 func _on_notes_item_clicked(index:int, _at_position:Vector2, mouse_button_index:int):
 	if mouse_button_index == MouseButton.MOUSE_BUTTON_RIGHT:
 		remove_item(index, MENUS.NOTES)
 
-func _on_events_item_selected(index):
+
+## Called when event has been selected
+func _on_events_item_selected(index: int) -> void:
 	_select_item(_events[index])
 
+func _on_events_item_clicked(index:int, _at_position:Vector2, mouse_button_index:int):
+	if mouse_button_index == MouseButton.MOUSE_BUTTON_RIGHT:
+		remove_item(index, MENUS.EVENTS)
 
-func _on_markers_item_selected(index):
+
+## Called when marker has been selected
+func _on_markers_item_selected(index: int) -> void:
 	_select_item(_markers[index])
 
-
-
-
+func _on_markers_item_clicked(index:int, _at_position:Vector2, mouse_button_index:int):
+	if mouse_button_index == MouseButton.MOUSE_BUTTON_RIGHT:
+		remove_item(index, MENUS.MARKERS)
