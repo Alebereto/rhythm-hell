@@ -6,11 +6,24 @@ This project was done under the supervision of Roi Poranne, as part of my duties
 
 ## Features
 
-???
+### Game
+
+The idea behind the project was to make a game containing several "micro" rhythm games which are all simple in their mechanics, can be picked up easily, and levels can be created easily for them.
+
+The game (currently) features 3 micro games which are shown below:
+
+*Gameplay (need to upload)*
+
+### Level Editor
+
+The level editor was designed to be generic, so that it could be used to make levels for any micro game.
+
+*Usage (need to upload)*
+
 
 ## Installation
 
-???
+Both the game and level editor can be downloaded from the releases. Simply extract the files and start the excecutable.
 
 ## Credits
 
