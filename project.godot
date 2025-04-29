@@ -92,6 +92,7 @@ renderer/rendering_method.mobile="gl_compatibility"
 
 openxr/enabled=true
 openxr/startup_alert=false
+openxr/extensions/hand_tracking=false
 openxr/extensions/eye_gaze_interaction=true
 shaders/enabled=true
 openxr/enabled.level_editor=false

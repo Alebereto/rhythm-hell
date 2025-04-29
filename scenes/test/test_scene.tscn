@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://b41o8w7mxnikc"]
+[gd_scene load_steps=11 format=3 uid="uid://b41o8w7mxnikc"]
 
 [ext_resource type="Script" path="res://scenes/test/test_scene.gd" id="1_332sb"]
-[ext_resource type="PackedScene" uid="uid://deckjfxueeioc" path="res://objects/player/player.tscn" id="2_0263t"]
 [ext_resource type="PackedScene" uid="uid://cyg852sar6vap" path="res://scenes/test/assets/test_world.tscn" id="3_tjrbu"]
 [ext_resource type="PackedScene" uid="uid://c26q4xhax7ru6" path="res://objects/vr_ui/vr_ui.tscn" id="3_tt5un"]
+[ext_resource type="PackedScene" uid="uid://cr8xs0pawumh2" path="res://objects/player/hand_controller.tscn" id="4_8xi6a"]
+[ext_resource type="Script" path="res://objects/player/player.gd" id="4_ud1sv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4li0f"]
 content_margin_left = 34.0
@@ -21,14 +22,28 @@ corner_radius_top_right = 35
 corner_radius_bottom_right = 35
 corner_radius_bottom_left = 35
 
+[sub_resource type="BoxMesh" id="BoxMesh_ltwpl"]
+size = Vector3(0.243, 0.127, 0.061)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jj002"]
+size = Vector3(0.023, 0.04, 0.166)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dkias"]
+resource_local_to_scene = true
+render_priority = 127
+transparency = 1
+albedo_color = Color(0, 0, 0, 0)
+
+[sub_resource type="QuadMesh" id="QuadMesh_k2o4c"]
+material = SubResource("StandardMaterial3D_dkias")
+
 [node name="Test" type="Node3D"]
 script = ExtResource("1_332sb")
-
-[node name="Player" parent="." instance=ExtResource("2_0263t")]
 
 [node name="VRButton" parent="." node_paths=PackedStringArray("_ui_viewport") instance=ExtResource("3_tt5un")]
 transform = Transform3D(0.425, 0, 0, 0, 0.425, 0, 0, 0, 0.425, 0, 1.35545, -2.47963)
 _ui_viewport = NodePath("TestUI")
+transparacy = 1.0
 
 [node name="TestUI" type="SubViewport" parent="VRButton"]
 transparent_bg = true
@@ -181,3 +196,44 @@ focus_mode = 0
 text = "Box1"
 
 [node name="World" parent="." instance=ExtResource("3_tjrbu")]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("4_ud1sv")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+cull_mask = 1048571
+
+[node name="Neck" type="Node3D" parent="XROrigin3D/XRCamera3D"]
+
+[node name="Head" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0626655)
+layers = 4
+mesh = SubResource("BoxMesh_ltwpl")
+
+[node name="BandLeft" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0, 0.032)
+layers = 4
+mesh = SubResource("BoxMesh_jj002")
+
+[node name="BandRight" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.119933, 0, 0.0199138)
+layers = 4
+mesh = SubResource("BoxMesh_jj002")
+
+[node name="FadeWall" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
+layers = 2
+cast_shadow = 0
+mesh = SubResource("QuadMesh_k2o4c")
+
+[node name="RightController" parent="XROrigin3D" instance=ExtResource("4_8xi6a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.435)
+tracker = &"right_hand"
+pose = &"aim"
+_hand_color = Color(0, 0, 1, 1)
+
+[node name="LeftController" parent="XROrigin3D" instance=ExtResource("4_8xi6a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.435)
+tracker = &"left_hand"
+_hand_color = Color(1, 0, 0, 1)

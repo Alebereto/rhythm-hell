@@ -96,7 +96,7 @@ func _on_button_pressed(button_name):
 		"trigger_click":
 			trigger_pressed.emit()
 			if _using_wand: _wand.on_button(true)
-		"menu_button":	 menu_button_pressed.emit()
+		"menu_button", "by_button":	 menu_button_pressed.emit()
 
 func _on_button_released(button_name):
 	if not _inputs_active: return
